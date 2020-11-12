@@ -30,9 +30,11 @@ public class Graphics implements es.ucm.gdv.engine.Graphics {
 
     /**
      * Borra toda la ventana poniendola del color que se desee
-     * @param color Color del fondo
+     * @param r
+     * @param g
+     * @param b
      */
-    public void clear(Color color){
+    public void clear(int r, int g, int b){
 
     }
 
@@ -63,6 +65,7 @@ public class Graphics implements es.ucm.gdv.engine.Graphics {
      */
     public int getWidth(){
 
+        return 0;
     }
 
     /**
@@ -70,5 +73,6 @@ public class Graphics implements es.ucm.gdv.engine.Graphics {
      */
     public int getHeight(){
 
+        return 0;
     }
 }

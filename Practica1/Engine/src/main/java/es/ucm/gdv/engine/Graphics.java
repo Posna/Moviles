@@ -1,7 +1,5 @@
 package es.ucm.gdv.engine;
 
-import java.awt.Color;
-
 public interface Graphics {
     /**
      * Crea una nueva fuente
@@ -16,7 +14,7 @@ public interface Graphics {
      * Borra toda la ventana poniendola del color que se desee
      * @param color Color del fondo
      */
-    void clear(Color color);
+    void clear(int r, int g, int b);
 
     /**
      * Pinta una linea dadas dos posiciones
@@ -53,4 +51,13 @@ public interface Graphics {
      * @return Devuelve el alto de la pantalla
      */
     int getHeight();
+
+    /**
+     * Establece el color a utilizar
+     * @param r
+     * @param g
+     * @param b
+     * @param a
+     */
+    void setColor(int r, int g, int b, int a);
 }
