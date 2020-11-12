@@ -1,11 +1,10 @@
-package es.ucm.gdv.engine.desktop;
+package es.ucm.gdv.engine.android;
 
-import java.awt.Color;
+import android.graphics.Color;
 
 import es.ucm.gdv.engine.Font;
 
 public class Graphics implements es.ucm.gdv.engine.Graphics {
-
     /**
      * Pinta una linea dadas dos posiciones
      * @param x1 X del primer punto
