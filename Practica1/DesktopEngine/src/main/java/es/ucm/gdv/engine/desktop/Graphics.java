@@ -1,11 +1,21 @@
 package es.ucm.gdv.engine.desktop;
 
+import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Paint;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 
 import es.ucm.gdv.engine.Font;
 
 public class Graphics implements es.ucm.gdv.engine.Graphics {
 
+    Graphics2D graphics_;
+
+    public void init(Graphics2D g){
+        graphics_  = g;
+    }
     /**
      * Pinta una linea dadas dos posiciones
      * @param x1 X del primer punto
@@ -35,7 +45,7 @@ public class Graphics implements es.ucm.gdv.engine.Graphics {
      * @param b
      */
     public void clear(int r, int g, int b){
-
+        //graphics_.fil;
     }
 
 
@@ -47,7 +57,13 @@ public class Graphics implements es.ucm.gdv.engine.Graphics {
      * @param y2
      */
     public void fillRect(float x1, float y1, float x2, float y2){
-
+        Rectangle r = new Rectangle((int)x1,(int) y1, (int)x2-(int)x1, (int)y2-(int)y1);
+        graphics_.fillRect(
+                (int) r.getX(),
+                (int)r.getY(),
+                (int)r.getWidth(),
+                (int)r.getHeight()
+        );
     }
 
     /**
@@ -57,22 +73,21 @@ public class Graphics implements es.ucm.gdv.engine.Graphics {
      * @param y Posicion del texto
      */
     public void drawText(String text, float x, float y){
-
+        graphics_.drawString(text, x, y);
+        //graphics_.
     }
 
     /**
      * @return Devuelve el ancho de la pantalla
      */
     public int getWidth(){
-
-        return 0;
+        return graphics_.getWidth();
     }
 
     /**
      * @return Devuelve el alto de la pantalla
      */
     public int getHeight(){
-
-        return 0;
+        return  graphics_.getHeight();
     }
 }
