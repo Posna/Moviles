@@ -6,7 +6,7 @@ public interface Input {
 
     class TouchEvent{
         List <TouchEvent> events;
-        List <TouchEvent> getTouchEvents();
+        //List <TouchEvent> getTouchEvents();
 
     }
 }

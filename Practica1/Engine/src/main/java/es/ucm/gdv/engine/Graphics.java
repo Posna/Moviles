@@ -60,4 +60,28 @@ public interface Graphics {
      * @param a
      */
     void setColor(int r, int g, int b, int a);
+
+    /**
+     * Transforma las coordenadas
+     * @param x
+     * @param y
+     */
+    void translate(float x, float y);
+
+    /**
+     * Escala las coordenadas
+     * @param x
+     * @param y
+     */
+    void scale(float x);
+
+    /**
+     * Gira las cordinadas un angulo concreto
+     * @param angle
+     */
+    void rotate(float angle);
+
+    void save();
+
+    void restore();
 }

@@ -9,6 +9,10 @@ import es.ucm.gdv.engine.Font;
 public class Graphics implements es.ucm.gdv.engine.Graphics {
     Canvas canvas_;
     Paint paint = new Paint();
+    float translateX_; //Transformacion
+    float translateY_;
+    float scale_; //Escalado
+    float angle;
 
     public void prepararPintado(Canvas c){
         canvas_ = c;
@@ -23,6 +27,8 @@ public class Graphics implements es.ucm.gdv.engine.Graphics {
      */
     public void drawLine(float x1, float y1, float x2, float y2){
         canvas_.drawLine(x1, y1, x2, y2, paint);
+        System.out.println("Pinta linea en: " + x2 + ", " + y2);
+        //Puede que se necesite aumentar el grosor a 1 para que se escale correctamente
     }
 
     /**
@@ -34,6 +40,7 @@ public class Graphics implements es.ucm.gdv.engine.Graphics {
      */
     public Font newFont(String filename, int size, boolean isBold){
 
+        return null;
     }
 
     /**
@@ -57,7 +64,8 @@ public class Graphics implements es.ucm.gdv.engine.Graphics {
     public void fillRect(float x1, float y1, float x2, float y2){
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
-        canvas_.drawRect(x1, y1, x2, y2, paint);
+        canvas_.drawRect(x1*scale_ + translateX_, y1*scale_ + translateY_
+                , x2*scale_ + translateX_, y2*scale_ + translateY_, paint);
         paint.setStyle(Paint.Style.STROKE);
     }
 
@@ -69,7 +77,7 @@ public class Graphics implements es.ucm.gdv.engine.Graphics {
      */
     public void drawText(String text, float x, float y){
         Paint paint = new Paint();
-        canvas_.drawText(text, x, y, paint);
+        canvas_.drawText(text, x*scale_ + translateX_, y*scale_ + translateY_, paint);
     }
 
     /**
@@ -95,5 +103,28 @@ public class Graphics implements es.ucm.gdv.engine.Graphics {
      */
     public void setColor(int r, int g, int b, int a){
         paint.setColor(Color.argb(a, r, g, b ));
+    }
+
+
+    public void translate(float x, float y){
+        canvas_.translate(x, y);
+        translateX_ = x; translateY_ = y;
+    }
+
+    public void scale(float x){
+        canvas_.scale(x, x);
+        scale_  = x;
+    }
+
+    public void rotate(float angle){
+        canvas_.rotate(angle);
+    }
+
+    public void save(){
+        canvas_.save();
+    }
+
+    public void restore(){
+        canvas_.restore();
     }
 }
