@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import es.ucm.gdv.engine.android.Engine;
 import es.ucm.gdv.engine.android.Graphics;
 import es.ucm.gdv.offtheline.OffTheLineLogic;
 
@@ -38,7 +39,8 @@ class MySurfaceView extends SurfaceView implements Runnable {
 
         super(context);
         _holder = getHolder();
-        _logic = new OffTheLineLogic();
+        _engine = new Engine(context);
+        _logic = new OffTheLineLogic(_engine);
 
     } // MySurfaceView
 
@@ -121,6 +123,7 @@ class MySurfaceView extends SurfaceView implements Runnable {
 
         long informePrevio = lastFrameTime; // Informes de FPS
         int frames = 0;
+        _logic.setLogicalScale(getWidth(), getHeight());
 
         // Bucle principal.
         while(_running) {
@@ -129,7 +132,7 @@ class MySurfaceView extends SurfaceView implements Runnable {
             long nanoElapsedTime = currentTime - lastFrameTime;
             lastFrameTime = currentTime;
             double elapsedTime = (double) nanoElapsedTime / 1.0E9;
-            _logic.update(elapsedTime);
+            _logic.update((float)elapsedTime);
             // Informe de FPS
             if (currentTime - informePrevio > 1000000000l) {
                 long fps = frames * 1000000000l / (currentTime - informePrevio);
@@ -143,9 +146,9 @@ class MySurfaceView extends SurfaceView implements Runnable {
             while (!_holder.getSurface().isValid())
                 ;
             Canvas canvas = _holder.lockCanvas();
-            Graphics g = new Graphics();
-            g.prepararPintado(canvas);
-            _logic.render(g);
+
+            _engine.getGraphics().prepararPintado(canvas);
+            _logic.render();
             _holder.unlockCanvasAndPost(canvas);
                 /*
                 // Posibilidad: cedemos algo de tiempo. es una medida conflictiva...
@@ -219,5 +222,7 @@ class MySurfaceView extends SurfaceView implements Runnable {
      * Logica
      */
     OffTheLineLogic _logic;
+
+    Engine _engine;
 
 } // class MySurfaceView

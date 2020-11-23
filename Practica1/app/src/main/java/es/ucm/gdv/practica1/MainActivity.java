@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Preparamos el contenido de la actividad.
         _renderView = new MySurfaceView(this);
+        System.out.println("OnCreate llamado");
         setContentView(_renderView);
 
     } // onCreate

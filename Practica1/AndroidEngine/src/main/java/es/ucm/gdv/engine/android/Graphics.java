@@ -27,7 +27,6 @@ public class Graphics implements es.ucm.gdv.engine.Graphics {
      */
     public void drawLine(float x1, float y1, float x2, float y2){
         canvas_.drawLine(x1, y1, x2, y2, paint);
-        System.out.println("Pinta linea en: " + x2 + ", " + y2);
         //Puede que se necesite aumentar el grosor a 1 para que se escale correctamente
     }
 
@@ -112,7 +111,7 @@ public class Graphics implements es.ucm.gdv.engine.Graphics {
     }
 
     public void scale(float x){
-        canvas_.scale(x, x);
+        canvas_.scale(-x, x);
         scale_  = x;
     }
 

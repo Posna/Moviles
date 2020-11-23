@@ -9,13 +9,23 @@ public class Cube extends GameObject {
 
     Cube(Vector2D pos, float lado){
         super(pos.x_, pos.y_);
-        lado_ = lado/2;
+        lado_ = lado;
+        //vel_ = new Vector2D(100, 0);
     }
 
     public void render(Graphics g){
-        g.drawLine(pos_.x_ + lado_, pos_.y_ + lado_, pos_.x_ - lado_, pos_.y_ + lado_);
-        g.drawLine(pos_.x_ + lado_, pos_.y_ + lado_, pos_.x_ + lado_, pos_.y_ - lado_);
-        g.drawLine(pos_.x_ - lado_, pos_.y_ - lado_, pos_.x_ - lado_, pos_.y_ + lado_);
-        g.drawLine(pos_.x_ - lado_, pos_.y_ - lado_, pos_.x_ + lado_, pos_.y_ - lado_);
+        g.save();
+        g.translate(pos_.x_, pos_.y_);
+        g.rotate(angle_);
+        g.drawLine( lado_/2,  lado_/2, - lado_/2,  lado_/2);
+        g.drawLine( lado_/2, lado_/2, lado_/2, - lado_/2);
+        g.drawLine(- lado_/2, - lado_/2, - lado_/2,  lado_/2);
+        g.drawLine(- lado_/2, - lado_/2, lado_/2, - lado_/2);
+        g.restore();
+    }
+
+    @Override
+    public void update(float deltaTime){
+        super.update(deltaTime);
     }
 }
