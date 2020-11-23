@@ -20,12 +20,12 @@ public class OffTheLineLogic {
 
     int w = 640; int h = 480;
     float s_ = 1;
-    int actuallLevel_ = 0;
+    int actuallLevel_ = 12;
     String nameLevel_;
     JSONArray levels;
     Coin prueba = new Coin(new Vector2D(-100, 100), 70, 100, 45);
     Cube prueba3 = new Cube(new Vector2D(-100, 100), 100);
-    Line prueba2 = new Line(new Vector2D(0, 140), 90.0f, 280);
+    //Line prueba2 = new Line(new Vector2D(0, 140), 90.0f, 280);
     Vector<GameObject> paths_ = new Vector(10, 10);
     Vector<GameObject> coins_ = new Vector(10, 10);
     Vector<GameObject> enemies_ = new Vector(10, 10);
@@ -34,9 +34,9 @@ public class OffTheLineLogic {
 
     public OffTheLineLogic(Engine e){
         engine_ = e;
-        prueba3.setAngularVel(100);
-        paths_.addElement(prueba);
-        paths_.addElement(prueba3);
+        //prueba3.setAngularVel(100);
+        //paths_.addElement(prueba);
+        //paths_.addElement(prueba3);
 
         JSONParser jsonParser = new JSONParser();
         InputStream in = engine_.openInputFile("levels.json");
@@ -54,7 +54,7 @@ public class OffTheLineLogic {
             er.printStackTrace();
         }
 
-        //loadLevel();
+        loadLevel();
 
     }
 
@@ -73,11 +73,14 @@ public class OffTheLineLogic {
                 Vector2D p1;
                 Vector2D p2;
                 JSONObject v1 = (JSONObject) vertices.get(i);
-                JSONObject v2 = (JSONObject) vertices.get((i + 1) % n);
-                float x = (Float) v1.get("x");
-                p1 = new Vector2D(x, (Float) v1.get("y"));
-                p2 = new Vector2D((Float) v2.get("x"), (Float) v2.get("y"));
-                paths_.add(new Line(p1, p2));
+                JSONObject v2 = (JSONObject) vertices.get((i + 1) % m);
+                float x1 = ((Number) v1.get("x")).floatValue();
+                float y1 = ((Number) v1.get("y")).floatValue();
+                p1 = new Vector2D(x1, y1);
+                float x2 = ((Number) v2.get("x")).floatValue();
+                float y2 = ((Number) v2.get("y")).floatValue();
+                p2 = new Vector2D(x2, y2);
+                paths_.add(new Path(p1, p2));
             }
         }
 
@@ -86,27 +89,33 @@ public class OffTheLineLogic {
         for (int i = 0; i < n; i++){
             Vector2D p1;
             JSONObject v1 = (JSONObject) items.get(i);
-            p1 = new Vector2D((Integer)v1.get("x"), (Integer)v1.get("y"));
+            p1 = new Vector2D(((Number)v1.get("x")).floatValue(), ((Number)v1.get("y")).floatValue());
             float rad = 0; float speedEx = 0; float extAng = 0;
-            if(v1.containsValue("radius"))
-                rad = (Float) v1.get("radius");
+            if(v1.containsKey("radius")) {
+                System.out.println("radio si");
+                rad = ((Number) v1.get("radius")).floatValue();
+            }
             if(v1.containsKey("speed"))
-                speedEx = (Float) v1.get("speed");
+                speedEx = ((Number) v1.get("speed")).floatValue();
             if(v1.containsKey("angle"))
-                extAng = (Float) v1.get("angle");
+                extAng = ((Number) v1.get("angle")).floatValue();
             coins_.add(new Coin(p1, rad, speedEx, extAng));
         }
 
-        if(obj.containsValue("enemies")){
+        if(obj.containsKey("enemies")){
             JSONArray enemies = (JSONArray) obj.get("enemies");
             n = enemies.size();
             for (int i = 0; i < n; i++){
                 Vector2D p1;
                 JSONObject v1 = (JSONObject) enemies.get(i);
-                p1 = new Vector2D((Integer)v1.get("x"), (Integer)v1.get("y"));
-                float l = (Float)v1.get("lenght");
-                float ang = (Float) v1.get("angle");
-                enemies_.add(new Line(p1, l, ang));
+                p1 = new Vector2D(((Number)v1.get("x")).floatValue(), ((Number)v1.get("y")).floatValue());
+                float l = ((Number)v1.get("length")).floatValue();
+                float ang = ((Number) v1.get("angle")).floatValue();
+                float speed = 0;
+                if(v1.containsKey("speed")){
+                    speed = ((Number)v1.get("speed")).floatValue();
+                }
+                enemies_.add(new Line(p1, ang, l, speed));
             }
         }
 
@@ -146,13 +155,16 @@ public class OffTheLineLogic {
 
         g.clear(0, 0, 0);
 
-        g.setColor(255, 0, 0, 255);
+        g.setColor(255, 255, 255, 255);
         for (int i = 0; i < paths_.size(); i++) {
             paths_.elementAt(i).render(g);
         }
+        g.setColor(255, 255, 0, 255);
+        //g.setColor(0, 136, 255, 255); Player
         for (int i = 0; i < coins_.size(); i++) {
             coins_.elementAt(i).render(g);
         }
+        g.setColor(255, 0, 0, 255);
         for (int i = 0; i < enemies_.size(); i++) {
             enemies_.elementAt(i).render(g);
         }

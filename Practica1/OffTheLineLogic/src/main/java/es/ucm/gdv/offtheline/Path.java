@@ -2,20 +2,19 @@ package es.ucm.gdv.offtheline;
 
 import es.ucm.gdv.engine.Graphics;
 
-public class Line extends GameObject {
-    float length_;
+public class Path extends GameObject {
 
-    public Line(Vector2D p1, Vector2D p2){
+    float length_;
+    Vector2D p1_;
+    Vector2D p2_;
+
+    public Path(Vector2D p1, Vector2D p2){
         super((p1.x_+p2.x_)/2.0f, (p1.y_+p2.y_)/2.0f);
         length_ = (float) Math.sqrt(Math.pow(p2.x_-p1.x_, 2) + Math.pow(p2.y_-p1.y_, 2));
+        p1_ = p1;
+        p2_ = p2;
     }
 
-    public Line(Vector2D c, float angle, float lenght, float speed){
-        super(c.x_, c.y_);
-        angle_ = angle;
-        length_ = lenght;
-        angleVel_ = speed;
-    }
 
     @Override
     public void update(float deltaTime){
@@ -24,9 +23,9 @@ public class Line extends GameObject {
 
     public void render(Graphics g){
         g.save();
-        g.translate(pos_.x_, pos_.y_);
-        g.rotate(angle_);
-        g.drawLine(- length_/2.0f, 0.0f, length_/2.0f, 0.0f);
+        //g.translate(pos_.x_, pos_.y_);
+        //g.rotate(angle_);
+        g.drawLine(p1_.x_, p1_.y_, p2_.x_, p2_.y_);
         g.restore();
     }
 }

@@ -18,7 +18,7 @@ public class Coin extends Cube {
     }
 
     @Override
-    public void render(Graphics g) { //No gira bien, posiblemente haya que hacer otro distinto (no llamar a super)
+    public void render(Graphics g) {
         g.save();
         g.translate(rot_.x_, rot_.y_);
         g.rotate(extAngle_);
