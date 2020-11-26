@@ -1,5 +1,7 @@
 package es.ucm.gdv.offtheline;
 
+import java.lang.Math;
+
 public class Vector2D {
 
     public float x_, y_;
@@ -14,6 +16,12 @@ public class Vector2D {
         float y = y_ + a.y_;
 
         return new Vector2D(x, y);
+    }
+
+    void normalize(){
+        float n = (float)Math.sqrt(x_*x_ + y_*y_);
+        x_ = x_/n;
+        y_ = y_/n;
     }
 
 }
