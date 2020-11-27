@@ -20,21 +20,19 @@ public class OffTheLineLogic {
 
     int w = 640; int h = 480;
     float s_ = 1;
-    int actuallLevel_ = 16;
+    int actuallLevel_ = 11;
+    float eatDistance_ = 20;
     String nameLevel_;
     JSONArray levels;
-    Cube prueba3 = new Cube(new Vector2D(0, 0), 12);
-    Vector<GameObject> paths_ = new Vector(10, 10);
-    Vector<GameObject> coins_ = new Vector(10, 10);
-    Vector<GameObject> enemies_ = new Vector(10, 10);
+    Player player_;// = new Player(new Vector2D(0, 0), 12);
+    Vector<Path> paths_ = new Vector(10, 10);
+    Vector<Coin> coins_ = new Vector(10, 10);
+    Vector<Line> enemies_ = new Vector(10, 10);
 
     float i = 0;
 
     public OffTheLineLogic(Engine e){
         engine_ = e;
-        //prueba3.setAngularVel(100);
-        //paths_.addElement(prueba);
-        //paths_.addElement(prueba3);
 
         JSONParser jsonParser = new JSONParser();
         InputStream in = engine_.openInputFile("levels.json");
@@ -54,6 +52,8 @@ public class OffTheLineLogic {
 
         loadLevel();
 
+        player_ = new Player(paths_.elementAt(0).getPunta1(), paths_.elementAt(0), 100);
+
     }
 
     public void loadLevel(){
@@ -64,6 +64,8 @@ public class OffTheLineLogic {
         JSONArray paths = (JSONArray) obj.get("paths");
         int n = paths.size();
         for (int j = 0;j < n; j++) {
+            Vector<Path> aux = new Vector(10, 10);
+
             JSONArray vertices = (JSONArray) ((JSONObject)paths.get(j)).get("vertices");
             JSONArray directions = (JSONArray) ((JSONObject)paths.get(j)).get("directions");
             boolean b = ((JSONObject) paths.get(j)).containsKey("directions");
@@ -92,8 +94,22 @@ public class OffTheLineLogic {
                     p1 = new Vector2D(x1, y1);
                     p.setNormal(p1);
                 }
-                paths_.add(p);
+
+                if(i >= 1){
+                    aux.elementAt(i-1).setNextPath(p);
+                    p.setLastPath(aux.elementAt(i-1));
+                }
+                if(i == m - 1){
+                    aux.elementAt(0).setLastPath(p);
+                    p.setNextPath(aux.elementAt(0));
+                }
+                aux.add(p);
             }
+            for(int k = 0; k < aux.size(); k++){
+                paths_.add(aux.elementAt(k));
+            }
+            aux.clear();
+
         }
 
         /*************************** Items ********************************/
@@ -154,12 +170,17 @@ public class OffTheLineLogic {
     }
 
     public void update(float deltaTime){
+        player_.update(deltaTime);
         for (int i = 0; i < paths_.size(); i++) {
-            paths_.elementAt(i).update(deltaTime);
+            paths_.elementAt(i);
         }
 
         for (int i = 0; i < coins_.size(); i++) {
             coins_.elementAt(i).update(deltaTime);
+            float d = Utils.pointDistance(coins_.elementAt(i).getPos(), player_.getPos());
+            if(d < eatDistance_){
+                coins_.remove(i);
+            }
         }
 
         for (int i = 0; i < enemies_.size(); i++) {
@@ -175,8 +196,8 @@ public class OffTheLineLogic {
         //g.save();
 
 
+
         g.setColor(255, 255, 0, 255);
-        //g.setColor(0, 136, 255, 255); Player
         for (int i = 0; i < coins_.size(); i++) {
             coins_.elementAt(i).render(g);
         }
@@ -188,6 +209,20 @@ public class OffTheLineLogic {
         for (int i = 0; i < enemies_.size(); i++) {
             enemies_.elementAt(i).render(g);
         }
+        g.setColor(0, 136, 255, 255); //Player
+        player_.render(g);
 
+    }
+
+    Path findPathByIni(Vector2D p){
+        int i = 0;
+        while (i < paths_.size() && !paths_.elementAt(i).getPunta1().isEqual(p)){
+            i++;
+        }
+        if(i == paths_.size()){
+            return null;
+        }
+
+        return paths_.elementAt(i);
     }
 }

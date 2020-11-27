@@ -15,4 +15,10 @@ public class Utils {
         return (float)Math.sqrt(x*x + y*y);
     }
 
+    static public Vector2D segmentCollition(Vector2D a, Vector2D b, Vector2D c, Vector2D d){
+
+
+         return null;
+    }
+
 }

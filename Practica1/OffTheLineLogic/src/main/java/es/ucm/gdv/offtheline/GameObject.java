@@ -34,4 +34,5 @@ public abstract class GameObject {
 
     float getPosX() { return pos_.x_; }
     float getPosY() { return pos_.y_; }
+    Vector2D getPos(){ return pos_; }
 }
