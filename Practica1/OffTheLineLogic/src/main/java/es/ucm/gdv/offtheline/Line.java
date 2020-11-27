@@ -33,21 +33,21 @@ public class Line extends GameObject {
     public void update(float deltaTime){
         if(haveOffset_){
             if(t1_>= time1_){
-                vel_ = new Vector2D(0.0f, 0.0f);
                 if(t2_ >= time2_){
-                    vel_ = new Vector2D(-velAux_.x_, -velAux_.y_);
-                    velAux_ = vel_;
+                    Vector2D aux = posFin_;
+                    posFin_ = posIni_;
+                    posIni_ = aux;
                     t2_ = 0;
                     t1_ = 0;
-                    sentido = sentido*-1;
-                    System.out.println(sentido);
-                    if(sentido > 0){
-                        pos_ = posIni_;
-                    }
                 }else
                     t2_ += deltaTime;
-            }else
+            }else {
                 t1_ += deltaTime;
+                float porcentaje = t1_/time1_;
+                if(porcentaje > 1)
+                    porcentaje = 1.0f;
+                pos_ = new Vector2D(posFin_.x_ * porcentaje + posIni_.x_ *  (1.0f-porcentaje), posFin_.y_ * porcentaje + posIni_.y_ *  (1.0f-porcentaje));
+            }
 
         }
         super.update(deltaTime);
@@ -66,14 +66,9 @@ public class Line extends GameObject {
         offSet_ = offSet;
         time1_ = time1;
         time2_ = time2;
-        vel_ = new Vector2D(offSet_.x_/time1, offSet_.y_/time1);
+        vel_ = new Vector2D(0, 0);
         posIni_ = pos_;
         posFin_ = new Vector2D(pos_.x_ + offSet_.x_, pos_.y_ + offSet_.y_);
-        System.out.println("La X ini: " + posIni_.x_);
-        System.out.println("La Y ini: " + posIni_.y_);
-
-        System.out.println("La X: " + posFin_.x_);
-        System.out.println("La Y: " + posFin_.y_);
         //vel_.normalize();
         velAux_ = vel_;
     }

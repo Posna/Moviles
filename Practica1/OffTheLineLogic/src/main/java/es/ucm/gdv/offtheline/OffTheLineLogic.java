@@ -20,7 +20,7 @@ public class OffTheLineLogic {
 
     int w = 640; int h = 480;
     float s_ = 1;
-    int actuallLevel_ = 15;
+    int actuallLevel_ = 16;
     String nameLevel_;
     JSONArray levels;
     Cube prueba3 = new Cube(new Vector2D(0, 0), 12);
@@ -39,7 +39,7 @@ public class OffTheLineLogic {
         JSONParser jsonParser = new JSONParser();
         InputStream in = engine_.openInputFile("levels.json");
         if(in == null)
-            System.out.println("Va a petar ^^");
+            System.out.println("No se encuentra el archivo que se intenta abrir");
         try{
             levels = (JSONArray)jsonParser.parse(new InputStreamReader(in));
             in.close();
@@ -147,7 +147,6 @@ public class OffTheLineLogic {
     public void setLogicalScale(int width, int height){
         float wAux = (float)width / (float)w;
         float hAux = (float)height / (float)h;
-        System.out.println(wAux);
         if(wAux < hAux)
             s_ = wAux;
         else
@@ -175,16 +174,15 @@ public class OffTheLineLogic {
         g.scale(s_);
         //g.save();
 
-        g.clear(0, 0, 0);
 
-        g.setColor(255, 255, 255, 255);
-        for (int i = 0; i < paths_.size(); i++) {
-            paths_.elementAt(i).render(g);
-        }
         g.setColor(255, 255, 0, 255);
         //g.setColor(0, 136, 255, 255); Player
         for (int i = 0; i < coins_.size(); i++) {
             coins_.elementAt(i).render(g);
+        }
+        g.setColor(255, 255, 255, 255);
+        for (int i = 0; i < paths_.size(); i++) {
+            paths_.elementAt(i).render(g);
         }
         g.setColor(255, 0, 0, 255);
         for (int i = 0; i < enemies_.size(); i++) {

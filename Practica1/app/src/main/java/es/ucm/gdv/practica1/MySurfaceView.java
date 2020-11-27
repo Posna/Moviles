@@ -148,6 +148,7 @@ class MySurfaceView extends SurfaceView implements Runnable {
             Canvas canvas = _holder.lockCanvas();
 
             _engine.getGraphics().prepararPintado(canvas);
+            _engine.getGraphics().clear(0, 0, 0);
             _logic.render();
             _holder.unlockCanvasAndPost(canvas);
                 /*

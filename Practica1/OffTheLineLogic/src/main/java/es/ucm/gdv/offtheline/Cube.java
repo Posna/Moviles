@@ -17,8 +17,8 @@ public class Cube extends GameObject {
         g.save();
         g.translate(pos_.x_, pos_.y_);
         g.rotate(angle_);
-        g.drawLine( lado_/2,  lado_/2, - lado_/2,  lado_/2);
-        g.drawLine( lado_/2, lado_/2, lado_/2, - lado_/2);
+        g.drawLine(lado_/2,  lado_/2, - lado_/2,  lado_/2);
+        g.drawLine(lado_/2, lado_/2, lado_/2, - lado_/2);
         g.drawLine(- lado_/2, - lado_/2, - lado_/2,  lado_/2);
         g.drawLine(- lado_/2, - lado_/2, lado_/2, - lado_/2);
         g.restore();
