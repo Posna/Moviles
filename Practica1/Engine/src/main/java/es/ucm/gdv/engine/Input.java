@@ -4,9 +4,14 @@ import java.util.List;
 
 public interface Input {
 
-    class TouchEvent{
-        List <TouchEvent> events;
-        //List <TouchEvent> getTouchEvents();
+    public enum Eventos {Clicked, Entered}
 
+    public class TouchEvent {
+        public float x, y;
+        public int type;
+        public int click;
     }
+
+    public List <TouchEvent> getTouchEvents();
+
 }

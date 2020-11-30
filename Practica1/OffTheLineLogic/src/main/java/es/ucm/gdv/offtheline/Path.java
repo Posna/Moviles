@@ -13,11 +13,15 @@ public class Path extends GameObject {
     Path nextPath_;
     Path lastPath_;
 
-    public Path(Vector2D p1, Vector2D p2){
+    int id_;
+
+    public Path(Vector2D p1, Vector2D p2, int id){
         super((p1.x_+p2.x_)/2.0f, (p1.y_+p2.y_)/2.0f);
         length_ = (float) Math.sqrt(Math.pow(p2.x_-p1.x_, 2) + Math.pow(p2.y_-p1.y_, 2));
         p1_ = p1;
         p2_ = p2;
+
+        id_ = id;
 
         normal_ = new Vector2D((p2.y_-p1.y_),-(p2.x_ - p1.x_));
     }
@@ -39,6 +43,7 @@ public class Path extends GameObject {
     public void setNormal(Vector2D normal){
         normal_ = normal;
     }
+    public Vector2D getNormal(){ return normal_; }
 
     public Vector2D getPunta1(){
         return p1_;
@@ -54,4 +59,6 @@ public class Path extends GameObject {
     public void setNextPath(Path nextPath){
         nextPath_ = nextPath;
     }
+
+    public int getId(){ return id_; }
 }

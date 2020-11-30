@@ -9,7 +9,7 @@ public class Main {
 
     public static void main(String[] args){
         Engine engine_ = new Engine();
-        OffTheLineLogic logic_ = new OffTheLineLogic(engine_);
+        OffTheLineLogic logic_ = new OffTheLineLogic(engine_, false);
 
         // Vamos allá.
         long lastFrameTime = System.nanoTime();

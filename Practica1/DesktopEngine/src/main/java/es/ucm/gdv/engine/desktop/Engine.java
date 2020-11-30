@@ -24,6 +24,7 @@ public class Engine implements es.ucm.gdv.engine.Engine {
             // Ooops. Ha fallado la inicialización.
             return;
         input_ = new Input();
+        graphics_.addMouseListener(input_.m);
     }
 
 

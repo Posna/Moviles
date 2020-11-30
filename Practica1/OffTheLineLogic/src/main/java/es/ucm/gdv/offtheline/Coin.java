@@ -9,9 +9,13 @@ public class Coin extends GameObject {
     float rad_;
     float lado_;
 
+    boolean kill = false;
+    float timeDying_;
+    float expansionN_;
+
     public Coin(Vector2D rot, float rad, float speedExtAngle, float extAngle){
         super(rad, 0.0f);
-        angleVel_ = 100;
+        angleVel_ = 180;
         rot_ = rot;
         extAngle_ = extAngle;
         speedExtAngle_ = speedExtAngle;
@@ -37,5 +41,21 @@ public class Coin extends GameObject {
     public void update(float deltaTime){
         extAngle_+= speedExtAngle_*deltaTime;
         super.update(deltaTime);
+        if(kill && timeDying_ >= 0) {
+            lado_ += deltaTime*expansionN_;
+            timeDying_ -= deltaTime;
+        }
+    }
+
+    public Vector2D getRealPos(){
+        double x = rot_.x_ + Math.cos(Math.toRadians(extAngle_))*rad_;
+        double y = rot_.y_ + Math.sin(Math.toRadians(extAngle_))*rad_;
+        return new Vector2D((float)x, (float)y);
+    }
+
+    public void kill(float timeDying, float expansionN){
+        kill = true;
+        timeDying_ = timeDying;
+        expansionN_ = expansionN;
     }
 }

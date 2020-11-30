@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Rectangle;
+import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 
 import javax.swing.JFrame;
@@ -184,6 +185,10 @@ public class Graphics implements es.ucm.gdv.engine.Graphics {
 
     public boolean contentsLost(){
         return strategy_.contentsLost();
+    }
+
+    public void addMouseListener(MouseListener m){
+        paint.addMouseListener(m);
     }
 
 }

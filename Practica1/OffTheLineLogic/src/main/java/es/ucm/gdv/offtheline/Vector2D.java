@@ -12,6 +12,11 @@ public class Vector2D {
         y_ = y;
     }
 
+    Vector2D(Vector2D v){
+        x_ = v.x_;
+        y_ = v.y_;
+    }
+
     Vector2D add(Vector2D a){
         float x = x_ + a.x_;
         float y = y_ + a.y_;
@@ -27,6 +32,10 @@ public class Vector2D {
 
     boolean isEqual(Vector2D a ){
         return a.x_ == x_ && a.y_ == y_;
+    }
+
+    float getScalar(){
+        return (float)Math.sqrt(x_*x_ + y_*y_);
     }
 
 }

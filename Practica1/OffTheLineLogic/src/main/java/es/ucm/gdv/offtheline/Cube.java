@@ -15,6 +15,7 @@ public class Cube extends GameObject {
 
     public void render(Graphics g){
         g.save();
+        g.setColor(0, 136, 255, 255);
         g.translate(pos_.x_, pos_.y_);
         g.rotate(angle_);
         g.drawLine(lado_/2,  lado_/2, - lado_/2,  lado_/2);

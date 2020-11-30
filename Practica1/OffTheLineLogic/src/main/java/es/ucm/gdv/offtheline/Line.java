@@ -14,6 +14,9 @@ public class Line extends GameObject {
     int sentido = 1;
     Vector2D velAux_;
 
+    Vector2D p1_;
+    Vector2D p2_;
+
     Vector2D posIni_;
     Vector2D posFin_;
 
@@ -50,6 +53,7 @@ public class Line extends GameObject {
             }
 
         }
+        calculatePoints();
         super.update(deltaTime);
     }
 
@@ -71,5 +75,10 @@ public class Line extends GameObject {
         posFin_ = new Vector2D(pos_.x_ + offSet_.x_, pos_.y_ + offSet_.y_);
         //vel_.normalize();
         velAux_ = vel_;
+    }
+
+    void calculatePoints(){
+        p1_ = new Vector2D(pos_.x_ + (float)Math.cos(Math.toRadians(angle_))*length_/2, pos_.y_ + (float)Math.sin(Math.toRadians(angle_))*length_/2);
+        p2_ = new Vector2D(pos_.x_ + (float)Math.cos(Math.toRadians(angle_))*(-length_/2), pos_.y_ + (float)Math.sin(Math.toRadians(angle_))*(-length_/2));
     }
 }

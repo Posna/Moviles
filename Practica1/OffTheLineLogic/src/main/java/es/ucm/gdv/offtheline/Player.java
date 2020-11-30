@@ -1,5 +1,10 @@
 package es.ucm.gdv.offtheline;
 
+import java.util.Random;
+import java.util.Vector;
+
+import es.ucm.gdv.engine.Graphics;
+
 public class Player extends Cube {
 
     Vector2D goingTo_;
@@ -7,18 +12,37 @@ public class Player extends Cube {
     boolean reloj = true;
     boolean saltando_ = false;
     float time;
+    Vector2D lastPos_;
+    float normalSpeed;
+    boolean death = false;
+    Vector<Line> linesDied;
+
+    Vector2D dir;
 
     Player(Vector2D pos, Path path, float speed){
         super(pos, 12);
         actualPath_ = path;
         speed_ = speed;
+        normalSpeed = speed;
         goTo(actualPath_.getPunta2());
         time = Utils.pointDistance(pos_, actualPath_.getPunta2()) / speed_;
-        angleVel_ = 200;
+        angleVel_ = 180;
+
+        linesDied = new Vector<Line>(10,  1);
+
+
     }
 
     @Override
     public void update(float deltaTime){
+        if(death)
+            for (Line l: linesDied) {
+                l.update(deltaTime);
+            }
+            else
+                normalUpdate(deltaTime);
+    }
+    private void normalUpdate(float deltaTime){
         if(!saltando_){
             if(reloj)
                 movimientoHorario();
@@ -27,12 +51,24 @@ public class Player extends Cube {
             time -= deltaTime;
 
         }
+        lastPos_ = new Vector2D(pos_);
         super.update(deltaTime);
+    }
+
+    @Override
+    public void render(Graphics g) {
+        if(death){
+            for (Line l: linesDied) {
+                l.render(g);
+            }
+        }
+        else
+            super.render(g);
     }
 
     void movimientoHorario(){
         if(time <= 0) {
-            pos_ = new Vector2D(actualPath_.getPunta2().x_, actualPath_.getPunta2().y_);
+            pos_ = new Vector2D(actualPath_.getPunta2());
             actualPath_ = actualPath_.nextPath_;
             time = Utils.pointDistance(pos_, actualPath_.getPunta2()) / speed_;
             goTo(actualPath_.getPunta2());
@@ -45,7 +81,7 @@ public class Player extends Cube {
 
     void movimientoAntihorario(){
         if(time <= 0) {
-            pos_ = new Vector2D(actualPath_.getPunta1().x_, actualPath_.getPunta1().y_);
+            pos_ = new Vector2D(actualPath_.getPunta1());
             actualPath_ = actualPath_.lastPath_;
             time = Utils.pointDistance(pos_, actualPath_.getPunta1()) / speed_;
             goTo(actualPath_.getPunta1());
@@ -60,5 +96,47 @@ public class Player extends Cube {
 
     public Path getActualPath(){
         return actualPath_;
+    }
+    public Vector2D getLastPos_(){ return lastPos_; }
+
+    public void jump(){
+        if(!saltando_) {
+            dir  = new Vector2D(vel_);
+            vel_ = actualPath_.getNormal();
+            vel_.normalize();
+            pos_ = new Vector2D(pos_.add(vel_));
+            saltando_ = true;
+            speed_ = 1500;
+        }
+    }
+
+    public void land(Vector2D p, Path path){
+        saltando_ = false;
+        pos_ = new Vector2D(p.x_, p.y_);
+        speed_ = normalSpeed;
+        actualPath_ = path;
+        goTo(actualPath_.getPunta2());
+        reloj = dir.x_*vel_.x_ >= 0 && dir.y_*vel_.y_ >= 0;
+
+
+        if(reloj) {
+            time = Utils.pointDistance(pos_, actualPath_.getPunta2()) / speed_;
+            goTo(actualPath_.getPunta2());
+        }
+        else {
+            time = Utils.pointDistance(pos_, actualPath_.getPunta1()) / speed_;
+            goTo(actualPath_.getPunta1());
+        }
+    }
+
+    public void kill(){
+        death = true;
+        for (int i = 0; i < 10; i++){
+            Random r = new Random();
+            Line l = new Line(pos_, r.nextInt(361), 12, 0);
+            l.setOffSet(new Vector2D(r.nextInt(200) - 100, r.nextInt(200) - 100), 2, 3);
+            linesDied.add(l);
+        }
+        //pos_ = new Vector2D(Float.MAX_VALUE, Float.MAX_VALUE);
     }
 }
