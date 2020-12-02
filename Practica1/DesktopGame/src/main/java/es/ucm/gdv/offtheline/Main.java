@@ -9,7 +9,9 @@ public class Main {
 
     public static void main(String[] args){
         Engine engine_ = new Engine();
-        OffTheLineLogic logic_ = new OffTheLineLogic(engine_, false);
+        StateMachine machine = new StateMachine();
+        machine.pushState(new OffTheLineLogic(engine_, machine,false)/*new MainMenu(engine_, machine)*/);
+        //OffTheLineLogic logic_ = new OffTheLineLogic(engine_, false);
 
         // Vamos allá.
         long lastFrameTime = System.nanoTime();
@@ -21,7 +23,8 @@ public class Main {
             long nanoElapsedTime = currentTime - lastFrameTime;
             lastFrameTime = currentTime;
             double elapsedTime = (double) nanoElapsedTime / 1.0E9;
-            logic_.update((float)elapsedTime);
+            machine.handleInput();
+            machine.update((float)elapsedTime);
             // Informe de FPS
             if (currentTime - informePrevio > 1000000000l) {
                 long fps = frames * 1000000000l / (currentTime - informePrevio);
@@ -34,15 +37,11 @@ public class Main {
             do {
                 do {
                     engine_.getGraphics().preparePaint();
-                    logic_.setLogicalScale(engine_.getGraphics().getWidth(), engine_.getGraphics().getHeight());
+                    //logic_.setLogicalScale(engine_.getGraphics().getWidth(), engine_.getGraphics().getHeight());
                     try {
-                        engine_.getGraphics().clear(0, 0, 0);
-                        //engine_.getGraphics().translate(400, 400);
-                        //engine_.getGraphics().scale(1.2f);
+                        //engine_.getGraphics().clear(0, 0, 0);
 
-                        logic_.render();
-                        //engine_.getGraphics().setColor(125, 225, 100, 255);
-                        //engine_.getGraphics().drawLine(0.0f, 0.0f, 400.0f, 400.0f);
+                        machine.render();
                     }
                     finally {
                         engine_.getGraphics().dispose();

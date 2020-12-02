@@ -3,19 +3,31 @@ package es.ucm.gdv.engine.android;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.view.View;
 
+import es.ucm.gdv.engine.AbstractGraphics;
 import es.ucm.gdv.engine.Font;
 
-public class Graphics implements es.ucm.gdv.engine.Graphics {
+public class Graphics extends AbstractGraphics {
     Canvas canvas_;
     Paint paint = new Paint();
+    int _width, _height;
     float translateX_; //Transformacion
     float translateY_;
     float scale_; //Escalado
     float angle;
 
+    public void init(float w, float h, int width, int height){
+        _width = width;
+        _height = height;
+        initLogicSizes(w, h);
+        calculateScale();
+    }
+
     public void prepararPintado(Canvas c){
         canvas_ = c;
+        clear(0, 0, 0);
+        preRender();
     }
 
     /**
@@ -26,7 +38,7 @@ public class Graphics implements es.ucm.gdv.engine.Graphics {
      * @param y2 Y del segundo punto
      */
     public void drawLine(float x1, float y1, float x2, float y2){
-        paint.setStrokeWidth(1);
+        paint.setStrokeWidth(2);
         canvas_.drawLine(x1, y1, x2, y2, paint);
         //Puede que se necesite aumentar el grosor a 1 para que se escale correctamente
     }
@@ -84,14 +96,14 @@ public class Graphics implements es.ucm.gdv.engine.Graphics {
      * @return Devuelve el ancho de la pantalla
      */
     public int getWidth(){
-        return canvas_.getWidth();
+        return _width;//canvas_.getWidth();
     }
 
     /**
      * @return Devuelve el alto de la pantalla
      */
     public int getHeight(){
-        return canvas_.getHeight();
+        return _height;//.getHeight();
     }
 
     /**
@@ -127,4 +139,5 @@ public class Graphics implements es.ucm.gdv.engine.Graphics {
     public void restore(){
         canvas_.restore();
     }
+
 }

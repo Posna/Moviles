@@ -65,6 +65,13 @@ public class Line extends GameObject {
         g.restore();
     }
 
+
+    /**
+     *
+     * @param offSet
+     * @param time1
+     * @param time2
+     */
     public void setOffSet(Vector2D offSet, float time1, float time2){
         haveOffset_ = true;
         offSet_ = offSet;
@@ -73,10 +80,12 @@ public class Line extends GameObject {
         vel_ = new Vector2D(0, 0);
         posIni_ = pos_;
         posFin_ = new Vector2D(pos_.x_ + offSet_.x_, pos_.y_ + offSet_.y_);
-        //vel_.normalize();
         velAux_ = vel_;
     }
 
+    /**
+     * Calculo de los extremos de la linea
+     */
     void calculatePoints(){
         p1_ = new Vector2D(pos_.x_ + (float)Math.cos(Math.toRadians(angle_))*length_/2, pos_.y_ + (float)Math.sin(Math.toRadians(angle_))*length_/2);
         p2_ = new Vector2D(pos_.x_ + (float)Math.cos(Math.toRadians(angle_))*(-length_/2), pos_.y_ + (float)Math.sin(Math.toRadians(angle_))*(-length_/2));

@@ -20,11 +20,10 @@ public class Utils {
     static public Vector2D segmentCollition(Vector2D a, Vector2D b, Vector2D c, Vector2D d){
          Vector2D v1 = new Vector2D(b.x_ - a.x_, b.y_- a.y_);
          Vector2D v2 = new Vector2D(d.x_ - c.x_, d.y_- c.y_);
-         /*if(v1.x_ == 0)
-             v1.x_ = 0.0001f;*/
+
 
          if((v1.x_*v2.y_) == (v1.y_*v2.x_)) {
-             System.out.println("Paralelas");
+             //System.out.println("Paralelas");
              return null;
          }
 
@@ -45,7 +44,7 @@ public class Utils {
          //System.out.println("Coordenadas de corte x: " + x + " y: " + y);
          Vector2D corte = new Vector2D(x, y);
 
-         if(a.isEqual(corte) || b.isEqual(corte) || c.isEqual(corte) || d.isEqual(corte))
+         if(c.isEqual(corte, 0.0005f) || d.isEqual(corte, 0.0005f))
              return null;
 
 

@@ -6,6 +6,7 @@ import org.json.simple.JSONObject;
 import es.ucm.gdv.engine.Engine;
 import es.ucm.gdv.engine.Graphics;
 import es.ucm.gdv.engine.Input;
+import es.ucm.gdv.engine.Logic;
 
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -17,13 +18,13 @@ import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 
-public class OffTheLineLogic {
+public class OffTheLineLogic implements Logic {
     Engine engine_;
-
+    boolean menu = true;
     int w = 640; int h = 480; //Tamaño de la logica
     float s_ = 1; //Escala
     int actuallLevel_ = 0; //Nivel actual
-    float eatDistance_ = 15; //Distancia a la que se consiguen coins
+    float eatDistance_ = 20; //Distancia a la que se consiguen coins
     String nameLevel_;
     JSONArray levels; //Niveles guardado en un jason
     Player player_;
@@ -37,20 +38,26 @@ public class OffTheLineLogic {
     int maxLife_;
     float timeToNextLevel = 1;
     boolean playerDead = false;
-    float timeToReset = 1;
+    float timeToReset = 2; //Tiempo que transcurre hasta que se reinicia el nivel
 
-    public OffTheLineLogic(Engine e, boolean hardMode){
+    StateMachine machine_;
+
+
+    public OffTheLineLogic(Engine e, StateMachine machine, boolean hardMode){
         engine_ = e;
+        machine_ = machine;
 
-        hardMode_ = hardMode;
-        if(hardMode_)
+
+        if(hardMode)
             life_ = 5;
 
         maxLife_ = life_;
+        actuallLevel_ = 0;
         int x = w/2 - 20;
         for (int i = 0; i < life_; i++){
             lifes_.add(new CrossCube(new Vector2D(x - i*20, h/2 - 20), 12));
         }
+
         JSONParser jsonParser = new JSONParser();
         InputStream in = engine_.openInputFile("levels.json");
         if(in == null)
@@ -76,11 +83,29 @@ public class OffTheLineLogic {
         enemies_.clear();
 
 
-
         JSONObject obj = (JSONObject) levels.get(actuallLevel_);
         nameLevel_ = (String)obj.get("name");
 
+        /*************************** Paths ********************************/
+        loadPaths(obj);
 
+        /*************************** Items ********************************/
+        loadItems(obj);
+
+        /*************************** Enemies ********************************/
+        loadEnemies(obj);
+
+        int speed;
+        if(hardMode_)
+            speed = 400;
+        else
+            speed = 250;
+
+        player_ = new Player(paths_.elementAt(0).getPunta1(), paths_.elementAt(0), speed);
+
+    }
+
+    void loadPaths(JSONObject obj){
         JSONArray paths = (JSONArray) obj.get("paths");
         int n = paths.size();
         int id = 0;
@@ -133,10 +158,11 @@ public class OffTheLineLogic {
             aux.clear();
 
         }
+    }
 
-        /*************************** Items ********************************/
+    void loadItems(JSONObject obj){
         JSONArray items = (JSONArray) obj.get("items");
-        n = items.size();
+        int n = items.size();
         for (int i = 0; i < n; i++){
             Vector2D p1;
             JSONObject v1 = (JSONObject) items.get(i);
@@ -155,10 +181,12 @@ public class OffTheLineLogic {
                 extAng = ((Number) v1.get("angle")).floatValue();
             coins_.add(new Coin(p1, rad, speedEx, extAng));
         }
+    }
 
+    void loadEnemies(JSONObject obj){
         if(obj.containsKey("enemies")){
             JSONArray enemies = (JSONArray) obj.get("enemies");
-            n = enemies.size();
+            int n = enemies.size();
             for (int i = 0; i < n; i++){
                 Vector2D p1;
                 JSONObject v1 = (JSONObject) enemies.get(i);
@@ -179,9 +207,6 @@ public class OffTheLineLogic {
                 enemies_.add(line);
             }
         }
-
-        player_ = new Player(paths_.elementAt(0).getPunta1(), paths_.elementAt(0), 250);
-
     }
 
     public void setLogicalScale(int width, int height){
@@ -193,12 +218,13 @@ public class OffTheLineLogic {
             s_ = hAux;
     }
 
-    public void update(float deltaTime){
+    public void handleInput(){
         List<Input.TouchEvent> l = engine_.getInput().getTouchEvents();
         if(l.size()!=0){
+            System.out.println("HandleInput");
             for (Input.TouchEvent e: l) {
                 switch (e.type){
-                    case 500:
+                    case 0:
                         player_.jump();
                         break;
                     default:
@@ -206,41 +232,27 @@ public class OffTheLineLogic {
                 }
             }
         }
+    }
+
+    public void update(float deltaTime){
+
         player_.update(deltaTime);
 
+        /** Colision del jugador con paths si esta saltando **/
         if(player_.saltando_){
-            int j = 0;
-            boolean found = false;
-            while (j < paths_.size() && !found) {
-                Path p = paths_.elementAt(j);
-                if(p.getId() == player_.getActualPath().getId()) {
-                    j++;
-                    if(j != paths_.size()-1)
-                        continue;
-                    p = paths_.elementAt(j);
-                }
-                Vector2D corte = Utils.segmentCollition(player_.getPos(), player_.getLastPos_(), p.getPunta1(), p.getPunta2());
-                if(corte != null){
-                    player_.land(corte, p);
-                    found = true;
-                }
-                j++;
-
-            }
+            pathCollision();
         }
 
-
+        /** Update y colision de los coins **/
         for (int i = 0; i < coins_.size(); i++) {
             coins_.elementAt(i).update(deltaTime);
-            float d = Utils.pointDistance(coins_.elementAt(i).getRealPos(), player_.getPos());
-            if(d < eatDistance_){
-                coins_.elementAt(i).kill(0.5f, 80f);
-            }
-
-            if(coins_.elementAt(i).timeDying_ < 0)
-                coins_.remove(i);
+            if (player_.saltando_)
+                coinCollision(i);
+            if(coinKilled(i))
+                i--;
         }
-        if(coins_.size() <= 0)
+
+        if(coins_.size() <= 0 && !playerDead)
             timeToNextLevel -= deltaTime;
 
 
@@ -257,7 +269,7 @@ public class OffTheLineLogic {
         if(playerDead){
             timeToReset -= deltaTime;
             if(timeToReset <= 0){
-                timeToReset = 1;
+                timeToReset = 2;
                 playerDied();
             }
         }
@@ -271,16 +283,55 @@ public class OffTheLineLogic {
         if(!insideBounds()){
             playerDied();
         }
-        //prueba.update(deltaTime);
+    }
+
+    void pathCollision(){
+        int j = 0;
+        boolean found = false;
+        Vector2D c;
+        float distance = Float.MAX_VALUE;
+        while (j < paths_.size() /*&& !found*/) {
+            Path p = paths_.elementAt(j);
+            if(p.getId() == player_.getActualPath().getId()) {
+                j++;
+                if(j != paths_.size()-1)
+                    continue;
+                p = paths_.elementAt(j);
+            }
+            Vector2D corte = Utils.segmentCollition(p.getPunta1(), p.getPunta2(), player_.getPos(), player_.getLastPos_());
+            if(corte != null){
+                player_.land(corte, p);
+                float d = Utils.pointDistance(corte, player_.getPos());
+                if(d < distance) {
+                    distance = d;
+                    c = new Vector2D(corte);
+                }
+                //found = true;
+            }
+            j++;
+
+        }
+    }
+
+    void coinCollision(int i){
+        float d = Utils.pointDistance(coins_.elementAt(i).getRealPos(), player_.getPos());
+        if(d < eatDistance_){
+            coins_.elementAt(i).kill(0.5f, 80f);
+        }
+    }
+
+    boolean coinKilled(int i){
+        if(coins_.elementAt(i).timeDying_ < 0) {
+            coins_.remove(i);
+            return true;
+        }
+        return false;
     }
 
     public void render(){
         Graphics g = engine_.getGraphics();
-        g.translate(g.getWidth()/2.0f, g.getHeight()/2.0f);
-        g.scale(s_);
-        //g.save();
-
-
+        /*g.translate(g.getWidth()/2.0f, g.getHeight()/2.0f);
+        g.scale(s_);*/
 
         g.setColor(255, 255, 0, 255);
         for (int i = 0; i < coins_.size(); i++) {
@@ -302,27 +353,55 @@ public class OffTheLineLogic {
 
     }
 
-    Path findPathByIni(Vector2D p){
-        int i = 0;
-        while (i < paths_.size() && !paths_.elementAt(i).getPunta1().isEqual(p)){
-            i++;
-        }
-        if(i == paths_.size()){
-            return null;
-        }
-
-        return paths_.elementAt(i);
-    }
-
     boolean insideBounds(){
         return player_.getPosX() <= w && player_.getPosX() >= -w &&
                 player_.getPosY() <= h && player_.getPosY() >= -w;
     }
 
     void playerDied(){
+        lifes_.elementAt(maxLife_ - life_).startRenderCross();
         life_--;
-        lifes_.elementAt(life_).startRenderCross();
+        if(life_ <= 0){
+            menu = true;
+            //loading = false;
+        }
         playerDead = false;
+        loadLevel();
+    }
+
+    void updateMenu(float deltaTime){
+
+    }
+
+    void renderMenu(){
+
+    }
+
+    void handleInputMenu(){
+
+    }
+
+    Vector2D transformCoord(float x, float y){
+        Vector2D aux =  new Vector2D((x - engine_.getGraphics().getWidth()/2.0f)*s_, -(y - engine_.getGraphics().getHeight()/2.0f)*s_);
+        /*if(aux.x_ < -w/2.0f)
+            aux.x_ = -w/2.0f;
+        if(aux.x_ > w/2.0f)
+            aux.x_ = w/2.0f;
+        if(aux.y_ < -h/2.0f)
+            aux.y_ = -h/2.0f;
+        if(aux.x_ > h/2.0f)
+            aux.y_ = h/2.0f;*/
+        return aux;
+    }
+
+    void loadNewGame(){
+        lifes_.clear();
+        maxLife_ = life_;
+        actuallLevel_ = 0;
+        int x = w/2 - 20;
+        for (int i = 0; i < life_; i++){
+            lifes_.add(new CrossCube(new Vector2D(x - i*20, h/2 - 20), 12));
+        }
         loadLevel();
     }
 }

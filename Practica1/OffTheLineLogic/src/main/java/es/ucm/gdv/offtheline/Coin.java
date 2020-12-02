@@ -54,8 +54,10 @@ public class Coin extends GameObject {
     }
 
     public void kill(float timeDying, float expansionN){
-        kill = true;
-        timeDying_ = timeDying;
-        expansionN_ = expansionN;
+        if(!kill) {
+            kill = true;
+            timeDying_ = timeDying;
+            expansionN_ = expansionN;
+        }
     }
 }

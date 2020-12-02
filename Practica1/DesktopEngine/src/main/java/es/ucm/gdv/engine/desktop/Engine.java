@@ -20,7 +20,7 @@ public class Engine implements es.ucm.gdv.engine.Engine {
     public Engine(){
         resource_ = new Resources();
         graphics_ = new Graphics();
-        if (!graphics_.init())
+        if (!graphics_.init(640, 480))
             // Ooops. Ha fallado la inicialización.
             return;
         input_ = new Input();
@@ -37,7 +37,7 @@ public class Engine implements es.ucm.gdv.engine.Engine {
     }
 
     public InputStream openInputFile(String filename){
-        File ini = new File("C:/Users/josel/Desktop/uni/4/Moviles/Moviles/Practica1/DesktopGame/levels.json");
+        File ini = new File("assets/" + filename);
         try {
             return new FileInputStream(ini);
         }catch (FileNotFoundException e){

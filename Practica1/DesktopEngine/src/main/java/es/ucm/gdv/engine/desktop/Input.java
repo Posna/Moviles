@@ -15,13 +15,17 @@ public class Input implements es.ucm.gdv.engine.Input {
         m = new MListener();
     }
 
-    public List<TouchEvent> getTouchEvents() {
+    synchronized public List<TouchEvent> getTouchEvents() {
         List<TouchEvent> aux = new ArrayList<TouchEvent>();
         for (TouchEvent a: events) {
             aux.add(a);
         }
         events.clear();
         return aux;
+    }
+
+    synchronized void pushEvent(TouchEvent e){
+        events.add(e);
     }
     MListener m;
 
@@ -34,8 +38,8 @@ public class Input implements es.ucm.gdv.engine.Input {
             event.x = mouseEvent.getX();
             event.y = mouseEvent.getY();
             event.click = mouseEvent.getButton();
-            event.type = mouseEvent.getID();
-            events.add(event);
+            event.type = 1;
+            pushEvent(event);
         }
 
         @Override
@@ -51,12 +55,29 @@ public class Input implements es.ucm.gdv.engine.Input {
         @Override
         public void mousePressed(MouseEvent mouseEvent) {
             System.out.println("Se ha mousePressed");
+            System.out.println("Se ha pulsado " +  mouseEvent.getID());
+            TouchEvent event = new TouchEvent();
+            event.x = mouseEvent.getX();
+            event.y = mouseEvent.getY();
+            event.click = mouseEvent.getButton();
+            event.type = 0;
+            pushEvent(event);
+
         }
 
         @Override
         public void mouseReleased(MouseEvent mouseEvent) {
             System.out.println("Se ha mouseReleased");
+            System.out.println("Se ha pulsado " +  mouseEvent.getID());
+            TouchEvent event = new TouchEvent();
+            event.x = mouseEvent.getX();
+            event.y = mouseEvent.getY();
+            event.click = mouseEvent.getButton();
+            event.type = 1;
+            pushEvent(event);
         }
+
+
     }
 }
 

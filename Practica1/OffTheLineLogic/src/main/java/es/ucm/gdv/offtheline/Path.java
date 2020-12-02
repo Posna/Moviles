@@ -34,8 +34,6 @@ public class Path extends GameObject {
 
     public void render(Graphics g){
         g.save();
-        //g.translate(pos_.x_, pos_.y_);
-        //g.rotate(angle_);
         g.drawLine(p1_.x_, p1_.y_, p2_.x_, p2_.y_);
         g.restore();
     }

@@ -19,6 +19,10 @@ public class Engine implements es.ucm.gdv.engine.Engine{
         context_ = context;
     }
 
+    public void init(int w, int h){
+        graphics_.init(640, 480, w, h);
+    }
+
 
     public Graphics getGraphics(){
         return graphics_;
@@ -31,7 +35,6 @@ public class Engine implements es.ucm.gdv.engine.Engine{
     public InputStream openInputFile(String filename){
         try {
             return context_.getAssets().open(filename);
-            //return new FileInputStream(filename);
         }catch (IOException e){
             System.out.println("No se ha encontrasdo el archivo");
             return null;

@@ -10,9 +10,10 @@ import java.awt.geom.AffineTransform;
 
 import javax.swing.JFrame;
 
+import es.ucm.gdv.engine.AbstractGraphics;
 import es.ucm.gdv.engine.Font;
 
-public class Graphics implements es.ucm.gdv.engine.Graphics {
+public class Graphics extends AbstractGraphics {
 
     Graphics2D graphics_;
     JFrame paint;
@@ -26,7 +27,7 @@ public class Graphics implements es.ucm.gdv.engine.Graphics {
     int offset_ = 22;
 
 
-    public boolean init(){
+    public boolean init(float w, float h){
         paint = new JFrame("Practica 1");
         paint.setSize(800, (800+offset_));
         paint.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -34,6 +35,8 @@ public class Graphics implements es.ucm.gdv.engine.Graphics {
         paint.setIgnoreRepaint(true);
         paint.setVisible(true);
         createBufferStrategy();
+
+        initLogicSizes(w, h);
 
         return true;
     }
@@ -64,6 +67,9 @@ public class Graphics implements es.ucm.gdv.engine.Graphics {
 
     public void preparePaint(){
         graphics_ = (Graphics2D)strategy_.getDrawGraphics();
+        clear(0, 0, 0);
+        calculateScale();
+        preRender();
         //translate(0, 0);
     }
 
@@ -131,6 +137,7 @@ public class Graphics implements es.ucm.gdv.engine.Graphics {
      * @param y Posicion del texto
      */
     public void drawText(String text, float x, float y){
+
         graphics_.drawString(text, x, y);
     }
 

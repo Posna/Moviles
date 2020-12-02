@@ -1,4 +1,4 @@
-package es.ucm.gdv.practica1;
+package es.ucm.gdv.offtheline;
 
 import org.junit.Test;
 
