@@ -15,7 +15,7 @@ public class Engine implements es.ucm.gdv.engine.Engine {
     Graphics graphics_;
     Input input_;
     //Resources resource_;
-    sun.security.util.Resources resource_;
+    Resources resource_;
 
     public Engine(){
         resource_ = new Resources();
@@ -43,10 +43,6 @@ public class Engine implements es.ucm.gdv.engine.Engine {
         }catch (FileNotFoundException e){
             return  null;
         }
-
-        //return resource_.getClass().getResourceAsStream("C:/Users/josel/Desktop/uni/4/Moviles/Moviles/Practica1/DesktopGame/levels.json");
-        // new FileInputStream(filename);
-
     }
 
 }

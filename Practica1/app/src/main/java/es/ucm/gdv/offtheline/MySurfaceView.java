@@ -122,7 +122,7 @@ class MySurfaceView extends SurfaceView implements Runnable {
 
         long informePrevio = lastFrameTime; // Informes de FPS
         int frames = 0;
-        _stateMachine.pushState(new OffTheLineLogic(_engine, _stateMachine,false));
+        _stateMachine.pushState(new MainMenu(_engine, _stateMachine)/*new OffTheLineLogic(_engine, _stateMachine,false)*/);
 
         // Bucle principal.
         while(_running) {

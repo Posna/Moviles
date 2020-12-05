@@ -108,7 +108,7 @@ public class Graphics extends AbstractGraphics {
      */
     public void clear(int r, int g, int b){
         setColor(r ,g ,b, 255);
-        fillRect(0,0, getWidth(),getHeight());
+        fillRect(0,getHeight(), getWidth(),getHeight());
     }
 
 
@@ -116,11 +116,11 @@ public class Graphics extends AbstractGraphics {
      * Dibuja un rectangulo relleno
      * @param x1
      * @param y1
-     * @param x2
-     * @param y2
+     * @param w
+     * @param h
      */
-    public void fillRect(float x1, float y1, float x2, float y2){
-        Rectangle r = new Rectangle((int)x1,(int) y1, (int)x2-(int)x1, (int)y2-(int)y1);
+    public void fillRect(float x1, float y1, float w, float h){
+        Rectangle r = new Rectangle((int)x1,(int) y1 - (int)h, (int)w, (int)h);
         graphics_.fillRect(
                 (int) r.getX(),
                 (int)r.getY(),
@@ -137,7 +137,6 @@ public class Graphics extends AbstractGraphics {
      * @param y Posicion del texto
      */
     public void drawText(String text, float x, float y){
-
         graphics_.drawString(text, x, y);
     }
 

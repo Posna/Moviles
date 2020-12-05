@@ -2,7 +2,7 @@ package es.ucm.gdv.engine;
 
 public abstract class AbstractGraphics implements Graphics {
 
-    float s_, w_, h_;
+    public float s_, w_, h_;
 
     protected void initLogicSizes(float w, float h){
         w_ = w;
@@ -16,6 +16,14 @@ public abstract class AbstractGraphics implements Graphics {
             s_ = wAux;
         else
             s_ = hAux;
+    }
+
+    public float transformXToCenter(float x){
+        return (x - getWidth()/2) * (1.0f/s_);
+    }
+
+    public float transformYToCenter(float y){
+        return (getHeight()/2 - y) * (1.0f/s_);
     }
 
     protected void preRender(){

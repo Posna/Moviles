@@ -32,7 +32,7 @@ public interface Graphics {
      * @param x2
      * @param y2
      */
-    void fillRect(float x1, float y1, float x2, float y2);
+    void fillRect(float x1, float y1, float w, float h);
 
     /**
      * Escribe el texto con la fuente y el color activos
@@ -84,4 +84,8 @@ public interface Graphics {
     void save();
 
     void restore();
+
+    float transformXToCenter(float x);
+
+    float transformYToCenter(float y);
 }

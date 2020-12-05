@@ -25,6 +25,7 @@ public class Input implements es.ucm.gdv.engine.Input {
     }
 
     synchronized void pushEvent(TouchEvent e){
+
         events.add(e);
     }
     MListener m;

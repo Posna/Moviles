@@ -16,13 +16,15 @@ public class MainMenu implements Logic {
     /*** Menu ***/
     Button easyModeButton_;
     Button hardModeButton_;
-    boolean loading = false;
+    boolean loading;
 
     MainMenu(Engine e, StateMachine machine){
-        easyModeButton_ = new Button(new Vector2D(0, 0), new Vector2D(e.getGraphics().getWidth(), e.getGraphics().getHeight()), "Easy Mode", null);
-        hardModeButton_ = new Button(new Vector2D(-e.getGraphics().getWidth()/2, -100), new Vector2D(0, -140), "Hard Mode", null);
+        easyModeButton_ = new Button(new Vector2D(-300, 0), new Vector2D(0, -50), "Easy Mode", null);
+        hardModeButton_ = new Button(new Vector2D(-300, -200), new Vector2D(0, -250), "Hard Mode", null);
+        System.out.println(e.getGraphics().getWidth()/2);
 
         machine_ = machine;
+        engine_ = e;
     }
 
     public void update(float deltaTime){
@@ -31,26 +33,31 @@ public class MainMenu implements Logic {
 
     public void render(){
         Graphics g = engine_.getGraphics();
-
         easyModeButton_.render(g);
         hardModeButton_.render(g);
     }
 
     public void handleInput(){
-        /*List<Input.TouchEvent> l = engine_.getInput().getTouchEvents();
+        List<Input.TouchEvent> l = engine_.getInput().getTouchEvents();
         if(l.size()!=0){
-            System.out.println("HandleInput");
+
             for (Input.TouchEvent e: l) {
+                System.out.println("HandleInput");
                 switch (e.type){
                     case 1:
-                        Vector2D aux = transformCoord(e.x, e.y);
+                        Vector2D aux = new Vector2D(engine_.getGraphics().transformXToCenter(e.x),
+                                engine_.getGraphics().transformYToCenter(e.y));
                         System.out.println(" X" + aux.x_ + " Y" + aux.y_);
-                        if(hardModeButton_.handleInput(aux.x_, aux.y_) && !loading){
+                        if(hardModeButton_.handleInput(aux.x_, aux.y_)){
                             System.out.println("hard paso!");
+                            machine_.pushState(new OffTheLineLogic(engine_, machine_, true));
+                            return;
 
                         }
-                        if(easyModeButton_.handleInput(aux.x_, aux.y_) && !loading){
+                        if(easyModeButton_.handleInput(aux.x_, aux.y_)){
                             System.out.println("Easy paso!");
+                            machine_.pushState(new OffTheLineLogic(engine_, machine_, false));//El click del raton no va bien en android
+                            return;
                         }
 
                         break;
@@ -58,9 +65,7 @@ public class MainMenu implements Logic {
                         break;
                 }
             }
-        }*/
+        }
     }
-
-
 
 }

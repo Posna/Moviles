@@ -3,7 +3,7 @@ package es.ucm.gdv.engine.android;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.view.View;
+import android.graphics.Rect;
 
 import es.ucm.gdv.engine.AbstractGraphics;
 import es.ucm.gdv.engine.Font;
@@ -70,14 +70,13 @@ public class Graphics extends AbstractGraphics {
      * Dibuja un rectangulo relleno
      * @param x1
      * @param y1
-     * @param x2
-     * @param y2
+     * @param w
+     * @param h
      */
-    public void fillRect(float x1, float y1, float x2, float y2){
-        Paint paint = new Paint();
+    public void fillRect(float x1, float y1, float w, float h){
+        Rect r = new Rect((int)x1, (int)y1, (int)x1 + (int)w, (int)y1 - (int)h);
         paint.setStyle(Paint.Style.FILL);
-        canvas_.drawRect(x1*scale_ + translateX_, y1*scale_ + translateY_
-                , x2*scale_ + translateX_, y2*scale_ + translateY_, paint);
+        canvas_.drawRect(r, paint);
         paint.setStyle(Paint.Style.STROKE);
     }
 
@@ -88,8 +87,10 @@ public class Graphics extends AbstractGraphics {
      * @param y Posicion del texto
      */
     public void drawText(String text, float x, float y){
-        Paint paint = new Paint();
-        canvas_.drawText(text, x*scale_ + translateX_, y*scale_ + translateY_, paint);
+        //Paint paint = new Paint();
+        //canvas_.drawText(text, );
+        paint.setTextSize(20);
+        canvas_.drawText(text, x , y, paint);
     }
 
     /**

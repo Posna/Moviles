@@ -44,8 +44,7 @@ public class Input implements es.ucm.gdv.engine.Input {
             e.y = event.getY();
             e.type = event.getAction();
             e.click = event.getActionIndex();
-            events.add(e);
-            System.out.println("X: " + e.x + " y: " + e.y);
+            pushEvent(e);
             return true;
         }
     }

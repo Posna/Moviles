@@ -10,7 +10,7 @@ public class Button extends GameObject {
     String texto_;
 
     Button(Vector2D r1, Vector2D r2, String Texto, Font fuente){
-        super((r2.x_ - r1.x_)/2.0f, (r2.y_ - r1.y_)/2.0f);
+        super((r2.x_ + r1.x_)/2.0f, (r2.y_ + r1.y_)/2.0f);
         r1_ = r1;
         r2_ = r2;
 
@@ -20,11 +20,13 @@ public class Button extends GameObject {
     @Override
     void render(Graphics g) {
         g.save();
-        g.translate(r1_.x_, r1_.y_);
-        g.rotate(180);
-        g.scale(-1);
+        //g.translate(r1_.x_, r1_.y_);
+        //g.scale(-1);
+        //g.rotate(180);
         g.setColor(255, 0, 0, 255);
-        g.drawText(texto_, 0, 0);
+        g.fillRect(r1_.x_,r1_.y_, Math.abs(r2_.x_ - r1_.x_), Math.abs(r2_.y_ - r1_.y_));
+        //g.fillRect(0,-50, 50 , 50);
+        //g.drawText(texto_, 0, 0);
         g.restore();
     }
 

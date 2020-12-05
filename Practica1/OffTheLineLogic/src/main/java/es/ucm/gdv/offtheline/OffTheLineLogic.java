@@ -39,6 +39,8 @@ public class OffTheLineLogic implements Logic {
     float timeToNextLevel = 1;
     boolean playerDead = false;
     float timeToReset = 2; //Tiempo que transcurre hasta que se reinicia el nivel
+    boolean gameOver = false;
+    EndGame endGame_;
 
     StateMachine machine_;
 
@@ -46,6 +48,7 @@ public class OffTheLineLogic implements Logic {
     public OffTheLineLogic(Engine e, StateMachine machine, boolean hardMode){
         engine_ = e;
         machine_ = machine;
+        hardMode_ = hardMode;
 
 
         if(hardMode)
@@ -78,6 +81,13 @@ public class OffTheLineLogic implements Logic {
     }
 
     public void loadLevel(){
+        if(actuallLevel_ >= 20){
+            endGame_ = new EndGame(true, actuallLevel_);
+            gameOver = true;
+            return;
+        }
+
+
         paths_.clear();
         coins_.clear();
         enemies_.clear();
@@ -156,7 +166,6 @@ public class OffTheLineLogic implements Logic {
                 paths_.add(aux.elementAt(k));
             }
             aux.clear();
-
         }
     }
 
@@ -170,7 +179,6 @@ public class OffTheLineLogic implements Logic {
             float rad = 0; float speedEx = 0; float extAng = 0;
             /*** Radius ***/
             if(v1.containsKey("radius")) {
-                System.out.println("radio si");
                 rad = ((Number) v1.get("radius")).floatValue();
             }
             /*** Speed ***/
@@ -221,11 +229,16 @@ public class OffTheLineLogic implements Logic {
     public void handleInput(){
         List<Input.TouchEvent> l = engine_.getInput().getTouchEvents();
         if(l.size()!=0){
-            System.out.println("HandleInput");
             for (Input.TouchEvent e: l) {
+                Vector2D aux = new Vector2D(engine_.getGraphics().transformXToCenter(e.x),
+                        engine_.getGraphics().transformYToCenter(e.y));
+                System.out.println(" X" + aux.x_ + " Y" + aux.y_);
                 switch (e.type){
                     case 0:
-                        player_.jump();
+                        if(!gameOver)
+                            player_.jump();
+                        else
+                            machine_.popState();
                         break;
                     default:
                         break;
@@ -235,6 +248,8 @@ public class OffTheLineLogic implements Logic {
     }
 
     public void update(float deltaTime){
+        if(gameOver)
+            return;
 
         player_.update(deltaTime);
 
@@ -266,7 +281,7 @@ public class OffTheLineLogic implements Logic {
             }
         }
 
-        if(playerDead){
+        if(playerDead && !gameOver){
             timeToReset -= deltaTime;
             if(timeToReset <= 0){
                 timeToReset = 2;
@@ -274,15 +289,16 @@ public class OffTheLineLogic implements Logic {
             }
         }
 
-        if(timeToNextLevel <= 0){
-            actuallLevel_ = (actuallLevel_ + 1) % 20;
-            loadLevel();
-            timeToNextLevel = 1;
-        }
-
-        if(!insideBounds()){
+        if(!insideBounds() && !gameOver){
             playerDied();
         }
+
+        if(timeToNextLevel <= 0){
+            actuallLevel_ = (actuallLevel_ + 1) % 20;
+            timeToNextLevel = 1;
+            loadLevel();
+        }
+
     }
 
     void pathCollision(){
@@ -330,8 +346,6 @@ public class OffTheLineLogic implements Logic {
 
     public void render(){
         Graphics g = engine_.getGraphics();
-        /*g.translate(g.getWidth()/2.0f, g.getHeight()/2.0f);
-        g.scale(s_);*/
 
         g.setColor(255, 255, 0, 255);
         for (int i = 0; i < coins_.size(); i++) {
@@ -351,6 +365,9 @@ public class OffTheLineLogic implements Logic {
         g.setColor(0, 136, 255, 255); //Player
         player_.render(g);
 
+        if(gameOver)
+            endGame_.render(g);
+
     }
 
     boolean insideBounds(){
@@ -362,8 +379,9 @@ public class OffTheLineLogic implements Logic {
         lifes_.elementAt(maxLife_ - life_).startRenderCross();
         life_--;
         if(life_ <= 0){
-            menu = true;
-            //loading = false;
+            gameOver = true;
+            endGame_ = new EndGame(false, actuallLevel_);
+            return;
         }
         playerDead = false;
         loadLevel();
