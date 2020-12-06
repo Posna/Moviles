@@ -2,9 +2,11 @@ package es.ucm.gdv.offtheline;
 
 import java.util.Stack;
 
+import es.ucm.gdv.engine.Engine;
 import es.ucm.gdv.engine.Logic;
+import es.ucm.gdv.engine.StatesMachine;
 
-public class StateMachine {
+public class StateMachine implements StatesMachine {
 
     Stack<Logic> states;
 
@@ -20,11 +22,15 @@ public class StateMachine {
         states.push(newState);
     }
 
-    void popState(){
+    public void popState(){
         states.pop();
     }
 
-    void render() { getActuallState().render();}
-    void update(float deltaTime){ getActuallState().update(deltaTime); }
-    void handleInput() { getActuallState().handleInput(); }
+    public void pushMainMenu(Engine e){
+        pushState(new MainMenu(e, this));
+    }
+
+    public void render() { getActuallState().render();}
+    public void update(float deltaTime){ getActuallState().update(deltaTime); }
+    public void handleInput() { getActuallState().handleInput(); }
 }

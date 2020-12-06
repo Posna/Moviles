@@ -36,7 +36,8 @@ class MySurfaceView extends SurfaceView implements Runnable {
 
         super(context);
         _holder = getHolder();
-        _engine = new Engine(context);
+        _stateMachine = new StateMachine();
+        _engine = new Engine(_stateMachine, this);
     } // MySurfaceView
 
     //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -53,6 +54,7 @@ class MySurfaceView extends SurfaceView implements Runnable {
             // (programación defensiva, nunca se sabe quién va a
             // usarnos...)
             _running = true;
+            _engine.setRunning(_running);
             // Lanzamos la ejecución de nuestro método run()
             // en una hebra nueva.
             _renderThread = new Thread(this);
@@ -77,6 +79,7 @@ class MySurfaceView extends SurfaceView implements Runnable {
 
         if (_running) {
             _running = false;
+            _engine.setRunning(_running);
             while (true) {
                 try {
                     _renderThread.join();
@@ -99,7 +102,6 @@ class MySurfaceView extends SurfaceView implements Runnable {
      */
     @Override
     public void run() {
-
         if (_renderThread != Thread.currentThread()) {
             // ¿¿Quién es el tuercebotas que está llamando al
             // run() directamente?? Programación defensiva
@@ -114,51 +116,7 @@ class MySurfaceView extends SurfaceView implements Runnable {
             // Espera activa. Sería más elegante al menos dormir un poco.
             ;
 
-        _stateMachine = new StateMachine();
-        _engine.init(getWidth(), getHeight());
-        setOnTouchListener(_engine.getInput().getMyTouch());
-
-        long lastFrameTime = System.nanoTime();
-
-        long informePrevio = lastFrameTime; // Informes de FPS
-        int frames = 0;
-        _stateMachine.pushState(new MainMenu(_engine, _stateMachine)/*new OffTheLineLogic(_engine, _stateMachine,false)*/);
-
-        // Bucle principal.
-        while(_running) {
-
-            long currentTime = System.nanoTime();
-            long nanoElapsedTime = currentTime - lastFrameTime;
-            lastFrameTime = currentTime;
-            double elapsedTime = (double) nanoElapsedTime / 1.0E9;
-            _stateMachine.handleInput();
-            _stateMachine.update((float)elapsedTime);
-            // Informe de FPS
-            if (currentTime - informePrevio > 1000000000l) {
-                long fps = frames * 1000000000l / (currentTime - informePrevio);
-                System.out.println("" + fps + " fps");
-                frames = 0;
-                informePrevio = currentTime;
-            }
-            ++frames;
-
-            // Pintamos el frame
-            while (!_holder.getSurface().isValid())
-                ;
-            Canvas canvas = _holder.lockCanvas();
-            _engine.getGraphics().prepararPintado(canvas);
-            _stateMachine.render();
-            _holder.unlockCanvasAndPost(canvas);
-                /*
-                // Posibilidad: cedemos algo de tiempo. es una medida conflictiva...
-                try {
-                    Thread.sleep(1);
-                }
-                catch(Exception e) {}
-    			*/
-
-        } // while
-
+        _engine.run();
     } // run
 
     //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

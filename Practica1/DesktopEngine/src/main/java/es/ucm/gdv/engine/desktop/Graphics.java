@@ -1,9 +1,7 @@
 package es.ucm.gdv.engine.desktop;
 
-import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Paint;
 import java.awt.Rectangle;
 import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
@@ -24,7 +22,7 @@ public class Graphics extends AbstractGraphics {
     float translateY_;
     float scale_; //Escalado
     float angle;
-    int offset_ = 22;
+    int offset_ = 0;
 
 
     public boolean init(float w, float h){

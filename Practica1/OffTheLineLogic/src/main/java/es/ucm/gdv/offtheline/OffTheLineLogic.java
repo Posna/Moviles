@@ -32,6 +32,7 @@ public class OffTheLineLogic implements Logic {
     Vector<Coin> coins_ = new Vector(10, 10);
     Vector<Line> enemies_ = new Vector(10, 10);
     Vector<CrossCube> lifes_ = new Vector(10, 10); //Array con el numero de vidas
+    Texto level;
 
     boolean hardMode_ = false;
     int life_ = 10;
@@ -94,7 +95,9 @@ public class OffTheLineLogic implements Logic {
 
 
         JSONObject obj = (JSONObject) levels.get(actuallLevel_);
-        nameLevel_ = (String)obj.get("name");
+        String nameLevel = (String)obj.get("name");
+        level = new Texto(new Vector2D(-300, 210), "LEVEL " + actuallLevel_ + " - " + nameLevel, "si", 1, false);
+        level.setColor(255, 255, 255);
 
         /*************************** Paths ********************************/
         loadPaths(obj);
@@ -294,7 +297,7 @@ public class OffTheLineLogic implements Logic {
         }
 
         if(timeToNextLevel <= 0){
-            actuallLevel_ = (actuallLevel_ + 1) % 20;
+            actuallLevel_ = actuallLevel_ + 1;
             timeToNextLevel = 1;
             loadLevel();
         }
@@ -364,6 +367,7 @@ public class OffTheLineLogic implements Logic {
         }
         g.setColor(0, 136, 255, 255); //Player
         player_.render(g);
+        level.render(g);
 
         if(gameOver)
             endGame_.render(g);

@@ -2,7 +2,6 @@ package es.ucm.gdv.offtheline;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 
 /**
@@ -34,8 +33,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
-        _font = Typeface.createFromAsset(this.getAssets(), "fonts/Bangers-Regular.ttf");
 
         // Preparamos el contenido de la actividad.
         _renderView = new MySurfaceView(this);
@@ -94,11 +91,6 @@ public class MainActivity extends AppCompatActivity {
      */
     protected MySurfaceView _renderView;
 
-    /**
-     * Fuente usada para escribir el texto que se muestra moviéndose de lado a lado.
-     * Se carga en el onCreate y se usa en MySurfaceView.
-     */
-    protected Typeface _font;
 
 
 
