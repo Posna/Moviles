@@ -10,10 +10,10 @@ public class Path extends GameObject {
 
     Vector2D normal_;
 
-    Path nextPath_;
-    Path lastPath_;
+    Path nextPath_; //Path siguiente
+    Path lastPath_; //Path anterior
 
-    int id_;
+    int id_; //identificador del path
 
     public Path(Vector2D p1, Vector2D p2, int id){
         super((p1.x_+p2.x_)/2.0f, (p1.y_+p2.y_)/2.0f);
@@ -38,22 +38,38 @@ public class Path extends GameObject {
         g.restore();
     }
 
+    /**
+     * Asignacion de la normal
+     */
     public void setNormal(Vector2D normal){
         normal_ = normal;
     }
     public Vector2D getNormal(){ return normal_; }
 
+    /**
+     * @return devuelve un extremo del path
+     */
     public Vector2D getPunta1(){
         return p1_;
     }
+
+    /**
+     * @return devuelve otro extremo del path
+     */
     public Vector2D getPunta2(){
         return p2_;
     }
 
+    /**
+     * Añade path anterior
+     */
     public void setLastPath(Path lastPath) {
         lastPath_ = lastPath;
     }
 
+    /**
+     * Añade path sig
+     */
     public void setNextPath(Path nextPath){
         nextPath_ = nextPath;
     }

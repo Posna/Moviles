@@ -10,7 +10,6 @@ public class Cube extends GameObject {
     Cube(Vector2D pos, float lado){
         super(pos.x_, pos.y_);
         lado_ = lado;
-        //vel_ = new Vector2D(100, 0);
     }
 
     public void render(Graphics g){

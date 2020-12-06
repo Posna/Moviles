@@ -74,9 +74,10 @@ public class Engine implements es.ucm.gdv.engine.Engine{
         _running = r;
     }
 
-
+    /**
+     * Bucle principal del juego en android
+     */
     public void run(){
-        //_stateMachine = new StatesMachine();
         init(_sV.getWidth(), _sV.getHeight());
         _sV.setOnTouchListener(getInput().getMyTouch());
 
@@ -95,6 +96,7 @@ public class Engine implements es.ucm.gdv.engine.Engine{
             double elapsedTime = (double) nanoElapsedTime / 1.0E9;
             _stateMachine.handleInput();
             _stateMachine.update((float)elapsedTime);
+
             // Informe de FPS
             if (currentTime - informePrevio > 1000000000l) {
                 long fps = frames * 1000000000l / (currentTime - informePrevio);
@@ -111,13 +113,6 @@ public class Engine implements es.ucm.gdv.engine.Engine{
             getGraphics().prepararPintado(canvas);
             _stateMachine.render();
             _holder.unlockCanvasAndPost(canvas);
-                /*
-                // Posibilidad: cedemos algo de tiempo. es una medida conflictiva...
-                try {
-                    Thread.sleep(1);
-                }
-                catch(Exception e) {}
-    			*/
 
         } // while
 

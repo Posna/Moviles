@@ -7,18 +7,21 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 
 import es.ucm.gdv.engine.AbstractGraphics;
-import es.ucm.gdv.engine.android.Font;
 
 public class Graphics extends AbstractGraphics {
     Canvas canvas_;
     Paint paint = new Paint();
     Context context_;
     int _width, _height;
-    float translateX_; //Transformacion
-    float translateY_;
-    float scale_; //Escalado
-    float angle;
 
+    /**
+     * Init de hraphics
+     * @param w ancho logico
+     * @param h alto logico
+     * @param width ancho de la pantalla
+     * @param height alto de la pantalla
+     * @param c
+     */
     public void init(float w, float h, int width, int height, Context c){
         context_ = c;
         _width = width;
@@ -27,6 +30,9 @@ public class Graphics extends AbstractGraphics {
         calculateScale();
     }
 
+    /**
+     * Prepara el pintado
+     */
     public void prepararPintado(Canvas c){
         canvas_ = c;
         clear(0, 0, 0);
@@ -43,7 +49,6 @@ public class Graphics extends AbstractGraphics {
     public void drawLine(float x1, float y1, float x2, float y2){
         paint.setStrokeWidth(2);
         canvas_.drawLine(x1, y1, x2, y2, paint);
-        //Puede que se necesite aumentar el grosor a 1 para que se escale correctamente
     }
 
     /**
@@ -126,12 +131,10 @@ public class Graphics extends AbstractGraphics {
 
     public void translate(float x, float y){
         canvas_.translate(x, y);
-        translateX_ = x; translateY_ = y;
     }
 
     public void scale(float x){
         canvas_.scale(x, -x);
-        scale_  = x;
     }
 
     public void rotate(float angle){

@@ -67,10 +67,10 @@ public class Line extends GameObject {
 
 
     /**
-     *
-     * @param offSet
-     * @param time1
-     * @param time2
+     * Añade offset a la linea
+     * @param offSet vector de movimiento
+     * @param time1 Tiempo que tarda en llegar
+     * @param time2 Tiempo de espera hasta volver a moverse
      */
     public void setOffSet(Vector2D offSet, float time1, float time2){
         haveOffset_ = true;

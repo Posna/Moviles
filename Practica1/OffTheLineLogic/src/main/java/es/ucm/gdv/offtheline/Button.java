@@ -19,17 +19,13 @@ public class Button extends GameObject {
 
     @Override
     void render(Graphics g) {
-        g.save();
-        //g.translate(r1_.x_, r1_.y_);
-        //g.scale(-1);
-        //g.rotate(180);
-        //g.setColor(255, 0, 0, 255);
-        //g.fillRect(r1_.x_,r1_.y_, Math.abs(r2_.x_ - r1_.x_), Math.abs(r2_.y_ - r1_.y_));
-        //g.fillRect(0,-50, 50 , 50);
-        //g.drawText(texto_, 0, 0);
-        g.restore();
+
     }
 
+    /**
+     * Comprueba se la poscion (x ,y) esta dentro del rectangulo boton
+     * @return true si estan dentro
+     */
     boolean handleInput(float x, float y){
         return r1_.x_ <= x && r2_.x_ >= x && r1_.y_ >= y && r2_.y_ <= y;
     }

@@ -92,7 +92,4 @@ public class MainActivity extends AppCompatActivity {
     protected MySurfaceView _renderView;
 
 
-
-
-
 } // class MainActivity

@@ -5,8 +5,7 @@ import es.ucm.gdv.engine.Graphics;
 public class CrossCube extends Cube {
 
     float ladoCross_;
-
-    boolean cross_ = false;
+    boolean cross_ = false; //Renderiza una cruz o un cubo
 
     CrossCube(Vector2D p, float lado){
         super(p, lado);
@@ -35,6 +34,4 @@ public class CrossCube extends Cube {
     void startRenderCross(){
         cross_ = true;
     }
-
-
 }

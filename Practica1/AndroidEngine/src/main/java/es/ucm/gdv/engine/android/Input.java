@@ -14,9 +14,11 @@ public class Input implements es.ucm.gdv.engine.Input {
     Input(){
         events = new ArrayList<TouchEvent>();
         m = new MyTouch();
-        //v.setOnTouchListener(m);
     }
 
+    /**
+     * Devuelve la lista de eventos desde la ultima vez que se llamo
+     */
     synchronized public List<TouchEvent> getTouchEvents(){
         List<TouchEvent> aux = new ArrayList<TouchEvent>();
         for (TouchEvent a: events) {

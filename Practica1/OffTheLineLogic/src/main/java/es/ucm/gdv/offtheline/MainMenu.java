@@ -63,23 +63,18 @@ public class MainMenu implements Logic {
     public void handleInput(){
         List<Input.TouchEvent> l = engine_.getInput().getTouchEvents();
         if(l.size()!=0){
-
             for (Input.TouchEvent e: l) {
-                System.out.println("HandleInput");
                 switch (e.type){
                     case 1:
+                        //Translacion de la x e y del raton
                         Vector2D aux = new Vector2D(engine_.getGraphics().transformXToCenter(e.x),
                                 engine_.getGraphics().transformYToCenter(e.y));
-                        System.out.println(" X" + aux.x_ + " Y" + aux.y_);
                         if(hardModeButton_.handleInput(aux.x_, aux.y_)){
-                            System.out.println("hard paso!");
                             machine_.pushState(new OffTheLineLogic(engine_, machine_, true));
                             return;
-
                         }
                         if(easyModeButton_.handleInput(aux.x_, aux.y_)){
-                            System.out.println("Easy paso!");
-                            machine_.pushState(new OffTheLineLogic(engine_, machine_, false));//El click del raton no va bien en android
+                            machine_.pushState(new OffTheLineLogic(engine_, machine_, false));
                             return;
                         }
 

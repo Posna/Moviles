@@ -21,6 +21,9 @@ public class Texto extends GameObject {
         size_ = size;
     }
 
+    /**
+     * Asigna el color al texto
+     */
     void setColor(int r, int g, int b){
         r_ = r;
         g_ = g;
@@ -34,13 +37,9 @@ public class Texto extends GameObject {
         g.rotate(180);
         g.scale(-1);
         g.setColor(r_, g_, b_, 255);
-        try {
-            g.newFont(font_, size_, bold_);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (FontFormatException e) {
-            e.printStackTrace();
-        }
+
+        g.newFont(font_, size_, bold_);
+
         g.drawText(text_, 0, 0);
         g.restore();
     }

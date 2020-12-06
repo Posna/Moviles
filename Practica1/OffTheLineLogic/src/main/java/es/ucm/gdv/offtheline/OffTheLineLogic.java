@@ -20,28 +20,29 @@ import java.util.*;
 
 public class OffTheLineLogic implements Logic {
     Engine engine_;
-    boolean menu = true;
     int w = 640; int h = 480; //Tamaño de la logica
     float s_ = 1; //Escala
     int actuallLevel_ = 0; //Nivel actual
     float eatDistance_ = 20; //Distancia a la que se consiguen coins
-    String nameLevel_;
     JSONArray levels; //Niveles guardado en un jason
+
+    /** Objetos **/
     Player player_;
     Vector<Path> paths_ = new Vector(10, 10);
     Vector<Coin> coins_ = new Vector(10, 10);
     Vector<Line> enemies_ = new Vector(10, 10);
     Vector<CrossCube> lifes_ = new Vector(10, 10); //Array con el numero de vidas
     Texto level;
+    EndGame endGame_; //Pantalla final de partida (tanto perder como ganar)
 
-    boolean hardMode_ = false;
+    boolean hardMode_;
     int life_ = 10;
     int maxLife_;
-    float timeToNextLevel = 1;
+    float timeToNextLevel = 1; //Tiempo hasta el siguiente nivel
     boolean playerDead = false;
     float timeToReset = 2; //Tiempo que transcurre hasta que se reinicia el nivel
     boolean gameOver = false;
-    EndGame endGame_;
+
 
     StateMachine machine_;
 
@@ -51,12 +52,13 @@ public class OffTheLineLogic implements Logic {
         machine_ = machine;
         hardMode_ = hardMode;
 
-
         if(hardMode)
             life_ = 5;
 
         maxLife_ = life_;
         actuallLevel_ = 0;
+
+        /** Posicionamiento de vidas **/
         int x = w/2 - 20;
         for (int i = 0; i < life_; i++){
             lifes_.add(new CrossCube(new Vector2D(x - i*20, h/2 - 20), 12));
@@ -78,16 +80,17 @@ public class OffTheLineLogic implements Logic {
             er.printStackTrace();
         }
 
+        /** Creacion de Nivel **/
         loadLevel();
     }
 
     public void loadLevel(){
+        /** Se ha llegado al nivel maximo **/
         if(actuallLevel_ >= 20){
             endGame_ = new EndGame(true, actuallLevel_ +1, hardMode_);
             gameOver = true;
             return;
         }
-
 
         paths_.clear();
         coins_.clear();
@@ -108,6 +111,7 @@ public class OffTheLineLogic implements Logic {
         /*************************** Enemies ********************************/
         loadEnemies(obj);
 
+        /*************************** Player ********************************/
         int speed;
         if(hardMode_)
             speed = 400;
@@ -220,24 +224,12 @@ public class OffTheLineLogic implements Logic {
         }
     }
 
-    public void setLogicalScale(int width, int height){
-        float wAux = (float)width / (float)w;
-        float hAux = (float)height / (float)h;
-        if(wAux < hAux)
-            s_ = wAux;
-        else
-            s_ = hAux;
-    }
-
     public void handleInput(){
         List<Input.TouchEvent> l = engine_.getInput().getTouchEvents();
         if(l.size()!=0){
             for (Input.TouchEvent e: l) {
-                Vector2D aux = new Vector2D(engine_.getGraphics().transformXToCenter(e.x),
-                        engine_.getGraphics().transformYToCenter(e.y));
-                System.out.println(" X" + aux.x_ + " Y" + aux.y_);
                 switch (e.type){
-                    case 0:
+                    case 0: //Click del raton o pulsacion con el dedo
                         if(!gameOver)
                             player_.jump();
                         else
@@ -251,9 +243,11 @@ public class OffTheLineLogic implements Logic {
     }
 
     public void update(float deltaTime){
+        //Si se ha perdido o ganado se para de actualizar el juego
         if(gameOver)
             return;
 
+        /** Update del jugador **/
         player_.update(deltaTime);
 
         /** Colision del jugador con paths si esta saltando **/
@@ -270,10 +264,11 @@ public class OffTheLineLogic implements Logic {
                 i--;
         }
 
+        /** Cuenta atras para siguiente nivel **/
         if(coins_.size() <= 0 && !playerDead)
             timeToNextLevel -= deltaTime;
 
-
+        /** Update y colision con los enemigos **/
         for (int i = 0; i < enemies_.size(); i++) {
             Line e = enemies_.elementAt(i);
             e.update(deltaTime);
@@ -284,6 +279,7 @@ public class OffTheLineLogic implements Logic {
             }
         }
 
+        /** Cuenta atras para reset del nivel **/
         if(playerDead && !gameOver){
             timeToReset -= deltaTime;
             if(timeToReset <= 0){
@@ -292,10 +288,12 @@ public class OffTheLineLogic implements Logic {
             }
         }
 
+        /** Muerte por salir de la pantalla **/
         if(!insideBounds() && !gameOver){
             playerDied();
         }
 
+        /** Cuenta atras para pasar de nivel **/
         if(timeToNextLevel <= 0){
             actuallLevel_ = actuallLevel_ + 1;
             timeToNextLevel = 1;
@@ -306,11 +304,10 @@ public class OffTheLineLogic implements Logic {
 
     void pathCollision(){
         int j = 0;
-        //boolean found = false;
-        //Vector2D c;
-        //float distance = Float.MAX_VALUE;
         while (j < paths_.size()) {
             Path p = paths_.elementAt(j);
+
+            //Se comprueba la colision con todos los paths menos desde el que se salta
             if(p.getId() == player_.getActualPath().getId()) {
                 j++;
                 if(j != paths_.size()-1)
@@ -320,14 +317,15 @@ public class OffTheLineLogic implements Logic {
             Vector2D corte = Utils.segmentCollition(p.getPunta1(), p.getPunta2(), player_.getPos(), player_.getLastPos_());
             if(corte != null){
                 player_.land(corte, p);
-                //float d = Utils.pointDistance(corte, player_.getPos());
-
             }
             j++;
-
         }
     }
 
+    /**
+     * Collision con un coin concreto
+     * @param i Coin numero i dentro del vector de coins
+     */
     void coinCollision(int i){
         float d = Utils.pointDistance(coins_.elementAt(i).getRealPos(), player_.getPos());
         if(d < eatDistance_){
@@ -335,6 +333,11 @@ public class OffTheLineLogic implements Logic {
         }
     }
 
+    /**
+     * Mata a un coin concreto
+     * @param i Coin numero i dentro del vector de coins
+     * @return si el tiempo de muerte es mayor que 0 se devuelve false, si no true
+     */
     boolean coinKilled(int i){
         if(coins_.elementAt(i).timeDying_ < 0) {
             coins_.remove(i);
@@ -346,35 +349,55 @@ public class OffTheLineLogic implements Logic {
     public void render(){
         Graphics g = engine_.getGraphics();
 
+        /** Render de los coins **/
         g.setColor(255, 255, 0, 255);
         for (int i = 0; i < coins_.size(); i++) {
             coins_.elementAt(i).render(g);
         }
+
+        /** Render de los paths **/
         g.setColor(255, 255, 255, 255);
         for (int i = 0; i < paths_.size(); i++) {
             paths_.elementAt(i).render(g);
         }
+
+        /** Render de los enemigos **/
         g.setColor(255, 0, 0, 255);
         for (int i = 0; i < enemies_.size(); i++) {
             enemies_.elementAt(i).render(g);
         }
+
+        /** Render de las vidas **/
         for (int i = 0; i < lifes_.size(); i++) {
             lifes_.elementAt(i).render(g);
         }
+
+        /** Render del jugador **/
         g.setColor(0, 136, 255, 255); //Player
         player_.render(g);
+
+        /** Render del nombre y numero del nivel **/
         level.render(g);
 
+        /** Render de la pantalla final de partida **/
         if(gameOver)
             endGame_.render(g);
 
     }
 
+    /**
+     * Comprueba que el jugador este dentro de los bordes logicos
+     * @return true si esta dentro
+     */
     boolean insideBounds(){
         return player_.getPosX() <= w && player_.getPosX() >= -w &&
                 player_.getPosY() <= h && player_.getPosY() >= -w;
     }
 
+    /**
+     * Se llama cuando el jugador muere. Disminuye la vidas y vuelve a cargar el
+     * nivel si las vidas son mayores a 0
+     */
     void playerDied(){
         lifes_.elementAt(maxLife_ - life_).startRenderCross();
         life_--;
@@ -387,39 +410,4 @@ public class OffTheLineLogic implements Logic {
         loadLevel();
     }
 
-    void updateMenu(float deltaTime){
-
-    }
-
-    void renderMenu(){
-
-    }
-
-    void handleInputMenu(){
-
-    }
-
-    Vector2D transformCoord(float x, float y){
-        Vector2D aux =  new Vector2D((x - engine_.getGraphics().getWidth()/2.0f)*s_, -(y - engine_.getGraphics().getHeight()/2.0f)*s_);
-        /*if(aux.x_ < -w/2.0f)
-            aux.x_ = -w/2.0f;
-        if(aux.x_ > w/2.0f)
-            aux.x_ = w/2.0f;
-        if(aux.y_ < -h/2.0f)
-            aux.y_ = -h/2.0f;
-        if(aux.x_ > h/2.0f)
-            aux.y_ = h/2.0f;*/
-        return aux;
-    }
-
-    void loadNewGame(){
-        lifes_.clear();
-        maxLife_ = life_;
-        actuallLevel_ = 0;
-        int x = w/2 - 20;
-        for (int i = 0; i < life_; i++){
-            lifes_.add(new CrossCube(new Vector2D(x - i*20, h/2 - 20), 12));
-        }
-        loadLevel();
-    }
 }

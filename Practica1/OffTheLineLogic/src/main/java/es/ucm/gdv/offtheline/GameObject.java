@@ -4,11 +4,11 @@ import es.ucm.gdv.engine.Graphics;
 
 public abstract class GameObject {
 
-    Vector2D pos_;
-    Vector2D vel_ = new Vector2D(0, 0);
-    float angle_ = 0;
-    float angleVel_ = 0;
-    float speed_ = 1;
+    Vector2D pos_; //Posicion del objeto
+    Vector2D vel_ = new Vector2D(0, 0);//Vector velocidad
+    float angle_ = 0; //angulo
+    float angleVel_ = 0; //velocidad de rotacion
+    float speed_ = 1; //Velocidad de desplazamiento
 
 
     GameObject(float x, float y){

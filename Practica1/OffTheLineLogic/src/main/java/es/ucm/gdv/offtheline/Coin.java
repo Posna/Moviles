@@ -3,15 +3,15 @@ package es.ucm.gdv.offtheline;
 import es.ucm.gdv.engine.Graphics;
 
 public class Coin extends GameObject {
-    Vector2D rot_;
-    float extAngle_;
-    float speedExtAngle_;
-    float rad_;
-    float lado_;
+    Vector2D rot_; //Vector donde rota
+    float extAngle_; //Angulo exterior
+    float speedExtAngle_; //Velocidad del angulo exterior
+    float rad_; //Radio
+    float lado_; //lado del coin
 
-    boolean kill = false;
-    float timeDying_;
-    float expansionN_;
+    boolean kill = false; //Boleano de muerte
+    float timeDying_; //Tiempo muriendo
+    float expansionN_; //numero de explansion
 
     public Coin(Vector2D rot, float rad, float speedExtAngle, float extAngle){
         super(rad, 0.0f);
@@ -47,12 +47,21 @@ public class Coin extends GameObject {
         }
     }
 
+    /**
+     * Posicion real del coin
+     */
     public Vector2D getRealPos(){
         double x = rot_.x_ + Math.cos(Math.toRadians(extAngle_))*rad_;
         double y = rot_.y_ + Math.sin(Math.toRadians(extAngle_))*rad_;
         return new Vector2D((float)x, (float)y);
     }
 
+    /**
+     * Empieza la cuenta atras y la expansion hasta que muere
+     * @param timeDying Tiempo muriendo
+     * @param expansionN numero de expansion
+     *
+     */
     public void kill(float timeDying, float expansionN){
         if(!kill) {
             kill = true;

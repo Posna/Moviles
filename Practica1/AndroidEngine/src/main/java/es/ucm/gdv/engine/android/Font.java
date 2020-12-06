@@ -12,6 +12,12 @@ public class Font implements es.ucm.gdv.engine.Font {
         context_ = context;
     }
 
+    /**
+     * Cambia la fuente del texto
+     * @param filename Nombre de la fuente
+     * @param size Tamaño
+     * @param isBold Negrita
+     */
     public void init(String filename, int size, boolean isBold){
         TextView t = new TextView(context_);
         typeface_ = Typeface.createFromAsset(context_.getAssets(), "fonts/" + filename);

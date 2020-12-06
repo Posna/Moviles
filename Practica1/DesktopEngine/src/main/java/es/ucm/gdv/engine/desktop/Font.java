@@ -18,6 +18,12 @@ public class Font implements es.ucm.gdv.engine.Font {
     public Font(){
     }
 
+    /**
+     * Asigna valor a myFont con la nueva fuente que se quiere
+     * @param filename Nombre de la fuente
+     * @param size Tamaño
+     * @param isBold Negrita
+     */
     public void init(String filename, int size, boolean isBold){
         java.awt.Font f = null;
         try {
@@ -36,6 +42,9 @@ public class Font implements es.ucm.gdv.engine.Font {
             myFont = new java.awt.Font(f.getFontName(), java.awt.Font.PLAIN, size);
     }
 
+    /**
+     * @return Devuelve la fuente creada en init
+     */
     public java.awt.Font getMyFont(){
         return myFont;
     }

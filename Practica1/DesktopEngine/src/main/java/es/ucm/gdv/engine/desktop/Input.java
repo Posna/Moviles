@@ -15,6 +15,10 @@ public class Input implements es.ucm.gdv.engine.Input {
         m = new MListener();
     }
 
+    /**
+     * Devuelve la lista de eventos
+     * @return Lista de eventos
+     */
     synchronized public List<TouchEvent> getTouchEvents() {
         List<TouchEvent> aux = new ArrayList<TouchEvent>();
         for (TouchEvent a: events) {
@@ -24,6 +28,10 @@ public class Input implements es.ucm.gdv.engine.Input {
         return aux;
     }
 
+    /**
+     * Añade un nuevo evento
+     * @param e evento
+     */
     synchronized void pushEvent(TouchEvent e){
 
         events.add(e);

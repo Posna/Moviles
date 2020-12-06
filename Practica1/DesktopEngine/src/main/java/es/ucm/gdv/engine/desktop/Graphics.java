@@ -1,17 +1,14 @@
 package es.ucm.gdv.engine.desktop;
 
 import java.awt.Color;
-import java.awt.FontFormatException;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
-import java.io.IOException;
 
 import javax.swing.JFrame;
 
 import es.ucm.gdv.engine.AbstractGraphics;
-import es.ucm.gdv.engine.desktop.Font;
 
 public class Graphics extends AbstractGraphics {
 
@@ -20,16 +17,15 @@ public class Graphics extends AbstractGraphics {
     java.awt.image.BufferStrategy strategy_;
     AffineTransform transform_;
 
-    float translateX_; //Transformacion
-    float translateY_;
-    float scale_; //Escalado
-    float angle;
-    int offset_ = 0;
-
-
+    /**
+     * Inicializacion de graphics
+     * @param w ancho logico
+     * @param h alto logico
+     * @return true si ha salido todo bien
+     */
     public boolean init(float w, float h){
         paint = new JFrame("Practica 1");
-        paint.setSize(800, (800+offset_));
+        paint.setSize(800, 800);
         paint.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         paint.setIgnoreRepaint(true);
@@ -41,6 +37,9 @@ public class Graphics extends AbstractGraphics {
         return true;
     }
 
+    /**
+     * Creacion del buffer strategy
+     */
     private void createBufferStrategy(){
         // Intentamos crear el buffer strategy con 2 buffers.
         int intentos = 100;
@@ -65,12 +64,14 @@ public class Graphics extends AbstractGraphics {
         strategy_ = paint.getBufferStrategy();
     }
 
+    /**
+     * Prepara lo necesario para el pintado
+     */
     public void preparePaint(){
         graphics_ = (Graphics2D)strategy_.getDrawGraphics();
         clear(0, 0, 0);
         calculateScale();
         preRender();
-        //translate(0, 0);
     }
 
     /**
@@ -96,7 +97,7 @@ public class Graphics extends AbstractGraphics {
      * @param isBold Si se quiere en negrita
      * @return Devuelve una fuente
      */
-    public Font newFont(String filename, int size, boolean isBold) throws IOException, FontFormatException {
+    public Font newFont(String filename, int size, boolean isBold) {
         Font fuente = new Font();
         fuente.init(filename, size, isBold);
         graphics_.setFont(fuente.getMyFont());
@@ -156,29 +157,48 @@ public class Graphics extends AbstractGraphics {
         return  paint.getHeight();
     }
 
+    /**
+     * Translada el Graphics
+     * @param x Translacion en el eje x
+     * @param y Translacion en el eje y
+     */
     public void translate(float x, float y){
         graphics_.translate(x, y);
-        translateX_ = x; translateY_ = y + offset_;
     }
 
+    /**
+     * Escala el graphics
+     * @param x valor a escalar
+     */
     public void scale(float x){
         graphics_.scale(x, -x);
-        scale_  = x;
     }
 
+    /**
+     * Rota graphics
+     * @param angle Angulo de rotacion (en grados)
+     */
     public void rotate(float angle){
         graphics_.rotate(Math.toRadians(angle));
     }
 
-
+    /**
+     * Guarda las transformaciones aplicadas
+     */
     public void save() {
         transform_ = graphics_.getTransform();
     }
 
+    /**
+     * Reestablece las transformaciones guardadas
+     */
     public void restore() {
         graphics_.setTransform(transform_);
     }
 
+    /**
+     * Muestra todo lo pintado
+     */
     public void show(){
         strategy_.show();
     }
@@ -196,6 +216,10 @@ public class Graphics extends AbstractGraphics {
         return strategy_.contentsLost();
     }
 
+    /**
+     * Añade un listener
+     * @param m Mouse Listener
+     */
     public void addMouseListener(MouseListener m){
         paint.addMouseListener(m);
     }
