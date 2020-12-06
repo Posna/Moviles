@@ -83,7 +83,7 @@ public class OffTheLineLogic implements Logic {
 
     public void loadLevel(){
         if(actuallLevel_ >= 20){
-            endGame_ = new EndGame(true, actuallLevel_);
+            endGame_ = new EndGame(true, actuallLevel_ +1, hardMode_);
             gameOver = true;
             return;
         }
@@ -380,7 +380,7 @@ public class OffTheLineLogic implements Logic {
         life_--;
         if(life_ <= 0){
             gameOver = true;
-            endGame_ = new EndGame(false, actuallLevel_);
+            endGame_ = new EndGame(false, actuallLevel_ +1, hardMode_);
             return;
         }
         playerDead = false;
