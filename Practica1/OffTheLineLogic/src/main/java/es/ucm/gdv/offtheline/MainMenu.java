@@ -16,12 +16,29 @@ public class MainMenu implements Logic {
     /*** Menu ***/
     Button easyModeButton_;
     Button hardModeButton_;
+    Texto offTheLine;
+    Texto gameCopied;
+    Texto easyMode;
+    Texto explainEasy;
+    Texto hardMode;
+    Texto explainHard;
     boolean loading;
 
     MainMenu(Engine e, StateMachine machine){
         easyModeButton_ = new Button(new Vector2D(-300, 0), new Vector2D(0, -50), "Easy Mode", null);
         hardModeButton_ = new Button(new Vector2D(-300, -200), new Vector2D(0, -250), "Hard Mode", null);
-        System.out.println(e.getGraphics().getWidth()/2);
+        offTheLine = new Texto(new Vector2D(-300, 160), "OFF THE LINE", "f", 0, true);
+        offTheLine.setColor(0, 0, 255);
+        gameCopied = new Texto(new Vector2D(-300, 140), "A GAME COPIED TO BRAYAN PERFETTO", "f", 0, true);
+        gameCopied.setColor(0, 0, 255);
+        easyMode = new Texto(new Vector2D(-300, -50), "EASY MODE", "f", 0, true);
+        easyMode.setColor(255, 255, 255);
+        explainEasy = new Texto(new Vector2D(-200, -50), "SLOW SPEED, 10 LIVES", "f", 0, true);
+        explainEasy.setColor(124, 124, 124);
+        hardMode = new Texto(new Vector2D(-300, -150), "HARD MODE", "f", 0, true);
+        hardMode.setColor(255, 255, 255);
+        explainHard = new Texto(new Vector2D(-180, -150), "FAST SPEED, 5 LIVES", "f", 0, true);
+        explainHard.setColor(124, 124, 124);
 
         machine_ = machine;
         engine_ = e;
@@ -35,6 +52,12 @@ public class MainMenu implements Logic {
         Graphics g = engine_.getGraphics();
         easyModeButton_.render(g);
         hardModeButton_.render(g);
+        offTheLine.render(g);
+        gameCopied.render(g);
+        easyMode.render(g);
+        explainEasy.render(g);
+        hardMode.render(g);
+        explainHard.render(g);
     }
 
     public void handleInput(){
