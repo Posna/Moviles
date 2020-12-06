@@ -5,16 +5,21 @@ import android.graphics.Typeface;
 import android.widget.TextView;
 
 public class Font implements es.ucm.gdv.engine.Font {
-    TextView textView;
+    Typeface typeface_;
+    Context context_;
 
-    public void init(String filename, int size, boolean isBold){
-        textView=t;
-        Typeface typeface = Typeface.createFromAsset(c.getAssets(), "fonts/Bangers-Regular.ttf");
-        textView.setTypeface(typeface);
+    Font(Context context){
+        context_ = context;
     }
 
-    public TextView getMyFont(){
-        return  textView;
+    public void init(String filename, int size, boolean isBold){
+        TextView t = new TextView(context_);
+        typeface_ = Typeface.createFromAsset(context_.getAssets(), "fonts/" + filename);
+        t.setTextSize(size);
+    }
+
+    public Typeface getMyFont(){
+        return typeface_;
     }
 
 }

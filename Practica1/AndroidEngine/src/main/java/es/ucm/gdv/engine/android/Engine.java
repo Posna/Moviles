@@ -48,7 +48,7 @@ public class Engine implements es.ucm.gdv.engine.Engine{
     }
 
     public void init(int w, int h){
-        graphics_.init(640, 480, w, h);
+        graphics_.init(640, 480, w, h, context_);
     }
 
 

@@ -23,8 +23,8 @@ public class Button extends GameObject {
         //g.translate(r1_.x_, r1_.y_);
         //g.scale(-1);
         //g.rotate(180);
-        g.setColor(255, 0, 0, 255);
-        g.fillRect(r1_.x_,r1_.y_, Math.abs(r2_.x_ - r1_.x_), Math.abs(r2_.y_ - r1_.y_));
+        //g.setColor(255, 0, 0, 255);
+        //g.fillRect(r1_.x_,r1_.y_, Math.abs(r2_.x_ - r1_.x_), Math.abs(r2_.y_ - r1_.y_));
         //g.fillRect(0,-50, 50 , 50);
         //g.drawText(texto_, 0, 0);
         g.restore();

@@ -13,6 +13,9 @@ public class Texto extends GameObject {
     Texto(Vector2D p, String t, String font, int size, boolean bold){
         super(p.x_, p.y_);
         text_ = t;
+        font_ = font;
+        bold_ = bold;
+        size_ = size;
     }
 
     void setColor(int r, int g, int b){
@@ -28,6 +31,7 @@ public class Texto extends GameObject {
         g.rotate(180);
         g.scale(-1);
         g.setColor(r_, g_, b_, 255);
+        g.newFont(font_, size_, bold_);
         g.drawText(text_, 0, 0);
         g.restore();
     }

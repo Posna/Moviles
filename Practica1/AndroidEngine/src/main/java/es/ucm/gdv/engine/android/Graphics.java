@@ -1,23 +1,26 @@
 package es.ucm.gdv.engine.android;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
 import es.ucm.gdv.engine.AbstractGraphics;
-import es.ucm.gdv.engine.Font;
+import es.ucm.gdv.engine.android.Font;
 
 public class Graphics extends AbstractGraphics {
     Canvas canvas_;
     Paint paint = new Paint();
+    Context context_;
     int _width, _height;
     float translateX_; //Transformacion
     float translateY_;
     float scale_; //Escalado
     float angle;
 
-    public void init(float w, float h, int width, int height){
+    public void init(float w, float h, int width, int height, Context c){
+        context_ = c;
         _width = width;
         _height = height;
         initLogicSizes(w, h);
@@ -51,7 +54,12 @@ public class Graphics extends AbstractGraphics {
      * @return Devuelve una fuente
      */
     public Font newFont(String filename, int size, boolean isBold){
-
+        Font f = new Font(context_);
+        f.init(filename, size, isBold);
+        paint.setTextSize(size);
+        paint.setFakeBoldText(isBold);
+        paint.setTypeface(f.getMyFont());
+        paint.setStyle(Paint.Style.FILL);
         return null;
     }
 
@@ -87,9 +95,6 @@ public class Graphics extends AbstractGraphics {
      * @param y Posicion del texto
      */
     public void drawText(String text, float x, float y){
-        //Paint paint = new Paint();
-        //canvas_.drawText(text, );
-        paint.setTextSize(20);
         canvas_.drawText(text, x , y, paint);
     }
 

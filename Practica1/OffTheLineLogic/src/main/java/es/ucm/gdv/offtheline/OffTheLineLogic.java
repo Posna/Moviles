@@ -96,7 +96,7 @@ public class OffTheLineLogic implements Logic {
 
         JSONObject obj = (JSONObject) levels.get(actuallLevel_);
         String nameLevel = (String)obj.get("name");
-        level = new Texto(new Vector2D(-300, 210), "LEVEL " + actuallLevel_ + " - " + nameLevel, "si", 1, false);
+        level = new Texto(new Vector2D(-300, 210), "LEVEL " + (actuallLevel_ + 1) + " - " + nameLevel, "BungeeHairline-Regular.ttf", 20, true);
         level.setColor(255, 255, 255);
 
         /*************************** Paths ********************************/
@@ -306,10 +306,10 @@ public class OffTheLineLogic implements Logic {
 
     void pathCollision(){
         int j = 0;
-        boolean found = false;
-        Vector2D c;
-        float distance = Float.MAX_VALUE;
-        while (j < paths_.size() /*&& !found*/) {
+        //boolean found = false;
+        //Vector2D c;
+        //float distance = Float.MAX_VALUE;
+        while (j < paths_.size()) {
             Path p = paths_.elementAt(j);
             if(p.getId() == player_.getActualPath().getId()) {
                 j++;
@@ -320,12 +320,8 @@ public class OffTheLineLogic implements Logic {
             Vector2D corte = Utils.segmentCollition(p.getPunta1(), p.getPunta2(), player_.getPos(), player_.getLastPos_());
             if(corte != null){
                 player_.land(corte, p);
-                float d = Utils.pointDistance(corte, player_.getPos());
-                if(d < distance) {
-                    distance = d;
-                    c = new Vector2D(corte);
-                }
-                //found = true;
+                //float d = Utils.pointDistance(corte, player_.getPos());
+
             }
             j++;
 

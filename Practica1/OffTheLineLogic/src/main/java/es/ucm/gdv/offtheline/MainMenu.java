@@ -25,19 +25,19 @@ public class MainMenu implements Logic {
     boolean loading;
 
     MainMenu(Engine e, StateMachine machine){
-        easyModeButton_ = new Button(new Vector2D(-300, 0), new Vector2D(0, -50), "Easy Mode", null);
-        hardModeButton_ = new Button(new Vector2D(-300, -200), new Vector2D(0, -250), "Hard Mode", null);
-        offTheLine = new Texto(new Vector2D(-300, 160), "OFF THE LINE", "f", 0, true);
+        easyModeButton_ = new Button(new Vector2D(-300, -40), new Vector2D(100, -90), "Easy Mode", null);
+        hardModeButton_ = new Button(new Vector2D(-300, -90), new Vector2D(100, -140), "Hard Mode", null);
+        offTheLine = new Texto(new Vector2D(-300, 160), "OFF THE LINE", "Bungee-Regular.ttf", 60, true);
         offTheLine.setColor(0, 0, 255);
-        gameCopied = new Texto(new Vector2D(-300, 140), "A GAME COPIED TO BRAYAN PERFETTO", "f", 0, true);
+        gameCopied = new Texto(new Vector2D(-300, 130), "A GAME COPIED TO BRAYAN PERFETTO", "Bungee-Regular.ttf", 20, true);
         gameCopied.setColor(0, 0, 255);
-        easyMode = new Texto(new Vector2D(-300, -50), "EASY MODE", "f", 0, true);
+        easyMode = new Texto(new Vector2D(-300, -80), "EASY MODE", "Bungee-Regular.ttf", 30, true);
         easyMode.setColor(255, 255, 255);
-        explainEasy = new Texto(new Vector2D(-200, -50), "SLOW SPEED, 10 LIVES", "f", 0, true);
+        explainEasy = new Texto(new Vector2D(-100, -80), "(SLOW SPEED, 10 LIVES)", "Bungee-Regular.ttf", 15, true);
         explainEasy.setColor(124, 124, 124);
-        hardMode = new Texto(new Vector2D(-300, -150), "HARD MODE", "f", 0, true);
+        hardMode = new Texto(new Vector2D(-300, -130), "HARD MODE", "Bungee-Regular.ttf", 30, true);
         hardMode.setColor(255, 255, 255);
-        explainHard = new Texto(new Vector2D(-180, -150), "FAST SPEED, 5 LIVES", "f", 0, true);
+        explainHard = new Texto(new Vector2D(-90, -130), "(FAST SPEED, 5 LIVES)", "Bungee-Regular.ttf", 15, true);
         explainHard.setColor(124, 124, 124);
 
         machine_ = machine;

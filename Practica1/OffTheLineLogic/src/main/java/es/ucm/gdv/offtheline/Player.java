@@ -123,7 +123,7 @@ public class Player extends Cube {
             dir  = new Vector2D(vel_);
             vel_ = actualPath_.getNormal();
             vel_.normalize();
-            pos_ = new Vector2D(pos_.add(vel_));
+            //pos_ = new Vector2D(pos_.add(vel_));
             saltando_ = true;
             speed_ = 1500;
         }

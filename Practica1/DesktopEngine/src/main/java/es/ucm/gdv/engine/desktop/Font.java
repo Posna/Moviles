@@ -1,7 +1,5 @@
 package es.ucm.gdv.engine.desktop;
 
-import java.awt.Font;
-
 import javax.swing.DefaultListSelectionModel;
 
 import sun.security.util.Resources;

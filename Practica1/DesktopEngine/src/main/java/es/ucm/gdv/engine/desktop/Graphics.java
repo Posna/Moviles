@@ -9,7 +9,7 @@ import java.awt.geom.AffineTransform;
 import javax.swing.JFrame;
 
 import es.ucm.gdv.engine.AbstractGraphics;
-import es.ucm.gdv.engine.Font;
+import es.ucm.gdv.engine.desktop.Font;
 
 public class Graphics extends AbstractGraphics {
 
@@ -95,7 +95,7 @@ public class Graphics extends AbstractGraphics {
      * @return Devuelve una fuente
      */
     public Font newFont(String filename, int size, boolean isBold){
-        Font fuente = new es.ucm.gdv.engine.desktop.Font();
+        Font fuente = new Font();
         fuente.init(filename, size, isBold);
         graphics_.setFont(fuente.getMyFont());
         return null;
