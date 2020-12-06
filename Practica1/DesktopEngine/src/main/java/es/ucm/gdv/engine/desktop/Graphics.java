@@ -95,7 +95,10 @@ public class Graphics extends AbstractGraphics {
      * @return Devuelve una fuente
      */
     public Font newFont(String filename, int size, boolean isBold){
-            return null;
+        Font fuente = new es.ucm.gdv.engine.desktop.Font();
+        fuente.init(filename, size, isBold);
+        graphics_.setFont(fuente.getMyFont());
+        return null;
     }
 
     /**
