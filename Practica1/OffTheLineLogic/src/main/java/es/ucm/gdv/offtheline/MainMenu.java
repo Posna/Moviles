@@ -28,9 +28,9 @@ public class MainMenu implements Logic {
         easyModeButton_ = new Button(new Vector2D(-300, -40), new Vector2D(100, -90), "Easy Mode", null);
         hardModeButton_ = new Button(new Vector2D(-300, -90), new Vector2D(100, -140), "Hard Mode", null);
         offTheLine = new Texto(new Vector2D(-300, 160), "OFF THE LINE", "Bungee-Regular.ttf", 60, true);
-        offTheLine.setColor(0, 0, 255);
-        gameCopied = new Texto(new Vector2D(-300, 130), "A GAME COPIED TO BRAYAN PERFETTO", "Bungee-Regular.ttf", 20, true);
-        gameCopied.setColor(0, 0, 255);
+        offTheLine.setColor(66, 110, 255);
+        gameCopied = new Texto(new Vector2D(-300, 130), "A GAME COPIED TO BRAYAN PERFETTO", "Bungee-Regular.ttf", 25, true);
+        gameCopied.setColor(66, 110, 255);
         easyMode = new Texto(new Vector2D(-300, -80), "EASY MODE", "Bungee-Regular.ttf", 30, true);
         easyMode.setColor(255, 255, 255);
         explainEasy = new Texto(new Vector2D(-100, -80), "(SLOW SPEED, 10 LIVES)", "Bungee-Regular.ttf", 15, true);

@@ -1,10 +1,12 @@
 package es.ucm.gdv.engine.desktop;
 
 import java.awt.Color;
+import java.awt.FontFormatException;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 
@@ -94,7 +96,7 @@ public class Graphics extends AbstractGraphics {
      * @param isBold Si se quiere en negrita
      * @return Devuelve una fuente
      */
-    public Font newFont(String filename, int size, boolean isBold){
+    public Font newFont(String filename, int size, boolean isBold) throws IOException, FontFormatException {
         Font fuente = new Font();
         fuente.init(filename, size, isBold);
         graphics_.setFont(fuente.getMyFont());

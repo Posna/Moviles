@@ -50,7 +50,6 @@ public class Engine implements es.ucm.gdv.engine.Engine {
 
     public void run(){
         machine.pushMainMenu(this);
-        //OffTheLineLogic logic_ = new OffTheLineLogic(engine_, false);
 
         // Vamos allá.
         long lastFrameTime = System.nanoTime();

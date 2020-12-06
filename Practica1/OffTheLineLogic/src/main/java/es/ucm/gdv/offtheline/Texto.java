@@ -1,5 +1,8 @@
 package es.ucm.gdv.offtheline;
 
+import java.awt.FontFormatException;
+import java.io.IOException;
+
 import es.ucm.gdv.engine.Graphics;
 
 public class Texto extends GameObject {
@@ -31,7 +34,13 @@ public class Texto extends GameObject {
         g.rotate(180);
         g.scale(-1);
         g.setColor(r_, g_, b_, 255);
-        g.newFont(font_, size_, bold_);
+        try {
+            g.newFont(font_, size_, bold_);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (FontFormatException e) {
+            e.printStackTrace();
+        }
         g.drawText(text_, 0, 0);
         g.restore();
     }

@@ -1,5 +1,8 @@
 package es.ucm.gdv.engine;
 
+import java.awt.FontFormatException;
+import java.io.IOException;
+
 public interface Graphics {
     /**
      * Crea una nueva fuente
@@ -8,7 +11,7 @@ public interface Graphics {
      * @param isBold Si se quiere en negrita
      * @return Devuelve una fuente
      */
-    Font newFont(String filename, int size, boolean isBold);
+    Font newFont(String filename, int size, boolean isBold) throws IOException, FontFormatException;
 
     /**
      * Borra toda la ventana poniendola del color que se desee
