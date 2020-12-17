@@ -1,0 +1,20 @@
+
+maple_hd.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+maple
+  rotate: false
+  xy: 2, 266
+  size: 1000, 556
+  orig: 1000, 556
+  offset: 0, 0
+  index: -1
+maple_logo
+  rotate: false
+  xy: 2, 2
+  size: 472, 260
+  orig: 472, 260
+  offset: 0, 0
+  index: -1
