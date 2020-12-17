@@ -25,9 +25,13 @@ public class Font implements es.ucm.gdv.engine.Font {
      * @param isBold Negrita
      */
     public void init(String filename, int size, boolean isBold){
+
         java.awt.Font f = null;
         try {
+            GraphicsEnvironment ge =
+                    GraphicsEnvironment.getLocalGraphicsEnvironment();
             f = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, new File("assets/fonts/" + filename));
+            ge.registerFont(f);
         } catch (FontFormatException e) {
             e.printStackTrace();
         } catch (IOException e) {
