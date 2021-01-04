@@ -8,5 +8,5 @@ public class LevelPackage: ScriptableObject
 {
     public TextAsset[] levels;
 
-    Color color;
+    public Color color;
 }

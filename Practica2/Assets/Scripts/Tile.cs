@@ -3,31 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace MazesAndMore {
+
+    public enum Walls{ Up, Down, Left, Right }
+
     public class Tile : MonoBehaviour
     {
-        [Tooltip ("Indica que la celda noseque")]
+        [Tooltip ("Indica que la celda tiene hielo")]
         public SpriteRenderer iceFloor;
-        
+
+        [Tooltip("Indica que la celda es la meta")]
+        public SpriteRenderer finFloor;
+
+        [Tooltip("Muros")]
+        public SpriteRenderer[] walls;
+
         public void EnableIce()
         {
-
+            iceFloor.gameObject.SetActive(true);
         }
 
-        public void DisableIce()
+        public void EnableFin()
         {
-
-        }
-
-        public void EnableStart()
-        {
-
+            finFloor.gameObject.SetActive(true);
         }
 
         //Con un enum o algo de eso, o una estructura
-        public void EnableWestWall()
+        public void EnableWall(Walls w)
         {
-
+            walls[(int)w].gameObject.SetActive(true); 
         }
+
 
         private void Start()
         {

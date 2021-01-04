@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a5e267359a2bafb47b3cd9166f1966aa, type: 3}
-  m_Name: Data
+  m_Name: Classic
   m_EditorClassIdentifier: 
   levels:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 4900000, guid: 933025b6ffa538341a29695efb0d036a, type: 3}
+  - {fileID: 4900000, guid: db26bbb60315dc44791151f549ffbdd5, type: 3}
+  - {fileID: 4900000, guid: 67afd843d4fab1244863917182f59bd0, type: 3}
+  - {fileID: 4900000, guid: aa9a3c3deb58c2948b809d5d6bcf7e92, type: 3}
+  color: {r: 0.5754717, g: 0.5510413, b: 0.5510413, a: 0}

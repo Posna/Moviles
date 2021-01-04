@@ -1,0 +1,5 @@
+python3 Parser.py 1 prueba
+
+
+                   primer parametro: numero de ficheros
+		   segundo parametro: carpeta contenedora de los ficheros
