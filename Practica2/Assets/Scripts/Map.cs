@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace MazesAndMore
 {
@@ -34,8 +35,11 @@ namespace MazesAndMore
             _m._height = mapaAux.r; // Filas
             _m._width = mapaAux.c; // Columnas
 
+            Debug.Log("Alto: " + _m._height + " Ancho: " + _m._width);
+
             _m._fin = mapaAux.f; // Casilla final
             _m._ini = mapaAux.s; // Casilla inicial
+            //_m._hints = mapaAux.h; // hints
 
             /*** init mapa ***/
             _m._walls = new bool[_m._width, _m._height][];
@@ -45,27 +49,42 @@ namespace MazesAndMore
             foreach (WallsOD item in mapaAux.w)
             {
                 Debug.Log(item.o.x + " " + (item.d.y) + "\n");
-                Walls lado;
+                Dirs lado = Dirs.Down;
                 if (item.o.x < item.d.x)
-                    lado = Walls.Down;
-                else
-                    lado = Walls.Left;
+                    lado = Dirs.Down;
+                else if(item.o.x != item.d.x) {
+                    int a = item.o.x;
+                    item.o.x = item.d.x;
+                    item.d.x = a;
+                    lado = Dirs.Down;
+                }
+                if(item.o.y > item.d.y)
+                    lado = Dirs.Left;
+                else if (item.o.y != item.d.y)
+                {
+                    int a = item.o.y;
+                    item.o.y = item.d.y;
+                    item.d.y = a;
+                    lado = Dirs.Left;
+                }
+
                 if (item.o.x == _m._width && item.o.y == _m._height)
                 {
-                    _m._walls[item.o.x - 1, item.o.y - 1][(int)Walls.Right] = true;
+                    _m._walls[item.o.x - 1, item.o.y - 1][(int)Dirs.Right] = true;
                     continue;
                 }
-                if (item.o.x == _m._width && lado != Walls.Down)
+                if (item.o.x == _m._width && lado != Dirs.Down)
                 {
-                    _m._walls[item.o.x - 1, item.d.y][(int)Walls.Right] = true;
+                    _m._walls[item.o.x - 1, item.d.y][(int)Dirs.Right] = true;
                     continue;
                 }
-                if (item.o.y == _m._height && lado != Walls.Left)
+                if (item.o.y == _m._height && lado != Dirs.Left)
                 {
-                    _m._walls[item.o.x, item.o.y - 1][(int)Walls.Up] = true;
+                    _m._walls[item.o.x, item.o.y - 1][(int)Dirs.Up] = true;
                     continue;
                 }
-                
+
+                Debug.Log("X: " + item.o.x + "Y: " + item.d.y);
                 _m._walls[item.o.x, item.d.y][(int)lado] = true;
                 _m.normalizeWall(item.o.x, item.d.y, lado);
             } //foreach
@@ -85,26 +104,19 @@ namespace MazesAndMore
         }
 
         // Pone los muros a true de las casillas contiguas
-        private void normalizeWall(int x, int y, Walls lado)
+        private void normalizeWall(int x, int y, Dirs lado)
         {
             int k = (int)lado;
             if (_walls[x, y][k])
             {
-                if(k == 0 && y > 0)
+                
+                if (k == 1 && y > 0)
                 {
-                    _walls[x, y-1][(int)Walls.Down] = true;
-                }
-                else if (k == 1 && y < _height-1)
-                {
-                    _walls[x, y+1][(int)Walls.Up] = true;
+                    _walls[x, y-1][(int)Dirs.Up] = true;
                 }
                 else if (k == 2 && x > 0)
                 {
-                    _walls[x - 1, y][(int)Walls.Right] = true;
-                }
-                else if (k == 3 && x < _width-1)
-                {
-                    _walls[x + 1, y][(int)Walls.Left] = true;
+                    _walls[x - 1, y][(int)Dirs.Right] = true;
                 }
             } //if
         }
@@ -119,9 +131,9 @@ namespace MazesAndMore
             return _height;
         }
 
-        public bool GetWall(Vector2Int p, Walls w)
+        public bool GetWall(Vector2 p, Dirs w)
         {
-            return _walls[p.x, p.y][(int)w];
+            return _walls[(int)p.x, (int)p.y][(int)w];
         }
 
         public Vector2Int GetIni()
@@ -132,6 +144,78 @@ namespace MazesAndMore
         public Vector2Int GetFin()
         {
             return _fin;
+        }
+
+        public int GetNDirs(Vector2 p)
+        {
+            int i = 0;
+            for (int w = 0; w < 4;w++)
+            {
+                i += Convert.ToInt32(_walls[(int)p.x, (int)p.y][w]);
+            }      
+            return 4 - i ;
+        }
+
+        public Vector2 GetOneDir(Vector2 p, Vector2 d)
+        {
+            bool found = false;
+            int i = 0;
+            while (!found && i < 4)
+            {
+                if(GetDirByWall((Dirs)i) != -1*d)
+                    found = !_walls[(int)p.x, (int)p.y][i];
+                if(!found)
+                    i++;
+            }
+
+            return GetDirByWall((Dirs)i);
+        }
+
+        public Dirs GetOppositeWall(Dirs w)
+        {
+            if((int)w % 2 == 0)
+            {
+                return (Dirs)((int)w + 1);
+            }
+
+            return (Dirs)((int)w - 1);
+        }
+
+        public Vector2 GetDirByWall(Dirs w)
+        {
+            int p = 1;
+            if (w == Dirs.Left || w == Dirs.Down)
+                p = -1;
+            int x = 0;
+            int y = 0;
+            if ((int)w <= 1)
+                y = 1;
+            else
+                x = 1;
+
+            return new Vector2(p * x, p * y);
+        }
+
+        /// <summary>
+        /// Dada una direccion unitaria [0, 1], [0, -1], [-1, 0], [1, 0]
+        /// devuelve la direccion en el enum
+        /// </summary>
+        /// <param name="v"> Vector de direccion </param>
+        /// <returns> Direccion a la que pertenece en el enum </returns>
+        public Dirs GetWallByDir(Vector2 v)
+        {
+            if (v.x == 0 && v.y == 0)
+                return Dirs.Neutral;
+
+            Dirs dir = Dirs.Down;
+            if (v.x == 1)
+                dir = Dirs.Right;
+            else if(v.x == -1)
+                dir = Dirs.Left;
+            else if(v.y == 1)
+                dir = Dirs.Up;       
+
+            return dir;
         }
 
         private int[,] _grid;
@@ -145,6 +229,8 @@ namespace MazesAndMore
 
         private Vector2Int _ini;
         private Vector2Int _fin;
+
+        private Vector2Int _hints;
 
         private int _width;
         private int _height;

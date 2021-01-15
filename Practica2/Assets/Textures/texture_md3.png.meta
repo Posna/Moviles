@@ -5,6 +5,39 @@ TextureImporter:
   - first:
       213: 2729097918586633335
     second: Fin
+  - first:
+      213: -8400419088808520332
+    second: pause
+  - first:
+      213: 5282036147385257729
+    second: reload
+  - first:
+      213: 4540315392902880256
+    second: PistaLuz
+  - first:
+      213: -3982378033659405802
+    second: Pista
+  - first:
+      213: -3012301018103992355
+    second: Carrito
+  - first:
+      213: 4141271478620440098
+    second: Estrella
+  - first:
+      213: 7523041995341260341
+    second: ClassicoPortada
+  - first:
+      213: 4258478895805768579
+    second: HieloPortada
+  - first:
+      213: 4288948334933575344
+    second: Engranaje
+  - first:
+      213: -6974284420212901158
+    second: MapleMediaLogo
+  - first:
+      213: -8698244531680251469
+    second: DiamanteVerde
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -124,7 +157,7 @@ TextureImporter:
         width: 67
         height: 67
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -132,6 +165,237 @@ TextureImporter:
       bones: []
       spriteID: 77c3d9af814bfd520800000000000000
       internalID: 2729097918586633335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pause
+      rect:
+        serializedVersion: 2
+        x: 1286
+        y: 610
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 47558279857bb6b80800000000000000
+      internalID: -8400419088808520332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: reload
+      rect:
+        serializedVersion: 2
+        x: 458
+        y: 924
+        width: 80
+        height: 68
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10fcbaff3ef8d4940800000000000000
+      internalID: 5282036147385257729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PistaLuz
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 873
+        width: 97
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 00cd6325bc0720f30800000000000000
+      internalID: 4540315392902880256
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pista
+      rect:
+        serializedVersion: 2
+        x: 680
+        y: 903
+        width: 97
+        height: 102
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 61a99662740cbb8c0800000000000000
+      internalID: -3982378033659405802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrito
+      rect:
+        serializedVersion: 2
+        x: 780
+        y: 949
+        width: 80
+        height: 68
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ddf2d531f282236d0800000000000000
+      internalID: -3012301018103992355
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Estrella
+      rect:
+        serializedVersion: 2
+        x: 569
+        y: 906
+        width: 105
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 226c0a9e770c87930800000000000000
+      internalID: 4141271478620440098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ClassicoPortada
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 13
+        width: 460
+        height: 142
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53669a206d6376860800000000000000
+      internalID: 7523041995341260341
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HieloPortada
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 439
+        width: 460
+        height: 142
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 383200c4ef7291b30800000000000000
+      internalID: 4258478895805768579
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Engranaje
+      rect:
+        serializedVersion: 2
+        x: 235
+        y: 894
+        width: 60
+        height: 61
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b608bb69c7658b30800000000000000
+      internalID: 4288948334933575344
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MapleMediaLogo
+      rect:
+        serializedVersion: 2
+        x: 460
+        y: 723
+        width: 317
+        height: 177
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ada3baa654d563f90800000000000000
+      internalID: -6974284420212901158
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DiamanteVerde
+      rect:
+        serializedVersion: 2
+        x: 792
+        y: 740
+        width: 112
+        height: 92
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b1f6b70fa0a94780800000000000000
+      internalID: -8698244531680251469
       vertices: []
       indices: 
       edges: []

@@ -1,16 +1,7 @@
 fileFormatVersion: 2
-guid: 0071c0ed78f79944bb4266523ea9991f
+guid: b48b00d6c42d8f14c9d5afed043f9c54
 TextureImporter:
-  internalIDToNameTable:
-  - first:
-      213: -7715841099057651616
-    second: Floor
-  - first:
-      213: 8945933956417778159
-    second: Camino_
-  - first:
-      213: 2350112386526876593
-    second: RealPlayer
+  internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -50,13 +41,13 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteBorder: {x: 12, y: 12, z: 12, w: 12}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -120,70 +111,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: Floor
-      rect:
-        serializedVersion: 2
-        x: 1303
-        y: 1690
-        width: 345
-        height: 345
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0602f439663dbe490800000000000000
-      internalID: -7715841099057651616
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Camino_
-      rect:
-        serializedVersion: 2
-        x: 1963
-        y: 852
-        width: 74
-        height: 76
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 26, y: 27, z: 26, w: 26}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: fe1f2682987562c70800000000000000
-      internalID: 8945933956417778159
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: RealPlayer
-      rect:
-        serializedVersion: 2
-        x: 1849
-        y: 1866
-        width: 177
-        height: 177
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1b31e2d93c64d9020800000000000000
-      internalID: 2350112386526876593
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []

@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace MazesAndMore {
 
-    public enum Walls{ Up, Down, Left, Right }
+    public enum Dirs{ Up, Down, Left, Right, Neutral }
+    //public enum Dirs { Up, Down, Left, Right }
 
     public class Tile : MonoBehaviour
     {
@@ -17,6 +18,9 @@ namespace MazesAndMore {
         [Tooltip("Muros")]
         public SpriteRenderer[] walls;
 
+        [Tooltip("Caminos que puede tomar el jugador")]
+        public SpriteRenderer[] paths;
+
         public void EnableIce()
         {
             iceFloor.gameObject.SetActive(true);
@@ -28,9 +32,15 @@ namespace MazesAndMore {
         }
 
         //Con un enum o algo de eso, o una estructura
-        public void EnableWall(Walls w)
+        public void EnableWall(Dirs w)
         {
-            walls[(int)w].gameObject.SetActive(true); 
+            walls[(int)w].gameObject.SetActive(true);   
+        }
+
+        public void SetActivePath(Dirs d, Color c, bool a)
+        {
+            paths[(int)d].gameObject.SetActive(a);
+            paths[(int)d].color = c;
         }
 
 

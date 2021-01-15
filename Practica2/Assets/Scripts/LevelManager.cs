@@ -11,14 +11,28 @@ namespace MazesAndMore
 
         public TextAsset level;
 
+        private Color color_;
+
         private void Start()
         {
+            //CreateLevel();
+        }
+
+        public void CreateLevel(Color c)
+        {
+            color_ = c;
             boardManager.Init(this);
             boardManager.SetMap(Map.FromJson(level.text));
         }
 
-        public void CreateLevel()
+        public void ClearScene()
         {
+            boardManager.ClearMap();
+        }
+
+        public Color GetLevelColor()
+        {
+            return color_;
         }
 
     }

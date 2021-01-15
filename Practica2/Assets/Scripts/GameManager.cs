@@ -1,20 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace MazesAndMore {
     public class GameManager : MonoBehaviour
     {
 #if UNITY_EDITOR
         public int levelToPlay;
+        public int package;
 #endif
 
         public LevelManager levelManager;
         public LevelPackage[] levelPackages;
 
-
-        private void Start()
+        void Start()
         {
+            Debug.Log("Start llamado");
             if (_instance != null)
             {
                 _instance.levelManager = levelManager;
@@ -33,12 +35,26 @@ namespace MazesAndMore {
         {
             if (levelManager)
             {
-
+                
 #if UNITY_EDITOR
-                levelManager.level = levelPackages[0].levels[levelToPlay];
+                levelManager.level = levelPackages[package].levels[levelToPlay];
 #endif
-                //levelManager.CreateLevel();
+                levelManager.CreateLevel(levelPackages[package].color);
             }
+        }
+
+        public void ResetLevel()
+        {
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            levelManager.ClearScene();
+            StartNewScene();
+        }
+
+        public void nextLevel()
+        {
+            levelToPlay++;
+            levelManager.ClearScene();
+            StartNewScene();
         }
 
     }
