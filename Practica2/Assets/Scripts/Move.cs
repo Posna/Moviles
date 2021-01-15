@@ -15,6 +15,8 @@ namespace MazesAndMore
         private bool isMoving = false;
         private Vector2 actualDir;
         private List<Vector2> moves;
+        private Stack<Vector2> allMoves;
+        private bool backwards;
 
         private Color c_;
         private Map map_;
@@ -23,6 +25,8 @@ namespace MazesAndMore
         {
             moves = new List<Vector2>();
             finalPos = transform.localPosition;
+            allMoves = new Stack<Vector2>();
+            allMoves.Push(new Vector2(0, 0));
         }
 
         void Update()
@@ -103,21 +107,28 @@ namespace MazesAndMore
             {
                 return;
             }
+            
 
+            backwards = allMoves.Peek().x == -dir.x && allMoves.Peek().y == -dir.y;
+
+            if (!backwards)
+                allMoves.Push(dir);
+            else
+                allMoves.Pop();
 
             finalPos = new Vector3(transform.localPosition.x + dir.x, transform.localPosition.y + dir.y);
-            Invoke("PathAppearF", timeMoving / 2f);
+            Invoke("PathAppearF", timeMoving / 3f);
             Invoke("PathAppearS", timeMoving / 1.2f);
         }
 
         void PathAppearF()
         {
-            BoardManager.EnablePath(initPos, map_.GetWallByDir(actualDir), c_);
+            BoardManager.EnablePath(initPos, map_.GetWallByDir(actualDir), c_, !backwards);
         }
 
         void PathAppearS()
         {
-            BoardManager.EnablePath(finalPos, map_.GetWallByDir(-actualDir), c_);
+            BoardManager.EnablePath(finalPos, map_.GetWallByDir(-actualDir), c_, !backwards);
         }
 
         void collectMoves(Vector2 dir)

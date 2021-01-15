@@ -5,7 +5,6 @@ using UnityEngine;
 namespace MazesAndMore {
 
     public enum Dirs{ Up, Down, Left, Right, Neutral }
-    //public enum Dirs { Up, Down, Left, Right }
 
     public class Tile : MonoBehaviour
     {
@@ -20,6 +19,8 @@ namespace MazesAndMore {
 
         [Tooltip("Caminos que puede tomar el jugador")]
         public SpriteRenderer[] paths;
+
+        private int[] path = { 0, 0, 0, 0 }; 
 
         public void EnableIce()
         {
@@ -37,12 +38,24 @@ namespace MazesAndMore {
             walls[(int)w].gameObject.SetActive(true);   
         }
 
-        public void SetActivePath(Dirs d, Color c, bool a)
+        public void EnablePath(Dirs d, Color c)
         {
-            paths[(int)d].gameObject.SetActive(a);
-            paths[(int)d].color = c;
+            path[(int)d]++;
+            if (path[(int)d] == 1) {
+                paths[(int)d].gameObject.SetActive(true);
+                paths[(int)d].color = c;
+            }
         }
 
+        public void DisablePath(Dirs d, Color c)
+        {
+            path[(int)d]--;
+            if (path[(int)d] <= 0)
+            {
+                paths[(int)d].gameObject.SetActive(false);
+            }
+
+        }
 
         private void Start()
         {

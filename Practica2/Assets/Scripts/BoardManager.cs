@@ -110,10 +110,15 @@ namespace MazesAndMore
         /// <param name="p"> Posicion del Tile </param>
         /// <param name="d"> Direccion del camino </param>
         /// <param name=""> Color del camino </param>
-        static public void EnablePath(Vector2 p, Dirs d, Color c)
+        static public void EnablePath(Vector2 p, Dirs d, Color c, bool active)
         {
             if(d != Dirs.Neutral)
-                _tiles[(int)p.x, (int)p.y].SetActivePath(d, c, true);
+            {
+                if(active)
+                    _tiles[(int)p.x, (int)p.y].EnablePath(d, c);
+                else
+                    _tiles[(int)p.x, (int)p.y].DisablePath(d, c);
+            }
         }
 
         static private Tile[,] _tiles;
