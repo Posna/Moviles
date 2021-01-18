@@ -39,26 +39,43 @@ namespace MazesAndMore
 
             _m._fin = mapaAux.f; // Casilla final
             _m._ini = mapaAux.s; // Casilla inicial
-            //_m._hints = mapaAux.h; // hints
+
+            _m._hints = mapaAux.h; // hints
+            for (int i = 0; i < _m._hints.Length; i++)
+            {
+                if (_m._hints[i].x < 0 || _m._hints[i].x >= _m.GetWidth())
+                    _m._hints[i].x = 0;
+
+                if (_m._hints[i].y < 0 || _m._hints[i].y >= _m.GetHeight())
+                    _m._hints[i].y = 0;
+            }
 
             /*** init mapa ***/
             _m._walls = new bool[_m._width, _m._height][];
             _m.initMap();
 
             /**** mapa ***/
+            BuildMap(mapaAux);
+
+            return _m;
+        }
+
+        static private void BuildMap(Aux mapaAux)
+        {
             foreach (WallsOD item in mapaAux.w)
             {
                 Debug.Log(item.o.x + " " + (item.d.y) + "\n");
                 Dirs lado = Dirs.Down;
                 if (item.o.x < item.d.x)
                     lado = Dirs.Down;
-                else if(item.o.x != item.d.x) {
+                else if (item.o.x != item.d.x)
+                {
                     int a = item.o.x;
                     item.o.x = item.d.x;
                     item.d.x = a;
                     lado = Dirs.Down;
                 }
-                if(item.o.y > item.d.y)
+                if (item.o.y > item.d.y)
                     lado = Dirs.Left;
                 else if (item.o.y != item.d.y)
                 {
@@ -89,7 +106,6 @@ namespace MazesAndMore
                 _m.normalizeWall(item.o.x, item.d.y, lado);
             } //foreach
 
-            return _m;
         }
 
         private void initMap()
@@ -171,9 +187,9 @@ namespace MazesAndMore
             return GetDirByWall((Dirs)i);
         }
 
-        public Dirs GetOppositeWall(Dirs w)
+        static public Dirs GetOppositeWall(Dirs w)
         {
-            if((int)w % 2 == 0)
+            if ((int)w % 2 == 0)
             {
                 return (Dirs)((int)w + 1);
             }
@@ -181,7 +197,7 @@ namespace MazesAndMore
             return (Dirs)((int)w - 1);
         }
 
-        public Vector2 GetDirByWall(Dirs w)
+        static public Vector2 GetDirByWall(Dirs w)
         {
             int p = 1;
             if (w == Dirs.Left || w == Dirs.Down)
@@ -196,13 +212,18 @@ namespace MazesAndMore
             return new Vector2(p * x, p * y);
         }
 
+        static public Map GetMap()
+        {
+            return _m;
+        }
+
         /// <summary>
         /// Dada una direccion unitaria [0, 1], [0, -1], [-1, 0], [1, 0]
         /// devuelve la direccion en el enum
         /// </summary>
         /// <param name="v"> Vector de direccion </param>
         /// <returns> Direccion a la que pertenece en el enum </returns>
-        public Dirs GetWallByDir(Vector2 v)
+        static public Dirs GetWallByDir(Vector2 v)
         {
             if (v.x == 0 && v.y == 0)
                 return Dirs.Neutral;
@@ -218,19 +239,20 @@ namespace MazesAndMore
             return dir;
         }
 
+        public Vector2Int[] GetHints()
+        {
+            return _hints;
+        }
+
         private int[,] _grid;
 
-        class WallPerTile
-        {
-            //Arriba abjo izquiera derecha
-            public bool[] w = new bool[] { false, false, false, false };
-        }
+        
         private bool[,][] _walls;
 
         private Vector2Int _ini;
         private Vector2Int _fin;
 
-        private Vector2Int _hints;
+        private Vector2Int[] _hints;
 
         private int _width;
         private int _height;

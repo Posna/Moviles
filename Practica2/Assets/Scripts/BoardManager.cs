@@ -11,6 +11,8 @@ namespace MazesAndMore
         public Camera cam;
         public Move player;
 
+        private int hints = 0;
+
         private Move _p;
 
         int width;
@@ -53,12 +55,23 @@ namespace MazesAndMore
 
             //Activa el final de casilla
             _tiles[map.GetFin().x, map.GetFin().y].EnableFin();
-            //Debug.Log(cam.orthographicSize/p);
+
             _p = Instantiate(player, new Vector2(map.GetIni().x, map.GetIni().y), Quaternion.identity, gameObject.transform);
-            _p.Init(map, _levelManager.GetLevelColor());
+            _p.Init(_levelManager.GetLevelColor());
 
             height = map.GetHeight();
             width = map.GetWidth();
+
+            //Añadimos las pistas para dejarlas listas
+            int size = map.GetHints().Length;
+            Vector2Int[] hints = map.GetHints();
+            _tiles[hints[0].x, hints[0].y].SetIsHint(0, new Vector2(0, 0), hints[1]);
+            for (int i = 1; i < size - 1; i++)
+            {
+                int hintN = Mathf.FloorToInt(i / (size / 3.0f));
+                _tiles[hints[i].x, hints[i].y].SetIsHint(hintN, hints[i - 1], hints[i + 1]);
+            }
+            _tiles[hints[size - 1].x, hints[size - 1].y].SetIsHint(2, hints[size - 2], new Vector2(0, 0));
 
             AdjustResolution();
         }
@@ -100,7 +113,7 @@ namespace MazesAndMore
                     Destroy(item.gameObject);
                 }
             }
-
+            hints = 0;
             Destroy(_p.gameObject);
         }
 
@@ -118,6 +131,22 @@ namespace MazesAndMore
                     _tiles[(int)p.x, (int)p.y].EnablePath(d, c);
                 else
                     _tiles[(int)p.x, (int)p.y].DisablePath(d, c);
+            }
+        }
+
+        public void NewHint()
+        {
+            if (hints < 3)
+            {
+                int i = 0;
+                Vector2Int[] h = Map.GetMap().GetHints();
+                bool isHint = true;
+                while (i < h.Length && isHint)
+                {
+                    isHint = _tiles[h[i].x, h[i].y].EnableHint(hints);
+                    i++;
+                }
+                hints++;
             }
         }
 

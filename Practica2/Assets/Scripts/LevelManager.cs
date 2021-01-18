@@ -24,7 +24,6 @@ namespace MazesAndMore
             boardManager.Init(this);
             boardManager.SetMap(Map.FromJson(level.text));
         }
-
         public void ClearScene()
         {
             boardManager.ClearMap();
@@ -33,6 +32,11 @@ namespace MazesAndMore
         public Color GetLevelColor()
         {
             return color_;
+        }
+
+        public void ShowNewHint()
+        {
+            boardManager.NewHint();
         }
 
     }

@@ -19,7 +19,6 @@ namespace MazesAndMore
         private bool backwards;
 
         private Color c_;
-        private Map map_;
 
         void Start()
         {
@@ -31,6 +30,9 @@ namespace MazesAndMore
 
         void Update()
         {
+            if (GameManager.isPaused())
+                return;
+
             if (isMoving)
             {
 
@@ -103,7 +105,7 @@ namespace MazesAndMore
             //Calculate the final position and rotation
             initPos = transform.localPosition;
 
-            if(map_.GetWall(initPos, w))
+            if(Map.GetMap().GetWall(initPos, w))
             {
                 return;
             }
@@ -123,12 +125,13 @@ namespace MazesAndMore
 
         void PathAppearF()
         {
-            BoardManager.EnablePath(initPos, map_.GetWallByDir(actualDir), c_, !backwards);
+            BoardManager.EnablePath(initPos, Map.GetWallByDir(actualDir), c_, !backwards);
         }
 
         void PathAppearS()
         {
-            BoardManager.EnablePath(finalPos, map_.GetWallByDir(-actualDir), c_, !backwards);
+            BoardManager.EnablePath(finalPos, Map.GetWallByDir(-actualDir), c_, !backwards);
+            
         }
 
         void collectMoves(Vector2 dir)
@@ -153,7 +156,7 @@ namespace MazesAndMore
             }
 
             initPos = transform.localPosition;
-            if (map_.GetWall(initPos, w))
+            if (Map.GetMap().GetWall(initPos, w))
             {
                 return;
             }
@@ -162,18 +165,17 @@ namespace MazesAndMore
             {
                 moves.Add(dir);
                 initPos += dir;
-                dir = map_.GetOneDir(initPos, dir);
-                Debug.Log(map_.GetNDirs(initPos));
-            } while (map_.GetNDirs(initPos) == 2);
+                dir = Map.GetMap().GetOneDir(initPos, dir);
+                Debug.Log(Map.GetMap().GetNDirs(initPos));
+            } while (Map.GetMap().GetNDirs(initPos) == 2);
 
             actualDir = moves[0];
             moves.RemoveAt(0);
             MoveCube(actualDir);
         }
 
-        public void Init(Map map, Color c)
+        public void Init(Color c)
         {
-            map_ = map;
             c_ = c;
             GetComponent<SpriteRenderer>().color = c_;
         }

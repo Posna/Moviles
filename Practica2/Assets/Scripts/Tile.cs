@@ -20,7 +20,10 @@ namespace MazesAndMore {
         [Tooltip("Caminos que puede tomar el jugador")]
         public SpriteRenderer[] paths;
 
-        private int[] path = { 0, 0, 0, 0 }; 
+        private int[] path = { 0, 0, 0, 0 };
+        private bool[] hints = { false, false, false, false };
+        private int whatHint = 0;
+        private Dirs fromH = Dirs.Neutral, toH = Dirs.Neutral;
 
         public void EnableIce()
         {
@@ -47,14 +50,63 @@ namespace MazesAndMore {
             }
         }
 
+        public bool EnableHint(int h)
+        {
+            if(whatHint <= h)
+            {
+                if (fromH != Dirs.Neutral)
+                {
+
+                    hints[(int)fromH] = true;
+                    if (!paths[(int)fromH].gameObject.activeSelf)
+                    {
+                        paths[(int)fromH].gameObject.SetActive(true);
+                        paths[(int)fromH].color = Color.yellow;
+                    }
+                }
+
+                if (toH != Dirs.Neutral)
+                {
+                    hints[(int)toH] = true;
+                    if (!paths[(int)toH].gameObject.activeSelf)
+                    {
+                        paths[(int)toH].gameObject.SetActive(true);
+                        paths[(int)toH].color = Color.yellow;
+                    }
+                }
+
+                return true;
+            }
+            return false;
+        }
+
         public void DisablePath(Dirs d, Color c)
         {
             path[(int)d]--;
-            if (path[(int)d] <= 0)
+            if (path[(int)d] == 0)
             {
                 paths[(int)d].gameObject.SetActive(false);
             }
+            if (hints[(int)d])
+            {
+                paths[(int)d].gameObject.SetActive(true);
+                paths[(int)d].color = Color.yellow;
+            }
 
+        }
+
+        public void SetIsHint(int number, Vector2 from, Vector2 to)
+        {
+            whatHint = number;
+            if(from != Vector2.zero)
+                fromH = Map.GetWallByDir(from - (Vector2)transform.localPosition);
+            if(to != Vector2.zero)
+                toH = Map.GetWallByDir(to - (Vector2)transform.localPosition);
+        }
+
+        public int GetWhatHint()
+        {
+            return whatHint;
         }
 
         private void Start()

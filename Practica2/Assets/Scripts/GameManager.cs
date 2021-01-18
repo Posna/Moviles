@@ -14,6 +14,8 @@ namespace MazesAndMore {
         public LevelManager levelManager;
         public LevelPackage[] levelPackages;
 
+        static private bool pause = false;
+
         void Start()
         {
             Debug.Log("Start llamado");
@@ -55,6 +57,26 @@ namespace MazesAndMore {
             levelToPlay++;
             levelManager.ClearScene();
             StartNewScene();
+        }
+
+        public void ShowHint()
+        {
+            levelManager.ShowNewHint();
+        }
+
+        public void Pause()
+        {
+            pause = true;
+        }
+
+        public void Resume()
+        {
+            pause = false;
+        }
+
+        static public bool isPaused()
+        {
+            return pause;
         }
 
     }
