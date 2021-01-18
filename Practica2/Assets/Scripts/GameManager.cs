@@ -15,6 +15,7 @@ namespace MazesAndMore {
         public LevelPackage[] levelPackages;
 
         static private bool pause = false;
+        static private int hints = 3;
 
         void Start()
         {
@@ -25,11 +26,15 @@ namespace MazesAndMore {
                 DestroyImmediate(gameObject);
                 return;
             }
+            else
+            {
+                _instance = this;
+            }
             StartNewScene();
             DontDestroyOnLoad(gameObject);
         }
 
-        static GameManager _instance;
+        public static GameManager _instance;
 
         //Si existe lvlmanager es que estoy en la escena de juego
         //si esta el entero lanzo el nivel que quiero, si no el que dio el jugador
@@ -54,6 +59,7 @@ namespace MazesAndMore {
 
         public void nextLevel()
         {
+            AdsManager._ADInstance.DispayAD();
             levelToPlay++;
             levelManager.ClearScene();
             StartNewScene();
@@ -77,6 +83,32 @@ namespace MazesAndMore {
         static public bool isPaused()
         {
             return pause;
+        }
+
+        static public void AddHints(int sum)
+        {
+            hints +=sum;
+        }
+
+        public int GetHints()
+        {
+            return hints;
+        }
+
+        public string GetName()
+        {
+            return levelPackages[package].name + " - " + (levelToPlay+1);
+        }
+
+        // Load the levels availables and hints
+        void Load()
+        {
+
+        }
+
+        void Save()
+        {
+
         }
 
     }

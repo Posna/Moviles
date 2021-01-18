@@ -10,11 +10,108 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a5e267359a2bafb47b3cd9166f1966aa, type: 3}
-  m_Name: Classic
+  m_Name: CLASSIC
   m_EditorClassIdentifier: 
   levels:
   - {fileID: 4900000, guid: 933025b6ffa538341a29695efb0d036a, type: 3}
   - {fileID: 4900000, guid: db26bbb60315dc44791151f549ffbdd5, type: 3}
   - {fileID: 4900000, guid: 67afd843d4fab1244863917182f59bd0, type: 3}
-  - {fileID: 4900000, guid: aaa772f034f2e5a4498e8454a26627d5, type: 3}
-  color: {r: 0.27058825, g: 0.7529412, b: 0.12156863, a: 1}
+  - {fileID: 4900000, guid: aa9a3c3deb58c2948b809d5d6bcf7e92, type: 3}
+  - {fileID: 4900000, guid: 4c063631f7ae0a14291da4e675192e08, type: 3}
+  - {fileID: 4900000, guid: 2bdddcf8ddc30cb4a997b3a5ff6447f2, type: 3}
+  - {fileID: 4900000, guid: fc7e2b2358aa93f41b843d9afc2f707e, type: 3}
+  - {fileID: 4900000, guid: 8290156383689bf42a64f3f8d13ea203, type: 3}
+  - {fileID: 4900000, guid: 7be2decb9f46ff8438faf1ff6732820a, type: 3}
+  - {fileID: 4900000, guid: 41793d24eae1d2148a5f42479aa18eda, type: 3}
+  - {fileID: 4900000, guid: 869566b2c6ad20e44919db21fdf4ea30, type: 3}
+  - {fileID: 4900000, guid: 8fae32be4d87e9d4ab1c9cebafc539b2, type: 3}
+  - {fileID: 4900000, guid: 2017086ae0596054ab3bc1063c91347d, type: 3}
+  - {fileID: 4900000, guid: be6e5f86e540878428b8042e54ee1f8c, type: 3}
+  - {fileID: 4900000, guid: 7be995d1326c96044830d65069071ea8, type: 3}
+  - {fileID: 4900000, guid: 9d5c35fd961cbb042a04e6a7ef258210, type: 3}
+  - {fileID: 4900000, guid: 3cd5ab37f7e65e2478b3b0093922e541, type: 3}
+  - {fileID: 4900000, guid: d1854fe7cac4dd34eae25e1182f40427, type: 3}
+  - {fileID: 4900000, guid: b5466d6a670c2764d87c3c0d44baf515, type: 3}
+  - {fileID: 4900000, guid: a082ae1eb92a05b4089bfb19ddcaddbf, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 4900000, guid: 933025b6ffa538341a29695efb0d036a, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 4900000, guid: 933025b6ffa538341a29695efb0d036a, type: 3}
+  color: {r: 0.29803923, g: 0.6901961, b: 0.30980393, a: 1}
+  intro: {fileID: 0}

@@ -11,6 +11,9 @@ TextureImporter:
   - first:
       213: 2350112386526876593
     second: RealPlayer
+  - first:
+      213: 1839837087468436138
+    second: YellowPlay
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -180,6 +183,27 @@ TextureImporter:
       bones: []
       spriteID: 1b31e2d93c64d9020800000000000000
       internalID: 2350112386526876593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YellowPlay
+      rect:
+        serializedVersion: 2
+        x: 1663
+        y: 1837
+        width: 172
+        height: 197
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aaa352b451a688910800000000000000
+      internalID: 1839837087468436138
       vertices: []
       indices: 
       edges: []

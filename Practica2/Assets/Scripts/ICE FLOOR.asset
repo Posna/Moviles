@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5e267359a2bafb47b3cd9166f1966aa, type: 3}
+  m_Name: ICE FLOOR
+  m_EditorClassIdentifier: 
+  levels:
+  - {fileID: 4900000, guid: 0f0033f857e71404a8d879a26fce70c0, type: 3}
+  - {fileID: 4900000, guid: e29b96279e3b89c47944644e11b2c02e, type: 3}
+  - {fileID: 4900000, guid: 53b9121301a88f44cb59501d968bf88b, type: 3}
+  - {fileID: 4900000, guid: 83ec6284f539e214fa9b0ec783a2387a, type: 3}
+  - {fileID: 4900000, guid: 4c1137adade4db4439741fef3f8b10cd, type: 3}
+  - {fileID: 4900000, guid: b090249e23b228e4b9c04ec042c5a5b0, type: 3}
+  - {fileID: 4900000, guid: 5a3c32365e8a70b44a48926827a77793, type: 3}
+  - {fileID: 4900000, guid: 54de90324118aaf438c0dfaa47a51317, type: 3}
+  - {fileID: 4900000, guid: 47348cbf9bdc15643b9fe302e5832316, type: 3}
+  - {fileID: 4900000, guid: 5bde74e91745308419bd4b0adfa7efd3, type: 3}
+  color: {r: 0.011764707, g: 0.65882355, b: 0.9607844, a: 1}
+  intro: {fileID: 0}

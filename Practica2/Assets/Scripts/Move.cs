@@ -17,6 +17,7 @@ namespace MazesAndMore
         private List<Vector2> moves;
         private Stack<Vector2> allMoves;
         private bool backwards;
+        private Vector2Int fin_;
 
         private Color c_;
 
@@ -79,6 +80,9 @@ namespace MazesAndMore
                     }
                 }
             }
+            Vector2Int p = new Vector2Int((int)transform.localPosition.x, (int)transform.localPosition.y);
+            if (p == fin_)
+                GameManager._instance.nextLevel();
         }
 
         void MoveCube(Vector2 dir)
@@ -174,8 +178,9 @@ namespace MazesAndMore
             MoveCube(actualDir);
         }
 
-        public void Init(Color c)
+        public void Init(Color c, Vector2Int fin)
         {
+            fin_ = fin;
             c_ = c;
             GetComponent<SpriteRenderer>().color = c_;
         }

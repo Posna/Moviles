@@ -57,7 +57,7 @@ namespace MazesAndMore
             _tiles[map.GetFin().x, map.GetFin().y].EnableFin();
 
             _p = Instantiate(player, new Vector2(map.GetIni().x, map.GetIni().y), Quaternion.identity, gameObject.transform);
-            _p.Init(_levelManager.GetLevelColor());
+            _p.Init(_levelManager.GetLevelColor(), map.GetFin());
 
             height = map.GetHeight();
             width = map.GetWidth();
@@ -65,13 +65,13 @@ namespace MazesAndMore
             //Añadimos las pistas para dejarlas listas
             int size = map.GetHints().Length;
             Vector2Int[] hints = map.GetHints();
-            _tiles[hints[0].x, hints[0].y].SetIsHint(0, new Vector2(0, 0), hints[1]);
+            _tiles[hints[0].x, hints[0].y].SetIsHint(0, map.GetIni(), hints[1]);
             for (int i = 1; i < size - 1; i++)
             {
                 int hintN = Mathf.FloorToInt(i / (size / 3.0f));
                 _tiles[hints[i].x, hints[i].y].SetIsHint(hintN, hints[i - 1], hints[i + 1]);
             }
-            _tiles[hints[size - 1].x, hints[size - 1].y].SetIsHint(2, hints[size - 2], new Vector2(0, 0));
+            _tiles[hints[size - 1].x, hints[size - 1].y].SetIsHint(2, hints[size - 2], map.GetFin());
 
             AdjustResolution();
         }
@@ -85,7 +85,7 @@ namespace MazesAndMore
 
             scale = ((cam.orthographicSize - 0.01f) * 2 * r) / width;
 
-            if(r >= 3/5.0f)
+            if(r > 3/5.0f)
                 scale = ((cam.orthographicSize - 1.01f) * 2) / height;
 
             gameObject.transform.localScale = new Vector3(scale, scale, 1);

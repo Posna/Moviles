@@ -9,4 +9,6 @@ public class LevelPackage: ScriptableObject
     public TextAsset[] levels;
 
     public Color color;
+
+    public SpriteRenderer intro;
 }
