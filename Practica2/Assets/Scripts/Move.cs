@@ -31,7 +31,7 @@ namespace MazesAndMore
 
         void Update()
         {
-            if (GameManager.isPaused())
+            if (GameManager._instance.isPaused())
                 return;
 
             if (isMoving)
@@ -169,13 +169,16 @@ namespace MazesAndMore
             {
                 moves.Add(dir);
                 initPos += dir;
-                dir = Map.GetMap().GetOneDir(initPos, dir);
+                if(!BoardManager.IsIce(initPos))
+                    dir = Map.GetMap().GetOneDir(initPos, dir);
                 Debug.Log(Map.GetMap().GetNDirs(initPos));
-            } while (Map.GetMap().GetNDirs(initPos) == 2);
+            } while ((!BoardManager.IsIce(initPos) && Map.GetMap().GetNDirs(initPos) == 2) || 
+                (BoardManager.IsIce(initPos) && !Map.GetMap().GetWall(initPos, Map.GetWallByDir(dir))));
 
             actualDir = moves[0];
             moves.RemoveAt(0);
             MoveCube(actualDir);
+            
         }
 
         public void Init(Color c, Vector2Int fin)

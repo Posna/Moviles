@@ -24,15 +24,23 @@ namespace MazesAndMore {
         private bool[] hints = { false, false, false, false };
         private int whatHint = 0;
         private Dirs fromH = Dirs.Neutral, toH = Dirs.Neutral;
+        private bool isIce = false;
 
         public void EnableIce()
         {
             iceFloor.gameObject.SetActive(true);
+            isIce = true;
         }
 
-        public void EnableFin()
+        public bool IsIce()
+        {
+            return isIce;
+        }
+
+        public void EnableFin(Color c_)
         {
             finFloor.gameObject.SetActive(true);
+            finFloor.color = c_;
         }
 
         //Con un enum o algo de eso, o una estructura

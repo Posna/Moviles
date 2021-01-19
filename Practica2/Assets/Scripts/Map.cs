@@ -16,7 +16,8 @@ namespace MazesAndMore
             public Vector2Int s;
             public Vector2Int f;
 
-            public Vector2Int[] h;
+            public MyVector2[] h;
+            public MyVector2[] i;
             public WallsOD[] w;
         }
         [System.Serializable]
@@ -24,6 +25,13 @@ namespace MazesAndMore
         {
             public Vector2Int o;
             public Vector2Int d;
+        }
+
+        [System.Serializable]
+        public class MyVector2
+        {
+            public int x = 0;
+            public int y = 0;
         }
 
 
@@ -40,14 +48,30 @@ namespace MazesAndMore
             _m._fin = mapaAux.f; // Casilla final
             _m._ini = mapaAux.s; // Casilla inicial
 
-            _m._hints = mapaAux.h; // hints
-            for (int i = 0; i < _m._hints.Length; i++)
+            //_m._hints = mapaAux.h; // hints
+            _m._hints = new Vector2[mapaAux.h.Length];
+            for (int i = 0; i < mapaAux.h.Length; i++)
             {
+                _m._hints[i].x = mapaAux.h[i].x;
+                _m._hints[i].y = mapaAux.h[i].y;
                 if (_m._hints[i].x < 0 || _m._hints[i].x >= _m.GetWidth())
                     _m._hints[i].x = 0;
 
                 if (_m._hints[i].y < 0 || _m._hints[i].y >= _m.GetHeight())
                     _m._hints[i].y = 0;
+            }
+
+            //Lectura de Hielo
+            _m._ice = new Vector2[mapaAux.i.Length];
+            for (int i = 0; i < mapaAux.i.Length; i++)
+            {
+                _m._ice[i].x = mapaAux.i[i].x;
+                _m._ice[i].y = mapaAux.i[i].y;
+                if (_m._ice[i].x < 0 || _m._ice[i].x >= _m.GetWidth())
+                    _m._ice[i].x = 0;
+
+                if (_m._ice[i].y < 0 || _m._ice[i].y >= _m.GetHeight())
+                    _m._ice[i].y = 0;
             }
 
             /*** init mapa ***/
@@ -165,11 +189,36 @@ namespace MazesAndMore
         public int GetNDirs(Vector2 p)
         {
             int i = 0;
+
             for (int w = 0; w < 4;w++)
             {
                 i += Convert.ToInt32(_walls[(int)p.x, (int)p.y][w]);
-            }      
+            }
+
+            //if (BoardManager.IsIce(p))
+            //{
+            //    if((4 - i) <= 2)
+            //    if((4 - i) != 2)
+            //        return 2;
+            //}
+
             return 4 - i ;
+        }
+
+        //public bool IsIce(Vector2 p)
+        //{
+        //    int i = 0;
+        //    while (i < _ice.Length && (p.x !=_ice[i].x  || p.y != _ice[i].y))
+        //    {
+        //        i++;
+        //    }
+
+        //    return i < _ice.Length;
+        //}
+
+        public Vector2[] GetIce()
+        {
+            return _ice;
         }
 
         public Vector2 GetOneDir(Vector2 p, Vector2 d)
@@ -239,7 +288,7 @@ namespace MazesAndMore
             return dir;
         }
 
-        public Vector2Int[] GetHints()
+        public Vector2[] GetHints()
         {
             return _hints;
         }
@@ -252,7 +301,8 @@ namespace MazesAndMore
         private Vector2Int _ini;
         private Vector2Int _fin;
 
-        private Vector2Int[] _hints;
+        private Vector2[] _hints;
+        private Vector2[] _ice;
 
         private int _width;
         private int _height;

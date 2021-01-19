@@ -8,10 +8,10 @@ namespace MazesAndMore
     public class AdsManager : MonoBehaviour, IUnityAdsListener
     {
 
-        string Android_ID = "3978709";
-        bool TestMode = true;
+        public string Android_ID = "3978709";
+        public bool TestMode = true;
 
-        string myPlacementId = "rewardedVideo";
+        string videoID = "rewardedVideo";
 
         // Start is called before the first frame update
         void Start()
@@ -36,9 +36,9 @@ namespace MazesAndMore
         public void ShowRewardedVideo()
         {
             // Check if UnityAds ready before calling Show method:
-            if (Advertisement.IsReady(myPlacementId))
+            if (Advertisement.IsReady(videoID))
             {
-                Advertisement.Show(myPlacementId);
+                Advertisement.Show(videoID);
             }
             else
             {
@@ -50,9 +50,9 @@ namespace MazesAndMore
         public void OnUnityAdsDidFinish(string placementId, ShowResult showResult)
         {
             // Define conditional logic for each ad completion status:
-            if (showResult == ShowResult.Finished)
+            if (showResult == ShowResult.Finished && placementId == videoID)
             {
-                GameManager.AddHints(1);
+                GameManager._instance.AddHints(1);
             }
             else if (showResult == ShowResult.Skipped)
             {
@@ -67,7 +67,7 @@ namespace MazesAndMore
         public void OnUnityAdsReady(string placementId)
         {
             // If the ready Placement is rewarded, show the ad:
-            if (placementId == myPlacementId)
+            if (placementId == videoID)
             {
                 // Optional actions to take when the placement becomes ready(For example, enable the rewarded ads button)
             }

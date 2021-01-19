@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/LevelGroup", order = 1)]
@@ -10,5 +11,5 @@ public class LevelPackage: ScriptableObject
 
     public Color color;
 
-    public SpriteRenderer intro;
+    public Button intro;
 }

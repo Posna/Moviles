@@ -8,17 +8,28 @@ namespace MazesAndMore {
     {
 #if UNITY_EDITOR
         public int levelToPlay;
-        public int package;
+        public int packageToPlay;
 #endif
-
+        //Serializar objetos para el guardado
         public LevelManager levelManager;
         public LevelPackage[] levelPackages;
 
-        static private bool pause = false;
-        static private int hints = 3;
+        private PackageSave sFile;
+        private int package;
+        private int level;
+        private int[] maxLevels;
+        private bool pause = false;
+        private int hints = 0;
 
         void Start()
         {
+
+            Load();
+#if UNITY_EDITOR
+            hints = 9999;
+            package = packageToPlay;
+            level = levelToPlay;
+#endif
             Debug.Log("Start llamado");
             if (_instance != null)
             {
@@ -34,7 +45,7 @@ namespace MazesAndMore {
             DontDestroyOnLoad(gameObject);
         }
 
-        public static GameManager _instance;
+        public static GameManager _instance { get; private set; }
 
         //Si existe lvlmanager es que estoy en la escena de juego
         //si esta el entero lanzo el nivel que quiero, si no el que dio el jugador
@@ -42,10 +53,8 @@ namespace MazesAndMore {
         {
             if (levelManager)
             {
-                
-#if UNITY_EDITOR
-                levelManager.level = levelPackages[package].levels[levelToPlay];
-#endif
+
+                levelManager.level = levelPackages[package].levels[level];
                 levelManager.CreateLevel(levelPackages[package].color);
             }
         }
@@ -60,7 +69,8 @@ namespace MazesAndMore {
         public void nextLevel()
         {
             AdsManager._ADInstance.DispayAD();
-            levelToPlay++;
+            level++;
+            Save();
             levelManager.ClearScene();
             StartNewScene();
         }
@@ -80,12 +90,12 @@ namespace MazesAndMore {
             pause = false;
         }
 
-        static public bool isPaused()
+        public bool isPaused()
         {
             return pause;
         }
 
-        static public void AddHints(int sum)
+        public void AddHints(int sum)
         {
             hints +=sum;
         }
@@ -97,18 +107,51 @@ namespace MazesAndMore {
 
         public string GetName()
         {
-            return levelPackages[package].name + " - " + (levelToPlay+1);
+            return levelPackages[package].name + " - " + (level+1);
         }
 
         // Load the levels availables and hints
         void Load()
         {
+            maxLevels = new int[levelPackages.Length];
+            string json = PlayerPrefs.GetString("memory", "null");
+            if (json != "null")
+            {
+                SaveFile s = JsonUtility.FromJson<SaveFile>(json);
+                
+                int has = s.pack.GetHashCode();
+                if (s.hash == has)
+                {
+                    PackageSave pack = JsonUtility.FromJson<PackageSave>(s.pack);
+                    hints = pack.h;
+                    maxLevels = pack.p;
+                }
+                else
+                    BasicInit();
+            }else
+                BasicInit();
+        }
 
+        void BasicInit()
+        {
+            hints = 0;
+            for (int i = 0; i < maxLevels.Length; i++)
+                maxLevels[i] = 0;
         }
 
         void Save()
         {
-
+            if (maxLevels[package] < level)
+                maxLevels[package] = level;
+            sFile = new PackageSave();
+            sFile.h = hints;
+            sFile.p = maxLevels;
+            string j = JsonUtility.ToJson(sFile);
+            SaveFile s = new SaveFile();
+            s.hash = j.GetHashCode();
+            s.pack = j;
+            string json = JsonUtility.ToJson(s);
+            PlayerPrefs.SetString("memory", json);
         }
 
     }

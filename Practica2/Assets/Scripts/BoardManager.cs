@@ -54,7 +54,7 @@ namespace MazesAndMore
             }
 
             //Activa el final de casilla
-            _tiles[map.GetFin().x, map.GetFin().y].EnableFin();
+            _tiles[map.GetFin().x, map.GetFin().y].EnableFin(_levelManager.GetLevelColor());
 
             _p = Instantiate(player, new Vector2(map.GetIni().x, map.GetIni().y), Quaternion.identity, gameObject.transform);
             _p.Init(_levelManager.GetLevelColor(), map.GetFin());
@@ -62,16 +62,23 @@ namespace MazesAndMore
             height = map.GetHeight();
             width = map.GetWidth();
 
+            // Activamos los tiles con ice
+            foreach (Vector2 item in map.GetIce())
+            {
+                _tiles[(int)item.x, (int)item.y].EnableIce();
+            }
+
+
             //Añadimos las pistas para dejarlas listas
             int size = map.GetHints().Length;
-            Vector2Int[] hints = map.GetHints();
-            _tiles[hints[0].x, hints[0].y].SetIsHint(0, map.GetIni(), hints[1]);
+            Vector2[] hints = map.GetHints();
+            _tiles[(int)hints[0].x, (int)hints[0].y].SetIsHint(0, map.GetIni(), hints[1]);
             for (int i = 1; i < size - 1; i++)
             {
                 int hintN = Mathf.FloorToInt(i / (size / 3.0f));
-                _tiles[hints[i].x, hints[i].y].SetIsHint(hintN, hints[i - 1], hints[i + 1]);
+                _tiles[(int)hints[i].x, (int)hints[i].y].SetIsHint(hintN, hints[i - 1], hints[i + 1]);
             }
-            _tiles[hints[size - 1].x, hints[size - 1].y].SetIsHint(2, hints[size - 2], map.GetFin());
+            _tiles[(int)hints[size - 1].x, (int)hints[size - 1].y].SetIsHint(2, hints[size - 2], map.GetFin());
 
             AdjustResolution();
         }
@@ -134,16 +141,21 @@ namespace MazesAndMore
             }
         }
 
+        static public bool IsIce(Vector2 p)
+        {
+            return _tiles[(int)p.x, (int)p.y].IsIce();
+        }
+
         public void NewHint()
         {
             if (hints < 3)
             {
                 int i = 0;
-                Vector2Int[] h = Map.GetMap().GetHints();
+                Vector2[] h = Map.GetMap().GetHints();
                 bool isHint = true;
                 while (i < h.Length && isHint)
                 {
-                    isHint = _tiles[h[i].x, h[i].y].EnableHint(hints);
+                    isHint = _tiles[(int)h[i].x, (int)h[i].y].EnableHint(hints);
                     i++;
                 }
                 hints++;
