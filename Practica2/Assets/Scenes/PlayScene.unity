@@ -1994,7 +1994,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6928716177716770989, guid: 4eae7058942a4c1459d45cc82c6533cd, type: 3}
       propertyPath: levelPackages.Array.size
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6928716177716770989, guid: 4eae7058942a4c1459d45cc82c6533cd, type: 3}
       propertyPath: levelToPlay
