@@ -11,5 +11,5 @@ public class LevelPackage: ScriptableObject
 
     public Color color;
 
-    public Button intro;
+    public GameObject intro;
 }

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a5e267359a2bafb47b3cd9166f1966aa, type: 3}
-  m_Name: CLASSIC
+  m_Name: Classic
   m_EditorClassIdentifier: 
   levels:
   - {fileID: 4900000, guid: 933025b6ffa538341a29695efb0d036a, type: 3}
@@ -114,4 +114,4 @@ MonoBehaviour:
   - {fileID: 4900000, guid: 2c66cba87108f444cb4970430b9f1b1d, type: 3}
   - {fileID: 4900000, guid: ce1cafc6208d7ae45a8b8814e389bf57, type: 3}
   color: {r: 0.29803923, g: 0.6901961, b: 0.30980393, a: 1}
-  intro: {fileID: 0}
+  intro: {fileID: 1016128855281973466, guid: 9b9f1c2948eea2a45bd2dd842fd360a9, type: 3}

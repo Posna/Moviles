@@ -59,4 +59,4 @@ MonoBehaviour:
   - {fileID: 4900000, guid: 4ec03bea80b9ece4dbe9b138ee8dd370, type: 3}
   - {fileID: 4900000, guid: 82cfd2d68e5ab784494782bccc7ee61c, type: 3}
   color: {r: 0.011764707, g: 0.65882355, b: 0.9607844, a: 1}
-  intro: {fileID: 0}
+  intro: {fileID: 6925656296264157672, guid: 4ce833f5530ab0647955f06961cb55e4, type: 3}
