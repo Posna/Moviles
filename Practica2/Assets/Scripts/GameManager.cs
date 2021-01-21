@@ -34,6 +34,7 @@ namespace MazesAndMore {
             if (_instance != null)
             {
                 _instance.levelManager = levelManager;
+                _instance.StartNewScene();
                 DestroyImmediate(gameObject);
                 return;
             }
@@ -53,7 +54,6 @@ namespace MazesAndMore {
         {
             if (levelManager)
             {
-
                 levelManager.level = levelPackages[package].levels[level];
                 levelManager.CreateLevel(levelPackages[package].color);
             }
@@ -152,6 +152,16 @@ namespace MazesAndMore {
             s.pack = j;
             string json = JsonUtility.ToJson(s);
             PlayerPrefs.SetString("memory", json);
+        }
+
+        public void StartGame()
+        {
+            SceneManager.LoadScene("PlayScene");
+        }
+
+        public void GoToMenu()
+        {
+            SceneManager.LoadScene("MenuScene");
         }
 
     }

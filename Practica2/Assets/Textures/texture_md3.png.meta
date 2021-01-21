@@ -38,6 +38,9 @@ TextureImporter:
   - first:
       213: -8698244531680251469
     second: DiamanteVerde
+  - first:
+      213: -9045325076530438114
+    second: Home
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -396,6 +399,27 @@ TextureImporter:
       bones: []
       spriteID: 3b1f6b70fa0a94780800000000000000
       internalID: -8698244531680251469
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Home
+      rect:
+        serializedVersion: 2
+        x: 1086
+        y: 857
+        width: 54
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e10687f54cc887280800000000000000
+      internalID: -9045325076530438114
       vertices: []
       indices: 
       edges: []
