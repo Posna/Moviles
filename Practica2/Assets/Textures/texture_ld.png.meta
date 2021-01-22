@@ -4,7 +4,7 @@ TextureImporter:
   internalIDToNameTable:
   - first:
       213: -4929936457940686388
-    second: texture_ld_0
+    second: ButtonMenu
   - first:
       213: 2503393073890667242
     second: FondoBotones
@@ -20,6 +20,9 @@ TextureImporter:
   - first:
       213: 1020899247142039211
     second: texture_ld_5
+  - first:
+      213: -8710417563094849396
+    second: ButtonMenu
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -131,27 +134,6 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: texture_ld_0
-      rect:
-        serializedVersion: 2
-        x: 993
-        y: 883
-        width: 384
-        height: 175
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: cc9a23359e8559bb0800000000000000
-      internalID: -4929936457940686388
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: FondoBotones
       rect:
         serializedVersion: 2
@@ -231,6 +213,27 @@ TextureImporter:
       bones: []
       spriteID: d771727c2b99fe690800000000000000
       internalID: -7570663455462058115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ButtonMenu
+      rect:
+        serializedVersion: 2
+        x: 1939
+        y: 827
+        width: 99
+        height: 99
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c88686a40616e1780800000000000000
+      internalID: -8710417563094849396
       vertices: []
       indices: 
       edges: []

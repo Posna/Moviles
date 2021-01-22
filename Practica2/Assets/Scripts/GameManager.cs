@@ -21,14 +21,20 @@ namespace MazesAndMore {
         private bool pause = false;
         private int hints = 0;
 
+
+        private void Awake()
+        {
+            
+        }
         void Start()
         {
 
             Load();
 #if UNITY_EDITOR
-            hints = 9999;
-            package = packageToPlay;
-            level = levelToPlay;
+            //hints = 9999;
+            //package = packageToPlay;
+            //level = levelToPlay;
+            //ResetSaveData();
 #endif
             Debug.Log("Start llamado");
             if (_instance != null)
@@ -98,6 +104,7 @@ namespace MazesAndMore {
         public void AddHints(int sum)
         {
             hints +=sum;
+            Save();
         }
 
         public int GetHints()
@@ -162,6 +169,26 @@ namespace MazesAndMore {
         public void GoToMenu()
         {
             SceneManager.LoadScene("MenuScene");
+        }
+
+        public int GetMaxLevel()
+        {
+            return maxLevels[package];
+        }
+
+        public void SetLevel(int l)
+        {
+            level = l;
+        }
+
+        public void SetPackage(int p)
+        {
+            package = p;
+        }
+
+        public void ResetSaveData()
+        {
+            PlayerPrefs.DeleteKey("memory");
         }
 
     }

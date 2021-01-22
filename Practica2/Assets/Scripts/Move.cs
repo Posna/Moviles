@@ -81,7 +81,7 @@ namespace MazesAndMore
                 }
             }
             Vector2Int p = new Vector2Int((int)transform.localPosition.x, (int)transform.localPosition.y);
-            if (p == fin_)
+            if (transform.localPosition.x - fin_.x == 0 && transform.localPosition.y - fin_.y == 0)
                 GameManager._instance.nextLevel();
         }
 
