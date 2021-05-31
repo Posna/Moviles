@@ -11,21 +11,23 @@ namespace MazesAndMore
     {
         public int level;
         public GameObject blockImg;
-        public GameObject text;
+        public Text text;
+
         private bool block;
 
+        //Si estan bloqueados no se peude ir al nivel y se muestran con candado
         void Start()
         {
             block = (GameManager._instance.GetMaxLevel() < level);
             if (GameManager._instance.GetMaxLevel() <= level)
             {
                 GetComponent<Image>().color = Color.white;
-                text.GetComponent<Text>().color = Color.black;
+                text.color = Color.black;
             }
             if (block)
             {
                 blockImg.SetActive(true);
-                text.SetActive(false);
+                text.gameObject.SetActive(false);
             }
 
 

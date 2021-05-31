@@ -5,6 +5,12 @@ TextureImporter:
   - first:
       213: -8029770999640021880
     second: CandadoHD2
+  - first:
+      213: -9008279738294577863
+    second: RealPlayer
+  - first:
+      213: 4784350741268844009
+    second: YellowPlay_HD
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -124,7 +130,7 @@ TextureImporter:
         width: 99
         height: 142
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -132,6 +138,48 @@ TextureImporter:
       bones: []
       spriteID: 88429b2c1d5809090800000000000000
       internalID: -8029770999640021880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RealPlayer
+      rect:
+        serializedVersion: 2
+        x: 1579
+        y: 866
+        width: 265
+        height: 265
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9355a915e492cf280800000000000000
+      internalID: -9008279738294577863
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YellowPlay_HD
+      rect:
+        serializedVersion: 2
+        x: 1588
+        y: 538
+        width: 267
+        height: 299
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9edc43e86ad656240800000000000000
+      internalID: 4784350741268844009
       vertices: []
       indices: 
       edges: []

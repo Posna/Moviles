@@ -5,6 +5,9 @@ TextureImporter:
   - first:
       213: 5009957545329502356
     second: CandadoHD
+  - first:
+      213: 2328419040324226576
+    second: Fin_HD
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -124,7 +127,7 @@ TextureImporter:
         width: 77
         height: 110
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -132,6 +135,27 @@ TextureImporter:
       bones: []
       spriteID: 4982725f7d1f68540800000000000000
       internalID: 5009957545329502356
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fin_HD
+      rect:
+        serializedVersion: 2
+        x: 912
+        y: 1928
+        width: 101
+        height: 101
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 01e08cad7c4305020800000000000000
+      internalID: 2328419040324226576
       vertices: []
       indices: 
       edges: []

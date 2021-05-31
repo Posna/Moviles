@@ -6,7 +6,8 @@ using System;
 namespace MazesAndMore
 {
     public class Map
-    {
+    {   
+        //Auxiliar para desserializar el mapa
         [System.Serializable]
         class Aux
         {
@@ -20,6 +21,7 @@ namespace MazesAndMore
             public MyVector2[] i;
             public WallsOD[] w;
         }
+        //Auxiliar para desserializar los muros
         [System.Serializable]
         public class WallsOD
         {
@@ -27,6 +29,7 @@ namespace MazesAndMore
             public Vector2Int d;
         }
 
+        //Auxiliar para desserializar las pistas
         [System.Serializable]
         public class MyVector2
         {
@@ -34,7 +37,7 @@ namespace MazesAndMore
             public int y = 0;
         }
 
-
+        //Lectura del json
         public static Map FromJson(string json)
         {
             _m = new Map();
@@ -84,6 +87,7 @@ namespace MazesAndMore
             return _m;
         }
 
+        //Contruccion de los muros
         static private void BuildMap(Aux mapaAux)
         {
             foreach (WallsOD item in mapaAux.w)
@@ -132,6 +136,7 @@ namespace MazesAndMore
 
         }
 
+
         private void initMap()
         {
             for (int i = 0; i < _height; i++)
@@ -171,6 +176,7 @@ namespace MazesAndMore
             return _height;
         }
 
+        //Obtenemos si hay muro en una posicion y direccion concreta
         public bool GetWall(Vector2 p, Dirs w)
         {
             return _walls[(int)p.x, (int)p.y][(int)w];
@@ -186,6 +192,7 @@ namespace MazesAndMore
             return _fin;
         }
 
+        //Comprueba cuantass direcciones hay disponibles en una casilla concreta
         public int GetNDirs(Vector2 p)
         {
             int i = 0;
@@ -195,32 +202,15 @@ namespace MazesAndMore
                 i += Convert.ToInt32(_walls[(int)p.x, (int)p.y][w]);
             }
 
-            //if (BoardManager.IsIce(p))
-            //{
-            //    if((4 - i) <= 2)
-            //    if((4 - i) != 2)
-            //        return 2;
-            //}
-
             return 4 - i ;
         }
-
-        //public bool IsIce(Vector2 p)
-        //{
-        //    int i = 0;
-        //    while (i < _ice.Length && (p.x !=_ice[i].x  || p.y != _ice[i].y))
-        //    {
-        //        i++;
-        //    }
-
-        //    return i < _ice.Length;
-        //}
 
         public Vector2[] GetIce()
         {
             return _ice;
         }
 
+        //Devuelve la primera direccion que no sea la dada (d)
         public Vector2 GetOneDir(Vector2 p, Vector2 d)
         {
             bool found = false;
@@ -236,6 +226,7 @@ namespace MazesAndMore
             return GetDirByWall((Dirs)i);
         }
 
+        //Devuelve la Dir opuesta
         static public Dirs GetOppositeWall(Dirs w)
         {
             if ((int)w % 2 == 0)
@@ -246,6 +237,7 @@ namespace MazesAndMore
             return (Dirs)((int)w - 1);
         }
 
+        //Dada una Dir se devuelve el vector unitario
         static public Vector2 GetDirByWall(Dirs w)
         {
             int p = 1;
@@ -292,9 +284,6 @@ namespace MazesAndMore
         {
             return _hints;
         }
-
-        private int[,] _grid;
-
         
         private bool[,][] _walls;
 

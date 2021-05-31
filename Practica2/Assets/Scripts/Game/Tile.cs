@@ -20,11 +20,11 @@ namespace MazesAndMore {
         [Tooltip("Caminos que puede tomar el jugador")]
         public SpriteRenderer[] paths;
 
-        private int[] path = { 0, 0, 0, 0 };
-        private bool[] hints = { false, false, false, false };
-        private int whatHint = 0;
-        private Dirs fromH = Dirs.Neutral, toH = Dirs.Neutral;
-        private bool isIce = false;
+        private int[] path = { 0, 0, 0, 0 }; //Contador de pasadar del player
+        private bool[] hints = { false, false, false, false }; //Direccion de las pistas si es que tiene
+        private int whatHint = 0; //Numero de pista (0, 1, o 2)
+        private Dirs fromH = Dirs.Neutral, toH = Dirs.Neutral; // Direcciones de las pistas
+        private bool isIce = false; //Si el Tile tiene hielo
 
         public void EnableIce()
         {
@@ -43,7 +43,7 @@ namespace MazesAndMore {
             finFloor.color = c_;
         }
 
-        //Con un enum o algo de eso, o una estructura
+        
         public void EnableWall(Dirs w)
         {
             walls[(int)w].gameObject.SetActive(true);   
@@ -58,6 +58,7 @@ namespace MazesAndMore {
             }
         }
 
+        //Habilita la pista si es que toca
         public bool EnableHint(int h)
         {
             if(whatHint <= h)
@@ -103,6 +104,7 @@ namespace MazesAndMore {
 
         }
 
+        // Si es pista se asigna de donde viene y a donde va
         public void SetIsHint(int number, Vector2 from, Vector2 to)
         {
             whatHint = number;

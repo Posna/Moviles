@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a5e267359a2bafb47b3cd9166f1966aa, type: 3}
-  m_Name: ICE FLOOR
+  m_Name: Ice Floor
   m_EditorClassIdentifier: 
   levels:
   - {fileID: 4900000, guid: 0f0033f857e71404a8d879a26fce70c0, type: 3}
@@ -59,4 +59,5 @@ MonoBehaviour:
   - {fileID: 4900000, guid: 4ec03bea80b9ece4dbe9b138ee8dd370, type: 3}
   - {fileID: 4900000, guid: 82cfd2d68e5ab784494782bccc7ee61c, type: 3}
   color: {r: 0.011764707, g: 0.65882355, b: 0.9607844, a: 1}
-  intro: {fileID: 5460581860894222340, guid: 04c613d2fc31f72438157203677a0adc, type: 3}
+  image: {fileID: 4258478895805768579, guid: 49b2f08a3bf6423498c5d2cce68b199c, type: 3}
+  packName: Ice Floor

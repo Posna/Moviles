@@ -15,6 +15,7 @@ public class BannerAd : MonoBehaviour
         StartCoroutine(ShowBannerWhenInitialized());
     }
 
+    //Muestra el banner
     IEnumerator ShowBannerWhenInitialized()
     {
         while (!Advertisement.isInitialized)

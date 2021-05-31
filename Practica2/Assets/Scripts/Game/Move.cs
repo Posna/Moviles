@@ -6,6 +6,9 @@ namespace MazesAndMore
 {
     public class Move : MonoBehaviour
     {
+        [SerializeField]
+        private SpriteRenderer playerSprite;
+
         public float timeMoving = 0.5f;
 
         private Vector2 firstTouch;
@@ -31,12 +34,13 @@ namespace MazesAndMore
 
         void Update()
         {
+            //Para que no se mueva si esta pausado el juego
             if (GameManager._instance.isPaused())
                 return;
 
             if (isMoving)
             {
-
+                //Realiza movimientos hasta que no quedan mas en moves
                 timeLapsed += Time.deltaTime;
                 if (timeLapsed >= timeMoving)
                 {
@@ -58,6 +62,9 @@ namespace MazesAndMore
             }
             else
             {
+                if (Input.anyKey)
+                    HandleVector(AnyArrowPressed());
+
                 //Handle screen input
                 if (Input.touchCount > 0)
                 {
@@ -71,20 +78,40 @@ namespace MazesAndMore
                     }
                     //When the touch ends
                     else if (touch.phase == TouchPhase.Ended)
-                    {
-                        if (touch.position == firstTouch)
-                            return;
-                        collectMoves(touch.position - firstTouch);
-                        isMoving = true;
-                        timeLapsed = 0;
-                    }
+                        HandleVector(touch.position - firstTouch);
                 }
             }
+
+            //El Player esta al final del nivel
             Vector2Int p = new Vector2Int((int)transform.localPosition.x, (int)transform.localPosition.y);
             if (transform.localPosition.x - fin_.x == 0 && transform.localPosition.y - fin_.y == 0)
-                GameManager._instance.nextLevel();
+                GameManager._instance.FinishLevel();
+        }
+        
+        // Maneja el vector de entrada ya sea de teclado o de pantalla
+        void HandleVector(Vector2 m)
+        {
+            // Comprobacion de que el vector que recibimos no es nulo
+            if (m == Vector2.zero)
+                return;
+
+            collectMoves(m);
+            isMoving = true;
+            timeLapsed = 0;
         }
 
+        // Comprueba si se ha apretado alguna flecha y devuelve el vector2 correspondiente
+        Vector2 AnyArrowPressed()
+        {
+            if (Input.GetKeyDown(KeyCode.DownArrow)) return new Vector2(0, -1);
+            if (Input.GetKeyDown(KeyCode.UpArrow)) return new Vector2(0, 1);
+            if (Input.GetKeyDown(KeyCode.LeftArrow)) return new Vector2(-1, 0);
+            if (Input.GetKeyDown(KeyCode.RightArrow)) return new Vector2(1, 0);
+
+            return new Vector2(0, 0);
+        }
+
+        //Hace un movimiento dada una direccion
         void MoveCube(Vector2 dir)
         {
             dir.Normalize();
@@ -123,6 +150,8 @@ namespace MazesAndMore
                 allMoves.Pop();
 
             finalPos = new Vector3(transform.localPosition.x + dir.x, transform.localPosition.y + dir.y);
+
+            //Hace aparecer el camino segun va pasando
             Invoke("PathAppearF", timeMoving / 3f);
             Invoke("PathAppearS", timeMoving / 1.2f);
         }
@@ -138,6 +167,7 @@ namespace MazesAndMore
             
         }
 
+        //hace todos los movimientos hasta que encuentra una interseccion y los va añadiendo a la lista moves
         void collectMoves(Vector2 dir)
         {
             dir.Normalize();
@@ -181,11 +211,12 @@ namespace MazesAndMore
             
         }
 
+        //Cambia el color del personaje y asigna el fin
         public void Init(Color c, Vector2Int fin)
         {
             fin_ = fin;
             c_ = c;
-            GetComponent<SpriteRenderer>().color = c_;
+            playerSprite.color = c_;
         }
 
     }

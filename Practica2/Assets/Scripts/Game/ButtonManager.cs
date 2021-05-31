@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 namespace MazesAndMore
 {
+    //Clase publica a forma de callBack
     public class ButtonManager : MonoBehaviour
     {
         public void ShowHint()
@@ -35,6 +36,11 @@ namespace MazesAndMore
         public void ResetLevel()
         {
             GameManager._instance.ResetLevel();
+        }
+
+        public void NextLevel()
+        {
+            GameManager._instance.NextLevel();
         }
     }
 }

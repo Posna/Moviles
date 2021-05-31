@@ -13,7 +13,6 @@ namespace MazesAndMore {
             text = GetComponent<Text>();
         }
 
-        // Update is called once per frame
         void Update()
         {
             text.text = GameManager._instance.GetHints().ToString();

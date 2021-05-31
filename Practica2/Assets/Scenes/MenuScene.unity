@@ -902,18 +902,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6928716177716770989, guid: 4eae7058942a4c1459d45cc82c6533cd, type: 3}
-      propertyPath: levelPackages.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6928716177716770989, guid: 4eae7058942a4c1459d45cc82c6533cd, type: 3}
-      propertyPath: levelPackages.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: d359f69283ea4a8428c9e537b4c31102, type: 2}
-    - target: {fileID: 6928716177716770989, guid: 4eae7058942a4c1459d45cc82c6533cd, type: 3}
-      propertyPath: levelPackages.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 780cf2ab9dfa6db4db719b08c9aeb032, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4eae7058942a4c1459d45cc82c6533cd, type: 3}
 --- !u!1 &529436306
@@ -965,6 +953,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7344160b5f00fa64080131776dcc45af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  button: {fileID: 7060411504911838616, guid: aef8a6eae47eaec4b94934382024c6d5, type: 3}
+  zonaButtons: {fileID: 1380674594}
 --- !u!114 &529436309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -987,7 +977,7 @@ MonoBehaviour:
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
-  m_ChildControlHeight: 1
+  m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 1
   m_ReverseArrangement: 0
@@ -1180,7 +1170,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1839837087468436138, guid: 0071c0ed78f79944bb4266523ea9991f, type: 3}
+  m_Sprite: {fileID: 4784350741268844009, guid: 22d0a91808711544a9fde4f6f574058f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1428,8 +1418,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 959992208}
-  - component: {fileID: 959992209}
   - component: {fileID: 959992210}
+  - component: {fileID: 959992209}
   m_Layer: 5
   m_Name: ZonaVertical
   m_TagString: Untagged

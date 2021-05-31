@@ -10,20 +10,20 @@ namespace MazesAndMore
         public BoardManager boardManager;
 
         public TextAsset level;
+        public GameObject finLevel;
+        public GameObject levelUI;
 
         private Color color_;
 
-        private void Start()
-        {
-            //CreateLevel();
-        }
-
+        //Crea el nivel
         public void CreateLevel(Color c)
         {
             color_ = c;
             boardManager.Init(this);
             boardManager.SetMap(Map.FromJson(level.text));
         }
+
+        //Limpia la escena
         public void ClearScene()
         {
             boardManager.ClearMap();
@@ -37,6 +37,12 @@ namespace MazesAndMore
         public void ShowNewHint()
         {
             boardManager.NewHint();
+        }
+
+        public void FinishLevel()
+        {
+            finLevel.SetActive(true);
+            levelUI.SetActive(false);
         }
 
     }

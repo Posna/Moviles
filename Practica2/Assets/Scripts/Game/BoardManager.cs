@@ -35,10 +35,9 @@ namespace MazesAndMore
             }
         }
 
-
+        //Creacion de tiles, player y hielos (si toca
         public void SetMap(Map map)
         {
-            //ClearMap();
             _tiles = new Tile[map.GetWidth(), map.GetHeight()];
             for (int i = 0; i < map.GetHeight(); i++)
             {
@@ -83,6 +82,7 @@ namespace MazesAndMore
             AdjustResolution();
         }
 
+        //Ajuste de la resolucion
         private void AdjustResolution()
         {
             ResetScale();
@@ -110,6 +110,7 @@ namespace MazesAndMore
             _levelManager = lvl;
         }
 
+        //Limpieza del mapa
         public void ClearMap()
         {
             ResetScale();
@@ -146,6 +147,7 @@ namespace MazesAndMore
             return _tiles[(int)p.x, (int)p.y].IsIce();
         }
 
+        //Enseña nueva pista
         public void NewHint()
         {
             if (hints < 3)

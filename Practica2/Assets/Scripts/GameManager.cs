@@ -14,11 +14,11 @@ namespace MazesAndMore {
         public LevelManager levelManager;
         public LevelPackage[] levelPackages;
 
-        private PackageSave sFile;
-        private int package;
-        private int level;
-        private int[] maxLevels;
-        private bool pause = false;
+        private PackageSave sFile; //Guardado de partida
+        private int package; //Pack actual
+        private int level; //Nivel actial
+        private int[] maxLevels; //Nivel Maximo (para guardar)
+        private bool pause = false; 
         private int hints = 0;
 
 
@@ -31,10 +31,10 @@ namespace MazesAndMore {
 
             Load();
 #if UNITY_EDITOR
-            //hints = 9999;
-            //package = packageToPlay;
-            //level = levelToPlay;
-            //ResetSaveData();
+            hints = 9999;
+            package = packageToPlay;
+            level = levelToPlay;
+            //ResetSaveData(); //Reinicia los valores guardados
 #endif
             Debug.Log("Start llamado");
             if (_instance != null)
@@ -65,42 +65,56 @@ namespace MazesAndMore {
             }
         }
 
+        //Reinicia el nivel
         public void ResetLevel()
         {
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             levelManager.ClearScene();
             StartNewScene();
         }
 
-        public void nextLevel()
+        // Actualiza el nivel y muestra la pantalla de final de nivel
+        public void FinishLevel()
         {
-            AdsManager._ADInstance.DispayAD();
             level++;
+            level = level % levelPackages[package].levels.Length;
             Save();
+            levelManager.FinishLevel();
             levelManager.ClearScene();
+        }
+
+        //Pasa de nivel y muestra un anuncio
+        public void NextLevel()
+        {
+            AdsManager._ADInstance.DispayAD();       
             StartNewScene();
         }
 
+        //Enseña una nueva pista
         public void ShowHint()
         {
             levelManager.ShowNewHint();
+            Save();
         }
 
+        // pausa el juego
         public void Pause()
         {
             pause = true;
         }
 
+        // despausa el juego
         public void Resume()
         {
             pause = false;
         }
+
 
         public bool isPaused()
         {
             return pause;
         }
 
+        //Añade pistas y guarda partida
         public void AddHints(int sum)
         {
             hints +=sum;
@@ -122,23 +136,29 @@ namespace MazesAndMore {
         {
             maxLevels = new int[levelPackages.Length];
             string json = PlayerPrefs.GetString("memory", "null");
+            BasicInit();
             if (json != "null")
             {
                 SaveFile s = JsonUtility.FromJson<SaveFile>(json);
                 
                 int has = s.pack.GetHashCode();
-                if (s.hash == has)
+                if (s.hash == has) //Comprobacion del hash
                 {
                     PackageSave pack = JsonUtility.FromJson<PackageSave>(s.pack);
                     hints = pack.h;
-                    maxLevels = pack.p;
+                    int l = maxLevels.Length;
+                    if (maxLevels.Length > pack.p.Length)
+                        l = pack.p.Length;
+
+                    for (int i = 0; i < l; i++)
+                    {
+                        maxLevels[i] = pack.p[i];
+                    }
                 }
-                else
-                    BasicInit();
-            }else
-                BasicInit();
+            }
         }
 
+        //Inicio basico de las pistas y el nivel maximo de cada pack
         void BasicInit()
         {
             hints = 0;
@@ -146,6 +166,7 @@ namespace MazesAndMore {
                 maxLevels[i] = 0;
         }
 
+        // Guarda la partida en PlayerPrefs
         void Save()
         {
             if (maxLevels[package] < level)
@@ -161,19 +182,26 @@ namespace MazesAndMore {
             PlayerPrefs.SetString("memory", json);
         }
 
+        //Carga PlayScene
         public void StartGame()
         {
             SceneManager.LoadScene("PlayScene");
         }
 
+        //Carga MenuScene
         public void GoToMenu()
         {
             SceneManager.LoadScene("MenuScene");
         }
-
+       
         public int GetMaxLevel()
         {
             return maxLevels[package];
+        }
+
+        public int GetMaxLevel(int p)
+        {
+            return maxLevels[p];
         }
 
         public void SetLevel(int l)
@@ -186,6 +214,7 @@ namespace MazesAndMore {
             package = p;
         }
 
+        // Elimina la partida guardada
         public void ResetSaveData()
         {
             PlayerPrefs.DeleteKey("memory");

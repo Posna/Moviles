@@ -5,34 +5,16 @@ using UnityEngine;
 namespace MazesAndMore
 {
     [System.Serializable]
-    public class SaveFile
+    public class SaveFile //Serializado de nivel y hash para la comprobacion
     {
         public int hash;
         public string pack;
     }
 
     [System.Serializable]
-    public class PackageSave
+    public class PackageSave //Serializacion del estado
     {
         public int[] p;
-        public int h;
-
-        //public override int GetHashCode()
-        //{
-        //    unchecked
-        //    {
-        //        int result = 0;
-        //        int i = 1;
-        //        foreach (int item in p)
-        //        {
-        //            result += 397^item * i;
-        //            i++;
-        //        }
-        //        //result = (result * 397) ^ (Street != null ? Street.GetHashCode() : 0);
-        //        result = (result * 397) ^ h;
-        //        return result;
-        //    }
-        //}
-        
+        public int h;        
     }
 }

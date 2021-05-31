@@ -21,7 +21,7 @@ namespace MazesAndMore
             _menuInstance = this;
         }
 
-        // Start is called before the first frame update
+        //Enseña los botones de los niveles
         public void ShowButtonsLevel(Color c, int i, string name)
         {
             buttons.SetActive(true);
@@ -48,6 +48,7 @@ namespace MazesAndMore
             state++;
         }
 
+        //Elimina todos los botones de nivel
         private void ClearChildren()
         {
             foreach (Transform child in verticalZone.transform)
@@ -58,6 +59,7 @@ namespace MazesAndMore
 
         private void Update()
         {
+            //Cambio de estados en el menu
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 switch (state)

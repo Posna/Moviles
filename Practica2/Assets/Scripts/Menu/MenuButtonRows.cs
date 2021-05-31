@@ -9,14 +9,9 @@ namespace MazesAndMore {
         public GameObject rows;
         public GameObject buttons;
         public RectTransform zonaButtons;
-        //public int levels;
-        //public Color c;
 
-        void Start()
-        {
-            //CreateButtons();
-        }
 
+        //Creacion de los botones niveles. Se crean filas y dentro los botones
         public void CreateButtons(Color c, int levels)
         {
             int r = (int)Mathf.Ceil((levels / 5.0f));
