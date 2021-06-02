@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Security.Cryptography;
+using System;
+using System.Text;
 
 namespace MazesAndMore {
     public class GameManager : MonoBehaviour
@@ -36,7 +39,6 @@ namespace MazesAndMore {
             level = levelToPlay;
             //ResetSaveData(); //Reinicia los valores guardados
 #endif
-            Debug.Log("Start llamado");
             if (_instance != null)
             {
                 _instance.levelManager = levelManager;
@@ -139,12 +141,11 @@ namespace MazesAndMore {
             BasicInit();
             if (json != "null")
             {
-                SaveFile s = JsonUtility.FromJson<SaveFile>(json);
-                
-                int has = s.pack.GetHashCode();
-                if (s.hash == has) //Comprobacion del hash
-                {
-                    PackageSave pack = JsonUtility.FromJson<PackageSave>(s.pack);
+                PackageSave pack = JsonUtility.FromJson<PackageSave>(json);
+
+                string hash = ComputeSha256Hash(json);
+                if (hash == PlayerPrefs.GetString("hash", "null")) //Comprobacion del hash
+                {                    
                     hints = pack.h;
                     int l = maxLevels.Length;
                     if (maxLevels.Length > pack.p.Length)
@@ -174,12 +175,30 @@ namespace MazesAndMore {
             sFile = new PackageSave();
             sFile.h = hints;
             sFile.p = maxLevels;
-            string j = JsonUtility.ToJson(sFile);
-            SaveFile s = new SaveFile();
-            s.hash = j.GetHashCode();
-            s.pack = j;
-            string json = JsonUtility.ToJson(s);
+            string json = JsonUtility.ToJson(sFile);
+            string hash = ComputeSha256Hash(json);
+
             PlayerPrefs.SetString("memory", json);
+            PlayerPrefs.SetString("hash", hash);
+        }
+
+        // Devuelve el hash de un json
+        string ComputeSha256Hash(string rawData)
+        {
+            // Create a SHA256   
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                // ComputeHash - returns byte array  
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(rawData));
+
+                // Convert byte array to a string   
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    builder.Append(bytes[i].ToString("x2"));
+                }
+                return builder.ToString();
+            }
         }
 
         //Carga PlayScene
