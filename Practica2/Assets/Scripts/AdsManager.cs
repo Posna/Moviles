@@ -13,7 +13,20 @@ namespace MazesAndMore
 
         string videoID = "rewardedVideo";
 
-        // Start is called before the first frame update
+
+        void Awake()
+        {
+            if (!_ADInstance)
+            {
+                _ADInstance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
+
         void Start()
         {
             Advertisement.AddListener(this);
@@ -88,21 +101,6 @@ namespace MazesAndMore
         {
             Advertisement.RemoveListener(this);
         }
-
-        void Awake()
-        {
-            if (!_ADInstance)
-            {
-                _ADInstance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
-        }
-
-
 
         public static AdsManager _ADInstance { get; private set; }
     }

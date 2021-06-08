@@ -20,7 +20,7 @@ namespace MazesAndMore
         {
             color_ = c;
             boardManager.Init(this);
-            boardManager.SetMap(Map.FromJson(level.text));
+            boardManager.SetMap(level.text);
         }
 
         //Limpia la escena

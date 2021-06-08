@@ -24,6 +24,8 @@ namespace MazesAndMore
 
         private Color c_;
 
+        private BoardManager bm;
+
         void Start()
         {
             moves = new List<Vector2>();
@@ -136,7 +138,7 @@ namespace MazesAndMore
             //Calculate the final position and rotation
             initPos = transform.localPosition;
 
-            if(Map.GetMap().GetWall(initPos, w))
+            if(bm.GetMap().GetWall(initPos, w))
             {
                 return;
             }
@@ -158,13 +160,13 @@ namespace MazesAndMore
 
         void PathAppearF()
         {
-            BoardManager.EnablePath(initPos, Map.GetWallByDir(actualDir), c_, !backwards);
+            bm.EnablePath(initPos, Utility.GetWallByDir(actualDir), c_, !backwards);
         }
 
         void PathAppearS()
         {
-            BoardManager.EnablePath(finalPos, Map.GetWallByDir(-actualDir), c_, !backwards);
-            
+            bm.EnablePath(finalPos, Utility.GetWallByDir(-actualDir), c_, !backwards);
+
         }
 
         //hace todos los movimientos hasta que encuentra una interseccion y los va añadiendo a la lista moves
@@ -190,7 +192,7 @@ namespace MazesAndMore
             }
 
             initPos = transform.localPosition;
-            if (Map.GetMap().GetWall(initPos, w))
+            if (bm.GetMap().GetWall(initPos, w))
             {
                 return;
             }
@@ -199,11 +201,11 @@ namespace MazesAndMore
             {
                 moves.Add(dir);
                 initPos += dir;
-                if(!BoardManager.IsIce(initPos))
-                    dir = Map.GetMap().GetOneDir(initPos, dir);
-                Debug.Log(Map.GetMap().GetNDirs(initPos));
-            } while ((!BoardManager.IsIce(initPos) && Map.GetMap().GetNDirs(initPos) == 2) || 
-                (BoardManager.IsIce(initPos) && !Map.GetMap().GetWall(initPos, Map.GetWallByDir(dir))));
+                if(!bm.IsIce(initPos))
+                    dir = bm.GetMap().GetOneDir(initPos, dir);
+                Debug.Log(bm.GetMap().GetNDirs(initPos));
+            } while ((!bm.IsIce(initPos) && bm.GetMap().GetNDirs(initPos) == 2) || 
+                (bm.IsIce(initPos) && !bm.GetMap().GetWall(initPos, Utility.GetWallByDir(dir))));
 
             actualDir = moves[0];
             moves.RemoveAt(0);
@@ -212,11 +214,12 @@ namespace MazesAndMore
         }
 
         //Cambia el color del personaje y asigna el fin
-        public void Init(Color c, Vector2Int fin)
+        public void Init(Color c, Vector2Int fin, BoardManager bm)
         {
             fin_ = fin;
             c_ = c;
             playerSprite.color = c_;
+            this.bm = bm;
         }
 
     }

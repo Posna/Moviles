@@ -109,9 +109,9 @@ namespace MazesAndMore {
         {
             whatHint = number;
             if(from != Vector2.zero)
-                fromH = Map.GetWallByDir(from - (Vector2)transform.localPosition);
+                fromH = Utility.GetWallByDir(from - (Vector2)transform.localPosition);
             if(to != Vector2.zero)
-                toH = Map.GetWallByDir(to - (Vector2)transform.localPosition);
+                toH = Utility.GetWallByDir(to - (Vector2)transform.localPosition);
         }
 
         public int GetWhatHint()
