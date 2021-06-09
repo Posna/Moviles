@@ -171,8 +171,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level: 0
-  blockImg: {fileID: 7295928235523556063}
-  text: {fileID: 992877467959279772}
+  blockImg: {fileID: 992877468057045973}
+  lockImg: {fileID: 7295928235523556063}
+  buttonText: {fileID: 992877467959279772}
 --- !u!114 &6553630953104443457
 MonoBehaviour:
   m_ObjectHideFlags: 0

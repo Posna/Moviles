@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace MazesAndMore
 {
@@ -10,6 +8,7 @@ namespace MazesAndMore
         public Tile tilePrefab;
         public Camera cam;
         public Move player;
+        public int hintsNumber = 3;
 
         private int hints = 0;
 
@@ -77,18 +76,6 @@ namespace MazesAndMore
                 _tiles[(int)item.x, (int)item.y].EnableIce();
             }
 
-
-            //Añadimos las pistas para dejarlas listas
-            int size = _map.GetHints().Length;
-            Vector2[] hints = _map.GetHints();
-            _tiles[(int)hints[0].x, (int)hints[0].y].SetIsHint(0, _map.GetIni(), hints[1]);
-            for (int i = 1; i < size - 1; i++)
-            {
-                int hintN = Mathf.FloorToInt(i / (size / 3.0f));
-                _tiles[(int)hints[i].x, (int)hints[i].y].SetIsHint(hintN, hints[i - 1], hints[i + 1]);
-            }
-            _tiles[(int)hints[size - 1].x, (int)hints[size - 1].y].SetIsHint(2, hints[size - 2], _map.GetFin());
-
             AdjustResolution();
         }
 
@@ -102,7 +89,7 @@ namespace MazesAndMore
 
             scale = ((cam.orthographicSize - 0.01f) * 2 * r) / width;
 
-            if(r > 3/5.0f)
+            if (r > 3 / 5.0f)
                 scale = ((cam.orthographicSize - 1.01f) * 2) / height;
 
             gameObject.transform.localScale = new Vector3(scale, scale, 1);
@@ -143,9 +130,9 @@ namespace MazesAndMore
         /// <param name=""> Color del camino </param>
         public void EnablePath(Vector2 p, Dirs d, Color c, bool active)
         {
-            if(d != Dirs.Neutral)
+            if (d != Dirs.Neutral)
             {
-                if(active)
+                if (active)
                     _tiles[(int)p.x, (int)p.y].EnablePath(d, c);
                 else
                     _tiles[(int)p.x, (int)p.y].DisablePath(d, c);
@@ -160,16 +147,34 @@ namespace MazesAndMore
         //Enseña nueva pista
         public void NewHint()
         {
-            if (hints < 3)
+            if (hints < hintsNumber)
             {
-                int i = 0;
                 Vector2[] h = _map.GetHints();
-                bool isHint = true;
-                while (i < h.Length && isHint)
+
+                int ini = hints * h.Length / hintsNumber;
+                int fin = (hints + 1) * h.Length / hintsNumber;
+
+                //La primera pista necesita empezar en el inicio
+                if (hints == 0)
                 {
-                    isHint = _tiles[(int)h[i].x, (int)h[i].y].EnableHint(hints);
-                    i++;
+                    _tiles[_map.GetIni().x, _map.GetIni().y].EnableHint(-Vector2.one, h[0]);
+                    _tiles[(int)h[0].x, (int)h[0].y].EnableHint(_map.GetIni(), h[1]);
+                    ini++;
                 }
+
+                //La ultima pista tiene que terminar correctamente en el final
+                if (hints == hintsNumber - 1)
+                {
+                    _tiles[(int)h[h.Length - 1].x, (int)h[h.Length - 1].y].EnableHint(h[h.Length - 2], _map.GetFin());
+                    _tiles[_map.GetFin().x, _map.GetFin().y].EnableHint(h[h.Length - 1], -Vector2.one);
+                    fin--;
+                }
+
+                for (int j = ini; j < fin; j++)
+                {
+                    _tiles[(int)h[j].x, (int)h[j].y].EnableHint(h[j - 1], h[j + 1]);
+                }
+
                 hints++;
             }
         }

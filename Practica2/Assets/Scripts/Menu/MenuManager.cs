@@ -11,15 +11,10 @@ namespace MazesAndMore
         public GameObject packages;
         public GameObject mainMenu;
 
-        public GameObject verticalZone;
+        public MenuButtonRows verticalZone;
         public Text packName;
 
         private int state = 0;
-
-        private void Awake()
-        {
-            _menuInstance = this;
-        }
 
         //Enseña los botones de los niveles
         public void ShowButtonsLevel(Color c, int i, string name)
@@ -27,7 +22,7 @@ namespace MazesAndMore
             buttons.SetActive(true);
             packages.SetActive(false);
             mainMenu.SetActive(false);
-            verticalZone.GetComponent<MenuButtonRows>().CreateButtons(c, i);
+            verticalZone.CreateButtons(c, i);
             packName.text = name;
             state++;
         }
@@ -82,8 +77,5 @@ namespace MazesAndMore
 
             }
         }
-
-        public static MenuManager _menuInstance;
-
     }
 }

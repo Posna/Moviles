@@ -55,7 +55,7 @@ namespace MazesAndMore
                     {
                         actualDir = moves[0];
                         moves.RemoveAt(0);
-                        MoveCube(actualDir);
+                        MovePlayer(actualDir);
                         timeLapsed = 0;
                     }
                 }
@@ -114,7 +114,7 @@ namespace MazesAndMore
         }
 
         //Hace un movimiento dada una direccion
-        void MoveCube(Vector2 dir)
+        void MovePlayer(Vector2 dir)
         {
             dir.Normalize();
             float X = Mathf.Abs(dir.x);
@@ -209,7 +209,7 @@ namespace MazesAndMore
 
             actualDir = moves[0];
             moves.RemoveAt(0);
-            MoveCube(actualDir);
+            MovePlayer(actualDir);
             
         }
 

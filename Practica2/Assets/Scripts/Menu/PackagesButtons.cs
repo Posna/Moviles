@@ -12,6 +12,7 @@ namespace MazesAndMore
         public Text levelName;
         public Image spriteRenderer;
 
+        private MenuManager menuManager;
         private int package;
 
         void Start()
@@ -20,18 +21,19 @@ namespace MazesAndMore
             bt.onClick.AddListener(Click);
         }
 
-        public void Init(Sprite sprite, string name, int n)
+        public void Init(Sprite sprite, string name, int n, MenuManager menuManager)
         {
             spriteRenderer.sprite = sprite;
             levelName.text = name;
             package = n;
+            this.menuManager = menuManager;
         }
 
         void Click()
         {
             GameManager._instance.SetPackage(package);
-            MenuManager._menuInstance.ShowButtonsLevel(GameManager._instance.levelPackages[package].color, 
-                GameManager._instance.levelPackages[package].levels.Length, GameManager._instance.levelPackages[package].packName);
+            menuManager.ShowButtonsLevel(GameManager._instance.levelPackages[package].color, 
+            GameManager._instance.levelPackages[package].levels.Length, GameManager._instance.levelPackages[package].packName);
         }
 
         private void Update()
