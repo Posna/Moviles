@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Events;
+﻿using UnityEngine;
 
 namespace MazesAndMore
 {
@@ -13,6 +10,7 @@ namespace MazesAndMore
             GameManager._instance.ShowHint();
         }
 
+        // Agrega n pistas
         public void AddHint(int n)
         {
             GameManager._instance.AddHints(n);

@@ -8,6 +8,9 @@ TextureImporter:
   - first:
       213: 2328419040324226576
     second: Fin_HD
+  - first:
+      213: -8896345660770026084
+    second: FlechaDireccion
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -148,7 +151,7 @@ TextureImporter:
         width: 101
         height: 101
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -156,6 +159,27 @@ TextureImporter:
       bones: []
       spriteID: 01e08cad7c4305020800000000000000
       internalID: 2328419040324226576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FlechaDireccion
+      rect:
+        serializedVersion: 2
+        x: 2010
+        y: 1168
+        width: 33
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9df6b2a1c4d98480800000000000000
+      internalID: -8896345660770026084
       vertices: []
       indices: 
       edges: []

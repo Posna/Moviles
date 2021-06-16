@@ -7,20 +7,24 @@ namespace MazesAndMore
     public class Move : MonoBehaviour
     {
         [SerializeField]
-        private SpriteRenderer playerSprite;
+        private SpriteRenderer playerSprite = null;
 
+        [Tooltip("Tiempo que tarda el jugador en desplazarse una casilla")]
         public float timeMoving = 0.5f;
 
-        private Vector2 firstTouch;
-        private Vector2 finalPos;
-        private Vector2 initPos;
+        [Tooltip("Flechas mostradas para indicar las direcciones posibles. Arriba, Abajo, Izquierda, Derecha")]
+        public SpriteRenderer[] flechas = new SpriteRenderer[4];
+
+        private Vector2 firstTouch = new Vector2();
+        private Vector2 finalPos = new Vector2();
+        private Vector2 initPos = new Vector2();
         private float timeLapsed = 0;
         private bool isMoving = false;
-        private Vector2 actualDir;
-        private List<Vector2> moves;
-        private Stack<Vector2> allMoves;
-        private bool backwards;
-        private Vector2Int fin_;
+        private Vector2 actualDir = new Vector2();
+        private List<Vector2> moves = new List<Vector2>();
+        private Stack<Vector2> allMoves = new Stack<Vector2>();
+        private bool backwards = false;
+        private Vector2Int fin_ = new Vector2Int();        
 
         private Color c_;
 
@@ -32,6 +36,8 @@ namespace MazesAndMore
             finalPos = transform.localPosition;
             allMoves = new Stack<Vector2>();
             allMoves.Push(new Vector2(0, 0));
+
+            Input.simulateMouseWithTouches = true;
         }
 
         void Update()
@@ -42,6 +48,7 @@ namespace MazesAndMore
 
             if (isMoving)
             {
+                ResetDirs();
                 //Realiza movimientos hasta que no quedan mas en moves
                 timeLapsed += Time.deltaTime;
                 if (timeLapsed >= timeMoving)
@@ -64,28 +71,20 @@ namespace MazesAndMore
             }
             else
             {
+                EnablePosibleDirs();
+                //Maneja el input del teclado
                 if (Input.anyKey)
                     HandleVector(AnyArrowPressed());
 
-                //Handle screen input
+                //Maneja el input de la pantalla
                 if (Input.touchCount > 0)
-                {
-                    //Gets the first touch
-                    Touch touch = Input.GetTouch(0);
+                    HandleVector(AnyTouch());
 
-                    //When the touch begins
-                    if (touch.phase == TouchPhase.Began)
-                    {
-                        firstTouch = touch.position;
-                    }
-                    //When the touch ends
-                    else if (touch.phase == TouchPhase.Ended)
-                        HandleVector(touch.position - firstTouch);
-                }
+                //Maneja el input del raton
+                HandleVector(AnyMouseClick());
             }
 
             //El Player esta al final del nivel
-            Vector2Int p = new Vector2Int((int)transform.localPosition.x, (int)transform.localPosition.y);
             if (transform.localPosition.x - fin_.x == 0 && transform.localPosition.y - fin_.y == 0)
                 GameManager._instance.FinishLevel();
         }
@@ -111,6 +110,52 @@ namespace MazesAndMore
             if (Input.GetKeyDown(KeyCode.RightArrow)) return new Vector2(1, 0);
 
             return new Vector2(0, 0);
+        }
+
+        Vector2 AnyMouseClick()
+        {
+            //Gets the first touch
+            if (Input.GetMouseButtonDown(0))
+                firstTouch = Input.mousePosition;
+
+            //Gets the first touch
+            if (Input.GetMouseButtonUp(0))
+                return (Vector2)Input.mousePosition - firstTouch;
+
+            return Vector2.zero;
+        }
+
+        Vector2 AnyTouch()
+        {
+            //Gets the first touch
+            Touch touch = Input.GetTouch(0);
+
+            //When the touch begins
+            if (touch.phase == TouchPhase.Began)
+                firstTouch = touch.position;            
+            //When the touch ends
+            else if (touch.phase == TouchPhase.Ended)
+                return touch.position - firstTouch;
+
+            return Vector2.zero;
+        }
+
+        void EnablePosibleDirs()
+        {
+            Dirs[] dirs = { Dirs.Up, Dirs.Down, Dirs.Left, Dirs.Right };
+
+            for (int i = 0; i < dirs.Length; i++)
+            {
+                flechas[i].enabled = !bm.GetMap().GetWall(transform.localPosition, dirs[i]);
+            }
+        }
+
+        void ResetDirs()
+        {
+            for (int i = 0; i < flechas.Length; i++)
+            {
+                flechas[i].enabled = false;
+            }
         }
 
         //Hace un movimiento dada una direccion
@@ -203,7 +248,6 @@ namespace MazesAndMore
                 initPos += dir;
                 if(!bm.IsIce(initPos))
                     dir = bm.GetMap().GetOneDir(initPos, dir);
-                Debug.Log(bm.GetMap().GetNDirs(initPos));
             } while ((!bm.IsIce(initPos) && bm.GetMap().GetNDirs(initPos) == 2) || 
                 (bm.IsIce(initPos) && !bm.GetMap().GetWall(initPos, Utility.GetWallByDir(dir))));
 
@@ -220,6 +264,12 @@ namespace MazesAndMore
             c_ = c;
             playerSprite.color = c_;
             this.bm = bm;
+
+            //Cambia el color de las flechas de direccion
+            foreach (SpriteRenderer f in flechas)
+            {
+                f.color = c;
+            }
         }
 
     }

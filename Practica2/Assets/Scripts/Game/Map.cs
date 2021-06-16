@@ -9,17 +9,17 @@ namespace MazesAndMore
     {   
         //Auxiliar para desserializar el mapa
         [System.Serializable]
-        class Aux
+        class MapaSerializable
         {
-            public int r;
-            public int c;
+            public int r = 0;
+            public int c = 0;
 
-            public Vector2Int s;
-            public Vector2Int f;
+            public Vector2Int s = new Vector2Int();
+            public Vector2Int f = new Vector2Int();
 
-            public MyVector2[] h;
-            public MyVector2[] i;
-            public WallsOD[] w;
+            public MyVector2[] h = null;
+            public MyVector2[] i = null;
+            public WallsOD[] w = null;
         }
         //Auxiliar para desserializar los muros
         [System.Serializable]
@@ -40,17 +40,15 @@ namespace MazesAndMore
         //Lectura del json
         public void FromJson(string json)
         {
-            Aux mapaAux = JsonUtility.FromJson<Aux>(json);
+            MapaSerializable mapaAux = JsonUtility.FromJson<MapaSerializable>(json);
 
             _height = mapaAux.r; // Filas
             _width = mapaAux.c; // Columnas
-
-            Debug.Log("Alto: " + _height + " Ancho: " + _width);
-
+            
             _fin = mapaAux.f; // Casilla final
             _ini = mapaAux.s; // Casilla inicial
 
-            //_hints = mapaAux.h; // hints
+            // hints
             _hints = new Vector2[mapaAux.h.Length];
             for (int i = 0; i < mapaAux.h.Length; i++)
             {
@@ -85,7 +83,7 @@ namespace MazesAndMore
         }
 
         //Contruccion de los muros
-        private void BuildMap(Aux mapaAux)
+        private void BuildMap(MapaSerializable mapaAux)
         {
             foreach (WallsOD item in mapaAux.w)
             {
@@ -126,14 +124,13 @@ namespace MazesAndMore
                     continue;
                 }
 
-                Debug.Log("X: " + item.o.x + "Y: " + item.d.y);
                 _walls[item.o.x, item.d.y][(int)lado] = true;
                 normalizeWall(item.o.x, item.d.y, lado);
             } //foreach
 
         }
 
-
+        // Inicializacion por defecto del mapa
         private void initMap()
         {
             for (int i = 0; i < _height; i++)
@@ -176,6 +173,8 @@ namespace MazesAndMore
         //Obtenemos si hay muro en una posicion y direccion concreta
         public bool GetWall(Vector2 p, Dirs w)
         {
+            if (w == Dirs.Neutral)
+                return true;
             return _walls[(int)p.x, (int)p.y][(int)w];
         }
 

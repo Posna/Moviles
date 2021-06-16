@@ -46,3 +46,5 @@ MonoBehaviour:
   buttons: {fileID: 0}
   packages: {fileID: 0}
   mainMenu: {fileID: 0}
+  verticalZone: {fileID: 0}
+  packName: {fileID: 0}

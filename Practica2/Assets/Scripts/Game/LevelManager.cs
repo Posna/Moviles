@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace MazesAndMore
 {
-
     public class LevelManager : MonoBehaviour
     {
         public BoardManager boardManager;
@@ -15,7 +14,7 @@ namespace MazesAndMore
 
         private Color color_;
 
-        //Crea el nivel
+        //Crea el nivel con un color concreto
         public void CreateLevel(Color c)
         {
             color_ = c;

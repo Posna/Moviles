@@ -8,18 +8,18 @@ namespace MazesAndMore
         public Tile tilePrefab;
         public Camera cam;
         public Move player;
-        public int hintsNumber = 3;
+        public int hintsNumber = 3; // Numero maximo de pistas
 
         private int hints = 0;
 
         private Move _p;
 
-        private Map _map;
+        private Map _map; // Mapa del juego
 
         int width;
         int height;
 
-        private Vector2 resolution;
+        private Vector2 resolution; //Guardado de la resolución de la pantalla
 
         private void Awake()
         {
@@ -64,6 +64,7 @@ namespace MazesAndMore
             //Activa el final de casilla
             _tiles[_map.GetFin().x, _map.GetFin().y].EnableFin(_levelManager.GetLevelColor());
 
+            //Instancia del player e inicializacion
             _p = Instantiate(player, new Vector2(_map.GetIni().x, _map.GetIni().y), Quaternion.identity, gameObject.transform);
             _p.Init(_levelManager.GetLevelColor(), _map.GetFin(), this);
 
@@ -84,7 +85,7 @@ namespace MazesAndMore
         {
             ResetScale();
             float r, scale;
-            r = cam.pixelWidth / (float)cam.pixelHeight;
+            r = cam.pixelWidth / (float)cam.pixelHeight; // Relacion de ancho y alto
 
 
             scale = ((cam.orthographicSize - 0.01f) * 2 * r) / width;
@@ -127,7 +128,8 @@ namespace MazesAndMore
         /// </summary>
         /// <param name="p"> Posicion del Tile </param>
         /// <param name="d"> Direccion del camino </param>
-        /// <param name=""> Color del camino </param>
+        /// <param name="c"> Color del camino </param>
+        /// <param name="active"> Boleano para activarlo o desactivarlo </param>
         public void EnablePath(Vector2 p, Dirs d, Color c, bool active)
         {
             if (d != Dirs.Neutral)
@@ -139,12 +141,13 @@ namespace MazesAndMore
             }
         }
 
+        // Marca que un tile es de hielo
         public bool IsIce(Vector2 p)
         {
             return _tiles[(int)p.x, (int)p.y].IsIce();
         }
 
-        //Enseña nueva pista
+        //Enseña el camino al canjear una nueva pista
         public void NewHint()
         {
             if (hints < hintsNumber)

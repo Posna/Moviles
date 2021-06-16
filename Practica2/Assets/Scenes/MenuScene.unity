@@ -914,7 +914,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 7060411504911838616, guid: aef8a6eae47eaec4b94934382024c6d5, type: 3}
-  menuManager: {fileID: 0}
+  menuManager: {fileID: 871112010}
   zonaButtons: {fileID: 1380674594}
   verticalLayout: {fileID: 529436309}
 --- !u!114 &529436309
@@ -2500,17 +2500,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7916283770071569894, guid: 27014d8857dab8945914786cee1668ce, type: 3}
-      propertyPath: mainMenu
+      propertyPath: buttons
       value: 
-      objectReference: {fileID: 192701099}
+      objectReference: {fileID: 1452525733}
     - target: {fileID: 7916283770071569894, guid: 27014d8857dab8945914786cee1668ce, type: 3}
       propertyPath: packages
       value: 
       objectReference: {fileID: 694941513}
     - target: {fileID: 7916283770071569894, guid: 27014d8857dab8945914786cee1668ce, type: 3}
-      propertyPath: buttons
+      propertyPath: mainMenu
       value: 
-      objectReference: {fileID: 1452525733}
+      objectReference: {fileID: 192701099}
     - target: {fileID: 7916283770071569894, guid: 27014d8857dab8945914786cee1668ce, type: 3}
       propertyPath: verticalZone
       value: 

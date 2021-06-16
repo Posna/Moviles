@@ -23,7 +23,6 @@ namespace MazesAndMore
 
         private int[] path = { 0, 0, 0, 0 }; //Contador de pasadar del player
         private bool[] hints = { false, false, false, false }; //Direccion de las pistas si es que tiene
-        private int whatHint = 0; //Numero de pista (0, 1, o 2)
         private bool isIce = false; //Si el Tile tiene hielo
 
         public void EnableIce()
@@ -56,6 +55,7 @@ namespace MazesAndMore
             {
                 paths[(int)d].gameObject.SetActive(true);
                 paths[(int)d].color = c;
+                paths[(int)d].sortingOrder = 3;
             }
         }
 
@@ -78,6 +78,7 @@ namespace MazesAndMore
                 {
                     paths[(int)fromH].gameObject.SetActive(true);
                     paths[(int)fromH].color = Color.yellow;
+                    paths[(int)fromH].sortingOrder = 2;
                 }
             }
 
@@ -88,6 +89,7 @@ namespace MazesAndMore
                 {
                     paths[(int)toH].gameObject.SetActive(true);
                     paths[(int)toH].color = Color.yellow;
+                    paths[(int)toH].sortingOrder = 2;
                 }
             }
         }

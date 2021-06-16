@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace MazesAndMore {
+
+    [RequireComponent(typeof(Button))]
     public class HintsHandler : MonoBehaviour
     {
         public GameObject hintsMenu;
