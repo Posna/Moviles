@@ -14,7 +14,10 @@ namespace MazesAndMore
 
         private Color color_;
 
-        //Crea el nivel con un color concreto
+        /// <summary>
+        /// Crea el nivel con un color concreto
+        /// </summary>
+        /// <param name="c"> Color del nivel </param>
         public void CreateLevel(Color c)
         {
             color_ = c;
@@ -22,22 +25,31 @@ namespace MazesAndMore
             boardManager.SetMap(level.text);
         }
 
-        //Limpia la escena
+        /// <summary>
+        /// Limpia la escena
+        /// </summary>
         public void ClearScene()
         {
             boardManager.ClearMap();
         }
 
+        /// <returns> Devuelve el color del nivel </returns>
         public Color GetLevelColor()
         {
             return color_;
         }
 
+        /// <summary>
+        /// Enseña una nueva pista
+        /// </summary>
         public void ShowNewHint()
         {
             boardManager.NewHint();
         }
 
+        /// <summary>
+        /// Termina el nivel
+        /// </summary>
         public void FinishLevel()
         {
             finLevel.SetActive(true);

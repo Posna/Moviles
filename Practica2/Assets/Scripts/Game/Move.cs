@@ -15,18 +15,22 @@ namespace MazesAndMore
         [Tooltip("Flechas mostradas para indicar las direcciones posibles. Arriba, Abajo, Izquierda, Derecha")]
         public SpriteRenderer[] flechas = new SpriteRenderer[4];
 
-        private Vector2 firstTouch = new Vector2();
+        // Posiciones
         private Vector2 finalPos = new Vector2();
         private Vector2 initPos = new Vector2();
-        private float timeLapsed = 0;
-        private bool isMoving = false;
-        private Vector2 actualDir = new Vector2();
-        private List<Vector2> moves = new List<Vector2>();
-        private Stack<Vector2> allMoves = new Stack<Vector2>();
-        private bool backwards = false;
-        private Vector2Int fin_ = new Vector2Int();        
 
-        private Color c_;
+        //Manejo del moviemiento
+        private Vector2 firstTouch = new Vector2(); // Primer contacto del dedo o click en la pantalla
+        private bool isMoving = false; // Controla si se esta moviendo
+        private Vector2 actualDir = new Vector2(); // Dirección actual
+        private List<Vector2> moves = new List<Vector2>(); // Movimientos que va a hacer
+        private Stack<Vector2> allMoves = new Stack<Vector2>(); // Pila con todos los movimientos que ha realizado
+        private bool backwards = false; // Bool para saber si retrocede
+
+        private Vector2Int fin_ = new Vector2Int(); // Final del nivel
+        private Color c_; // Color del player
+        private float timeLapsed = 0; // Tiempo transcurrido
+        private bool stop = true; // Comprobacion de que esta parado
 
         private BoardManager bm;
 
@@ -44,11 +48,17 @@ namespace MazesAndMore
         {
             //Para que no se mueva si esta pausado el juego
             if (GameManager._instance.isPaused())
+            {                
                 return;
+            }
 
             if (isMoving)
             {
-                ResetDirs();
+                if (!stop)
+                {
+                    ResetDirs();
+                    stop = true;
+                }
                 //Realiza movimientos hasta que no quedan mas en moves
                 timeLapsed += Time.deltaTime;
                 if (timeLapsed >= timeMoving)
@@ -71,16 +81,16 @@ namespace MazesAndMore
             }
             else
             {
-                EnablePosibleDirs();
+                if (stop)
+                {
+                    EnablePosibleDirs();
+                    stop = false;
+                }
                 //Maneja el input del teclado
                 if (Input.anyKey)
                     HandleVector(AnyArrowPressed());
-
-                //Maneja el input de la pantalla
-                if (Input.touchCount > 0)
-                    HandleVector(AnyTouch());
-
-                //Maneja el input del raton
+                
+                //Maneja el input del raton y de la pantalla tactil
                 HandleVector(AnyMouseClick());
             }
 
@@ -88,8 +98,12 @@ namespace MazesAndMore
             if (transform.localPosition.x - fin_.x == 0 && transform.localPosition.y - fin_.y == 0)
                 GameManager._instance.FinishLevel();
         }
-        
-        // Maneja el vector de entrada ya sea de teclado o de pantalla
+
+        /// <summary>
+        /// Maneja el vector de entrada ya sea de teclado o de pantalla
+        /// </summary>
+        /// <param name="m"> Vector generado por el movimiento en pantalla 
+        /// (desde que se pulsa hasta que se suelta) o del teclado </param>
         void HandleVector(Vector2 m)
         {
             // Comprobacion de que el vector que recibimos no es nulo
@@ -101,7 +115,10 @@ namespace MazesAndMore
             timeLapsed = 0;
         }
 
-        // Comprueba si se ha apretado alguna flecha y devuelve el vector2 correspondiente
+        /// <summary>
+        /// Comprueba si se ha apretado alguna flecha y devuelve el vector2 correspondiente
+        /// </summary>
+        /// <returns> Vector de las flechas pulsadas </returns>
         Vector2 AnyArrowPressed()
         {
             if (Input.GetKeyDown(KeyCode.DownArrow)) return new Vector2(0, -1);
@@ -112,6 +129,10 @@ namespace MazesAndMore
             return new Vector2(0, 0);
         }
 
+        /// <summary>
+        /// Controla el click del raton
+        /// </summary>
+        /// <returns> Devuelve el vector generado </returns>
         Vector2 AnyMouseClick()
         {
             //Gets the first touch
@@ -125,21 +146,9 @@ namespace MazesAndMore
             return Vector2.zero;
         }
 
-        Vector2 AnyTouch()
-        {
-            //Gets the first touch
-            Touch touch = Input.GetTouch(0);
-
-            //When the touch begins
-            if (touch.phase == TouchPhase.Began)
-                firstTouch = touch.position;            
-            //When the touch ends
-            else if (touch.phase == TouchPhase.Ended)
-                return touch.position - firstTouch;
-
-            return Vector2.zero;
-        }
-
+        /// <summary>
+        /// Activa las flechas que muestran las posibles direcciones
+        /// </summary>
         void EnablePosibleDirs()
         {
             Dirs[] dirs = { Dirs.Up, Dirs.Down, Dirs.Left, Dirs.Right };
@@ -150,6 +159,9 @@ namespace MazesAndMore
             }
         }
 
+        /// <summary>
+        /// Reinicia las flechas que muestran las posibles direcciones
+        /// </summary>
         void ResetDirs()
         {
             for (int i = 0; i < flechas.Length; i++)
@@ -158,7 +170,10 @@ namespace MazesAndMore
             }
         }
 
-        //Hace un movimiento dada una direccion
+        /// <summary>
+        /// Hace un movimiento dada una direccion
+        /// </summary>
+        /// <param name="dir"> Dirección dada para hacer el moviemiento </param>
         void MovePlayer(Vector2 dir)
         {
             dir.Normalize();
@@ -183,10 +198,9 @@ namespace MazesAndMore
             //Calculate the final position and rotation
             initPos = transform.localPosition;
 
+            //Si la direccion a la que se quiere ir hay muro, no moverse
             if(bm.GetMap().GetWall(initPos, w))
-            {
                 return;
-            }
             
 
             backwards = allMoves.Peek().x == -dir.x && allMoves.Peek().y == -dir.y;
@@ -203,18 +217,27 @@ namespace MazesAndMore
             Invoke("PathAppearS", timeMoving / 1.2f);
         }
 
+        /// <summary>
+        /// Aparece el camino del inicio del movimiento
+        /// </summary>
         void PathAppearF()
         {
             bm.EnablePath(initPos, Utility.GetWallByDir(actualDir), c_, !backwards);
         }
 
+        /// <summary>
+        /// Aparece el camino del final del movimiento
+        /// </summary>
         void PathAppearS()
         {
             bm.EnablePath(finalPos, Utility.GetWallByDir(-actualDir), c_, !backwards);
 
         }
 
-        //hace todos los movimientos hasta que encuentra una interseccion y los va añadiendo a la lista moves
+        /// <summary>
+        /// hace todos los movimientos hasta que encuentra una interseccion y los va añadiendo a la lista moves
+        /// </summary>
+        /// <param name="dir"> Dirección que debe manejar y añadir </param>
         void collectMoves(Vector2 dir)
         {
             dir.Normalize();
@@ -242,6 +265,7 @@ namespace MazesAndMore
                 return;
             }
 
+            // Recorre el camino si hay una única dirección o hay hielo
             do
             {
                 moves.Add(dir);
@@ -253,11 +277,15 @@ namespace MazesAndMore
 
             actualDir = moves[0];
             moves.RemoveAt(0);
-            MovePlayer(actualDir);
-            
+            MovePlayer(actualDir);            
         }
 
-        //Cambia el color del personaje y asigna el fin
+        /// <summary>
+        /// Cambia el color del personaje y asigna el fin
+        /// </summary>
+        /// <param name="c"> Color del nivel y del personaje </param>
+        /// <param name="fin"> Posición final de la meta</param>
+        /// <param name="bm"> Instancia del BoardManager </param>
         public void Init(Color c, Vector2Int fin, BoardManager bm)
         {
             fin_ = fin;

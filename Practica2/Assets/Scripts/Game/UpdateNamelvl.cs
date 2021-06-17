@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace MazesAndMore
 {
+    [RequireComponent(typeof(Text))]
     public class UpdateNamelvl : MonoBehaviour
     {
         private Text text;
@@ -16,7 +15,7 @@ namespace MazesAndMore
 
         void Update()
         {
-            text.text = GameManager._instance.GetName();
+            text.text = GameManager._instance.GetName(); // Actualiza continuamente el nombre del nivel
         }
     }
 }

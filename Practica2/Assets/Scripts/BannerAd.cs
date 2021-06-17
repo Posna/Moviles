@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Advertisements;
 
@@ -15,7 +14,9 @@ public class BannerAd : MonoBehaviour
         StartCoroutine(ShowBannerWhenInitialized());
     }
 
-    //Muestra el banner
+    /// <summary>
+    /// Muestra el banner
+    /// </summary>
     IEnumerator ShowBannerWhenInitialized()
     {
         while (!Advertisement.isInitialized)

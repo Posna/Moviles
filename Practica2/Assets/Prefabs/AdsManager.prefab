@@ -43,3 +43,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42903f57afd68d04ab4654575baea5bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Android_ID: 3978709
+  TestMode: 1

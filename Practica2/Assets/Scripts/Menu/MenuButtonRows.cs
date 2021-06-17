@@ -12,7 +12,11 @@ namespace MazesAndMore {
         public VerticalLayoutGroup verticalLayout;
 
 
-        //Creacion de los botones niveles. Se crean filas y dentro los botones
+        /// <summary>
+        /// /Creacion de los botones niveles. Se crean filas y dentro los botones
+        /// </summary>
+        /// <param name="c"> Color del pack </param>
+        /// <param name="levels"> Numero de niveles del pack </param>
         public void CreateButtons(Color c, int levels)
         {
             int r = (int)Mathf.Ceil((levels / 5.0f));
@@ -34,7 +38,7 @@ namespace MazesAndMore {
                     GameObject b = Instantiate(buttons, f.transform);
                     ButtonsLogic logic = b.GetComponent<ButtonsLogic>();
                     int level = 5 * i + j;
-                    string text = (5 * i + j + 1).ToString();
+                    string text = (level + 1).ToString();
                     logic.Init(c, level, text);
                 }
             }

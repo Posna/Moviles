@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using System;
 
 namespace MazesAndMore
@@ -8,7 +6,7 @@ namespace MazesAndMore
     public class Map
     {   
         //Auxiliar para desserializar el mapa
-        [System.Serializable]
+        [Serializable]
         class MapaSerializable
         {
             public int r = 0;
@@ -21,25 +19,30 @@ namespace MazesAndMore
             public MyVector2[] i = null;
             public WallsOD[] w = null;
         }
+
         //Auxiliar para desserializar los muros
-        [System.Serializable]
+        [Serializable]
         public class WallsOD
         {
             public Vector2Int o;
             public Vector2Int d;
         }
 
-        //Auxiliar para desserializar las pistas
-        [System.Serializable]
+        //Auxiliar para deserializar las pistas
+        [Serializable]
         public class MyVector2
         {
             public int x = 0;
             public int y = 0;
         }
 
-        //Lectura del json
+        /// <summary>
+        /// Lectura del JSON
+        /// </summary>
+        /// <param name="json"> Nombre del JSON</param>
         public void FromJson(string json)
         {
+            // Desserializacion del JSON
             MapaSerializable mapaAux = JsonUtility.FromJson<MapaSerializable>(json);
 
             _height = mapaAux.r; // Filas
@@ -82,12 +85,15 @@ namespace MazesAndMore
             BuildMap(mapaAux);
         }
 
-        //Contruccion de los muros
+        /// <summary>
+        /// Contruccion de los muros
+        /// </summary>
+        /// <param name="mapaAux"> Mapa del que se extraen los datos </param>
         private void BuildMap(MapaSerializable mapaAux)
         {
+            // Recorre todos los muros
             foreach (WallsOD item in mapaAux.w)
             {
-                Debug.Log(item.o.x + " " + (item.d.y) + "\n");
                 Dirs lado = Dirs.Down;
                 if (item.o.x < item.d.x)
                     lado = Dirs.Down;
@@ -130,7 +136,9 @@ namespace MazesAndMore
 
         }
 
-        // Inicializacion por defecto del mapa
+        /// <summary>
+        /// Inicializacion por defecto del mapa
+        /// </summary>
         private void initMap()
         {
             for (int i = 0; i < _height; i++)
@@ -142,13 +150,17 @@ namespace MazesAndMore
             }
         }
 
-        // Pone los muros a true de las casillas contiguas
+        /// <summary>
+        /// Pone los muros a true de las casillas contiguas
+        /// </summary>
+        /// <param name="x"> Posicion X del muro </param>
+        /// <param name="y"> Posicion Y del muro </param>
+        /// <param name="lado"> Lado del tile en el que se encuentra el muro </param>
         private void normalizeWall(int x, int y, Dirs lado)
         {
             int k = (int)lado;
             if (_walls[x, y][k])
-            {
-                
+            {                
                 if (k == 1 && y > 0)
                 {
                     _walls[x, y-1][(int)Dirs.Up] = true;
@@ -159,18 +171,25 @@ namespace MazesAndMore
                 }
             } //if
         }
-
+                
+        /// <returns> Devuelve el ancho del mapa </returns>
         public int GetWidth()
         {
             return _width;
         }
 
+        /// <returns> Devuelve el alto del mapa </returns>
         public int GetHeight()
         {
             return _height;
         }
 
-        //Obtenemos si hay muro en una posicion y direccion concreta
+        /// <summary>
+        /// Obtenemos si hay muro en una posicion y direccion concreta
+        /// </summary>
+        /// <param name="p"> Posicion del tile </param>
+        /// <param name="w"> Lado del muro </param>
+        /// <returns> true si hay muro, false en el caso contrario</returns>
         public bool GetWall(Vector2 p, Dirs w)
         {
             if (w == Dirs.Neutral)
@@ -178,17 +197,23 @@ namespace MazesAndMore
             return _walls[(int)p.x, (int)p.y][(int)w];
         }
 
+        /// <returns> Devuelve la posicion inicial </returns>
         public Vector2Int GetIni()
         {
             return _ini;
         }
 
+        /// <returns> Devuelve la posicion final </returns>
         public Vector2Int GetFin()
         {
             return _fin;
         }
 
-        //Comprueba cuantass direcciones hay disponibles en una casilla concreta
+        /// <summary>
+        /// Comprueba cuantas direcciones hay disponibles en una casilla concreta
+        /// </summary>
+        /// <param name="p"> Posicion del tile </param>
+        /// <returns> Numero de direcciones posibles </returns>
         public int GetNDirs(Vector2 p)
         {
             int i = 0;
@@ -201,12 +226,19 @@ namespace MazesAndMore
             return 4 - i ;
         }
 
+        
+        /// <returns> Devuelve un vector con la posición de todos los tiles con hielo </returns>
         public Vector2[] GetIce()
         {
             return _ice;
         }
 
-        //Devuelve la primera direccion que no sea la dada (d)
+        /// <summary>
+        /// Devuelve la primera direccion que no sea la dada (d)
+        /// </summary>
+        /// <param name="p"> Posicion del tile </param>
+        /// <param name="d"> Direccion a evitar </param>
+        /// <returns> Dirección posible distinta de d </returns>
         public Vector2 GetOneDir(Vector2 p, Vector2 d)
         {
             bool found = false;
@@ -222,23 +254,22 @@ namespace MazesAndMore
             return Utility.GetDirByWall((Dirs)i);
         }
 
-        
-
+        /// <returns> Devuelve la posición de todas las pistas </returns>
         public Vector2[] GetHints()
         {
             return _hints;
         }
         
-        private bool[,][] _walls;
+        private bool[,][] _walls; // Muros de todo el mapa 
 
-        private Vector2Int _ini;
-        private Vector2Int _fin;
+        private Vector2Int _ini; // Posicion inicial
+        private Vector2Int _fin; // Posicion final
 
-        private Vector2[] _hints;
-        private Vector2[] _ice;
+        private Vector2[] _hints; // Posicion de las pistas
+        private Vector2[] _ice; // Posiciones de los tiles con hielo
 
-        private int _width;
-        private int _height;
+        private int _width; // Ancho del mapa
+        private int _height; // Alto del mapa
 
     }
 }

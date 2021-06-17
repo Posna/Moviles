@@ -6,11 +6,11 @@ namespace MazesAndMore
 {
     public class Menu : MonoBehaviour
     {
-        const int MAX_BUTTONS = 8;
+        const int MAX_BUTTONS = 8; // Numero máximo de botones (packs) a enseñar a la vez
 
         [Header("Instancia")]
         [Tooltip("Boton a instanciar para elegir el pack")]
-        public GameObject button;
+        public RectTransform button;
 
         [Header("Menu Manager")]
         public MenuManager menuManager;
@@ -23,7 +23,7 @@ namespace MazesAndMore
         void Start()
         {
             int r = GameManager._instance.levelPackages.Length;
-            float h = button.GetComponent<RectTransform>().rect.height;
+            float h = button.rect.height;
             int tam = (r - MAX_BUTTONS);
             if (tam < 0)
                 tam = 0;
@@ -31,7 +31,7 @@ namespace MazesAndMore
 
             for (int i = 0; i < GameManager._instance.levelPackages.Length; i++)
             {
-                GameObject newButton = Instantiate(button, transform);
+                GameObject newButton = Instantiate(button.gameObject, transform);
                 PackagesButtons logica = newButton.GetComponent<PackagesButtons>();
                 logica.Init(GameManager._instance.levelPackages[i].image, GameManager._instance.levelPackages[i].packName, i, menuManager);
             }

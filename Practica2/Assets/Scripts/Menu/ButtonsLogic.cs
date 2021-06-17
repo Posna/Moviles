@@ -36,7 +36,12 @@ namespace MazesAndMore
             GetComponent<Button>().onClick.AddListener(Click);
         }
 
-
+        /// <summary>
+        /// Inicialización de la lógica de los controles
+        /// </summary>
+        /// <param name="c"> Color del pack </param>
+        /// <param name="lvl"> Número del nivel </param>
+        /// <param name="text"> Texto que se debe insertar en el boton </param>
         public void Init(Color c, int lvl, string text)
         {
             blockImg.color = c;
@@ -44,6 +49,9 @@ namespace MazesAndMore
             buttonText.text = text;
         }
 
+        /// <summary>
+        /// Se ejecuta tras hacer click en la selección de nivel
+        /// </summary>
         public void Click()
         {
             if(!block)

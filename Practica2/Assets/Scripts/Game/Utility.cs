@@ -1,12 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace MazesAndMore
 {
     public class Utility : MonoBehaviour
     {
-        //Devuelve la Dir opuesta
+        /// <summary>
+        /// Devuelve la Dir opuesta
+        /// </summary>
+        /// <param name="w"> Dirección de la que se busca su opuesta</param>
+        /// <returns> Dirección opuesta a w </returns>
         static public Dirs GetOppositeWall(Dirs w)
         {
             if ((int)w % 2 == 0)
@@ -17,7 +19,11 @@ namespace MazesAndMore
             return (Dirs)((int)w - 1);
         }
 
-        //Dada una Dir se devuelve el vector unitario
+        /// <summary>
+        /// Dada una Dir se devuelve el vector unitario
+        /// </summary>
+        /// <param name="w"> Dirección dada </param>
+        /// <returns> Vector unitario </returns>
         static public Vector2 GetDirByWall(Dirs w)
         {
             int p = 1;

@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace MazesAndMore
 {
-
     public enum Dirs { Up, Down, Left, Right, Neutral }
 
     public class Tile : MonoBehaviour
@@ -25,29 +24,46 @@ namespace MazesAndMore
         private bool[] hints = { false, false, false, false }; //Direccion de las pistas si es que tiene
         private bool isIce = false; //Si el Tile tiene hielo
 
+        /// <summary>
+        /// Activa el hielo de este tile
+        /// </summary>
         public void EnableIce()
         {
             iceFloor.gameObject.SetActive(true);
             isIce = true;
         }
 
+ 
+        /// <returns>Devuelve si el tile es hielo o no </returns>
         public bool IsIce()
         {
             return isIce;
         }
 
+        /// <summary>
+        /// Actival el tile para que muestre el sprite de meta
+        /// </summary>
+        /// <param name="c_"> Color del nivel y del sprite </param>
         public void EnableFin(Color c_)
         {
             finFloor.gameObject.SetActive(true);
             finFloor.color = c_;
         }
 
-
+        /// <summary>
+        /// Añade muro al tile
+        /// </summary>
+        /// <param name="w"> Dirección en la que añadir el muro </param>
         public void EnableWall(Dirs w)
         {
             walls[(int)w].gameObject.SetActive(true);
         }
 
+        /// <summary>
+        /// Actival el camino
+        /// </summary>
+        /// <param name="d"> Dirección del camino </param>
+        /// <param name="c"> Color del camino </param>
         public void EnablePath(Dirs d, Color c)
         {
             path[(int)d]++;
@@ -59,7 +75,11 @@ namespace MazesAndMore
             }
         }
 
-        //Habilita la pista desde el boardManager
+        /// <summary>
+        /// Habilita la pista desde el boardManager
+        /// </summary>
+        /// <param name="from"> Tile del que viene </param>
+        /// <param name="to"> Tile al que va </param>
         public void EnableHint(Vector2 from, Vector2 to)
         {
             Dirs fromH = Dirs.Neutral, toH = Dirs.Neutral; // Direcciones de las pistas
@@ -94,7 +114,11 @@ namespace MazesAndMore
             }
         }
 
-        public void DisablePath(Dirs d, Color c)
+        /// <summary>
+        /// Deshabilita un camino
+        /// </summary>
+        /// <param name="d"> Dirección del camino a desactivar </param>
+        public void DisablePath(Dirs d)
         {
             path[(int)d]--;
             if (path[(int)d] == 0)

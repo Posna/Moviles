@@ -5,14 +5,14 @@ namespace MazesAndMore
     public class BoardManager : MonoBehaviour
     {
 
-        public Tile tilePrefab;
-        public Camera cam;
-        public Move player;
+        public Tile tilePrefab; // Prefab del tile 
+        public Camera cam; // Camara
+        public Move player; // Prefab del jugador
         public int hintsNumber = 3; // Numero maximo de pistas
 
-        private int hints = 0;
+        private int hints = 0; // Pistas pedidas
 
-        private Move _p;
+        private Move _p; // Instancia del juegador
 
         private Map _map; // Mapa del juego
 
@@ -42,7 +42,10 @@ namespace MazesAndMore
             return _map;
         }
 
-        //Creacion de tiles, player y hielos (si toca
+        /// <summary>
+        /// Creacion de tiles, player y hielos (si toca)
+        /// </summary>
+        /// <param name="lvltext"> numero del nivel </param>
         public void SetMap(string lvltext)
         {
             _map.FromJson(lvltext);
@@ -68,6 +71,7 @@ namespace MazesAndMore
             _p = Instantiate(player, new Vector2(_map.GetIni().x, _map.GetIni().y), Quaternion.identity, gameObject.transform);
             _p.Init(_levelManager.GetLevelColor(), _map.GetFin(), this);
 
+            //Guardado de alto y ancho de la pantalla
             height = _map.GetHeight();
             width = _map.GetWidth();
 
@@ -80,7 +84,9 @@ namespace MazesAndMore
             AdjustResolution();
         }
 
-        //Ajuste de la resolucion
+        /// <summary>
+        /// Ajuste de la resolucion
+        /// </summary>
         private void AdjustResolution()
         {
             ResetScale();
@@ -97,18 +103,27 @@ namespace MazesAndMore
             gameObject.transform.position = new Vector3(-scale * ((width / 2.0f) - 0.5f), -scale * ((height / 2.0f) - 0.5f), 0);
         }
 
+        /// <summary>
+        /// Reinicio de la escala
+        /// </summary>
         private void ResetScale()
         {
             gameObject.transform.localScale = new Vector3(1, 1, 1);
             gameObject.transform.position = new Vector3(0, 0, 0);
         }
 
+        /// <summary>
+        /// Inicialización del BoardManager
+        /// </summary>
+        /// <param name="lvl"> Instancia del LevelManager </param>
         public void Init(LevelManager lvl)
         {
             _levelManager = lvl;
         }
 
-        //Limpieza del mapa
+        /// <summary>
+        /// Limpieza del mapa
+        /// </summary>
         public void ClearMap()
         {
             ResetScale();
@@ -137,17 +152,23 @@ namespace MazesAndMore
                 if (active)
                     _tiles[(int)p.x, (int)p.y].EnablePath(d, c);
                 else
-                    _tiles[(int)p.x, (int)p.y].DisablePath(d, c);
+                    _tiles[(int)p.x, (int)p.y].DisablePath(d);
             }
         }
 
-        // Marca que un tile es de hielo
+        /// <summary>
+        /// Pregunta si un tile es de hielo
+        /// </summary>
+        /// <param name="p"> Posición del tile </param>
+        /// <returns> Respuesta de si el tile es de hielo </returns>
         public bool IsIce(Vector2 p)
         {
             return _tiles[(int)p.x, (int)p.y].IsIce();
         }
 
-        //Enseña el camino al canjear una nueva pista
+        /// <summary>
+        /// Enseña el camino al canjear una nueva pista
+        /// </summary>
         public void NewHint()
         {
             if (hints < hintsNumber)
@@ -173,6 +194,7 @@ namespace MazesAndMore
                     fin--;
                 }
 
+                //Activación de las pistas entre medias
                 for (int j = ini; j < fin; j++)
                 {
                     _tiles[(int)h[j].x, (int)h[j].y].EnableHint(h[j - 1], h[j + 1]);
@@ -182,8 +204,8 @@ namespace MazesAndMore
             }
         }
 
-        private Tile[,] _tiles;
+        private Tile[,] _tiles; // Mapa de todos los tiles
 
-        private LevelManager _levelManager;
+        private LevelManager _levelManager; // Instancia del LevelManager
     }
 }

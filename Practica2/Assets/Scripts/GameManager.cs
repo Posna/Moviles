@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Security.Cryptography;
-using System;
 using System.Text;
 
 namespace MazesAndMore {
@@ -24,11 +21,6 @@ namespace MazesAndMore {
         private bool pause = false; 
         private int hints = 0;
 
-
-        private void Awake()
-        {
-            
-        }
         void Start()
         {
 
@@ -67,14 +59,18 @@ namespace MazesAndMore {
             }
         }
 
-        //Reinicia el nivel
+        /// <summary>
+        /// Reinicia el nivel
+        /// </summary>
         public void ResetLevel()
         {
             levelManager.ClearScene();
             StartNewScene();
         }
 
-        // Actualiza el nivel y muestra la pantalla de final de nivel
+        /// <summary>
+        /// Actualiza el nivel y muestra la pantalla de final de nivel
+        /// </summary>
         public void FinishLevel()
         {
             level++;
@@ -84,60 +80,80 @@ namespace MazesAndMore {
             levelManager.ClearScene();
         }
 
-        //Pasa de nivel y muestra un anuncio
+        /// <summary>
+        /// Pasa de nivel y muestra un anuncio
+        /// </summary>
         public void NextLevel()
         {
             AdsManager._ADInstance.DispayAD();       
             StartNewScene();
+            Input.ResetInputAxes();
         }
 
-        //Enseña una nueva pista
+        /// <summary>
+        /// Enseña una nueva pista
+        /// </summary>
         public void ShowHint()
         {
             levelManager.ShowNewHint();
             Save();
         }
 
-        // pausa el juego
+        /// <summary>
+        /// Pausa el juego
+        /// </summary>
         public void Pause()
         {
             pause = true;
         }
 
-        // despausa el juego
+        /// <summary>
+        /// Despausa el juego. Limpia el buffer de input para evitar 
+        /// movimientos del personaje
+        /// </summary>
         public void Resume()
         {
             pause = false;
+            Input.ResetInputAxes();
         }
 
 
+        /// <returns> Devuelve si el juego esta pausado </returns>
         public bool isPaused()
         {
             return pause;
         }
 
-        //Añade pistas y guarda partida
+        /// <summary>
+        /// Añade pistas y guarda partida
+        /// </summary>
+        /// <param name="sum"> numero de pistas a añadir (o restar)</param>
         public void AddHints(int sum)
         {
             hints +=sum;
             Save();
         }
 
+
+        /// <returns> Devuelve el numero de pistas </returns>
         public int GetHints()
         {
             return hints;
         }
 
+        /// <returns> Devuelve el nombre del nivel </returns>
         public string GetName()
         {
             return levelPackages[package].name + " - " + (level+1);
         }
 
-        // Load the levels availables and hints
+        /// <summary>
+        /// Load the levels availables and hints
+        /// </summary>
         void Load()
         {
             maxLevels = new int[levelPackages.Length];
-            string json = PlayerPrefs.GetString("memory", "null");
+            string json = PlayerPrefs.GetString("memory", "null"); // JSON guardado de la partida anterior
             BasicInit();
             if (json != "null")
             {
@@ -159,7 +175,9 @@ namespace MazesAndMore {
             }
         }
 
-        //Inicio basico de las pistas y el nivel maximo de cada pack
+        /// <summary>
+        /// Inicio basico de las pistas y el nivel maximo de cada pack
+        /// </summary>
         void BasicInit()
         {
             hints = 0;
@@ -167,7 +185,9 @@ namespace MazesAndMore {
                 maxLevels[i] = 0;
         }
 
-        // Guarda la partida en PlayerPrefs
+        /// <summary>
+        /// Guarda la partida en PlayerPrefs
+        /// </summary>
         void Save()
         {
             if (maxLevels[package] < level)
@@ -179,10 +199,14 @@ namespace MazesAndMore {
             string hash = ComputeSha256Hash(json);
 
             PlayerPrefs.SetString("memory", json);
-            PlayerPrefs.SetString("hash", hash);
+            PlayerPrefs.SetString("hash", hash); // Guardado del HASH
         }
 
-        // Devuelve el hash de un json
+        /// <summary>
+        /// Devuelve el hash de un string
+        /// </summary>
+        /// <param name="rawData"> String de datos </param>
+        /// <returns> string con el hash de rawData </returns>
         string ComputeSha256Hash(string rawData)
         {
             // Create a SHA256   
@@ -201,39 +225,56 @@ namespace MazesAndMore {
             }
         }
 
-        //Carga PlayScene
+        /// <summary>
+        /// Carga PlayScene
+        /// </summary>
         public void StartGame()
         {
             SceneManager.LoadScene("PlayScene");
         }
 
-        //Carga MenuScene
+        /// <summary>
+        /// Carga MenuScene
+        /// </summary>
         public void GoToMenu()
         {
             SceneManager.LoadScene("MenuScene");
         }
        
+        /// <returns> Numero del nivel mas avanzado dentro del pack actual </returns>
         public int GetMaxLevel()
         {
             return maxLevels[package];
         }
 
+        /// <param name="p"> Numero de pack </param>
+        /// <returns> Numero del nivel mas avanzado dentro del pack p </returns>
         public int GetMaxLevel(int p)
         {
             return maxLevels[p];
         }
 
+        /// <summary>
+        /// Seleccionar nivel
+        /// </summary>
+        /// <param name="l"> Nivel nuevo </param>
         public void SetLevel(int l)
         {
             level = l;
         }
 
+        /// <summary>
+        /// Selecciona un pack
+        /// </summary>
+        /// <param name="p"> Pack seleccionado </param>
         public void SetPackage(int p)
         {
             package = p;
         }
 
-        // Elimina la partida guardada
+        /// <summary>
+        /// Elimina la partida guardada
+        /// </summary>
         public void ResetSaveData()
         {
             PlayerPrefs.DeleteKey("memory");

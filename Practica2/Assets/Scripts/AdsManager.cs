@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Advertisements;
 
 namespace MazesAndMore
@@ -75,6 +73,7 @@ namespace MazesAndMore
             {
                 Debug.LogWarning("The ad did not finish due to an error.");
             }
+            Input.ResetInputAxes(); // Necesario para que no empiece los niveles moviendose
         }
 
         public void OnUnityAdsReady(string placementId)

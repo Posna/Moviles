@@ -15,6 +15,9 @@ namespace MazesAndMore {
             btn.onClick.AddListener(TaskOnClick); //Adds a listner on the button
         }
 
+        /// <summary>
+        /// Activa el panel de pistas si quedan disponibles
+        /// </summary>
         void TaskOnClick()
         {
             if (GameManager._instance.GetHints() > 0)
